@@ -1,0 +1,19 @@
+/* Generic */
+.hidden {
+    display: none;
+}
+
+/* Colors */
+.o-red {
+    color: #EB5E28;
+}
+
+.o-green {
+    color: #5cb85c;
+}
+
+
+/* AmCharts */
+a[href="http://www.amcharts.com/javascript-charts/"] {
+    display: none !important;
+}
