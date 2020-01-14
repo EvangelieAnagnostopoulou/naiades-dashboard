@@ -1,3 +1,5 @@
+tqdm
+python-dateutil
 # Django
 django==2
 django-loginas

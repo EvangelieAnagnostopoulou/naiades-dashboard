@@ -1,0 +1,51 @@
+.leaderboard--container > h1 {
+    text-align: center;
+    padding: 40px 0;
+}
+
+.leaderboard > div {
+    padding: 20px 32px;
+    position: relative;
+}
+
+.leaderboard > div > * {
+    display: inline-block;
+}
+
+.leaderboard > div > .position {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: green;
+    color: white;
+    text-align: center;
+    font-size: 28px;
+}
+
+.leaderboard > div > .info {
+    width: 200px;
+    padding: 0 20px;
+}
+
+.leaderboard .progress-container {
+    width: calc(100% - 480px);
+    background: #777;
+    position: relative;
+    height: 40px;
+    margin: 0 40px;
+    border-radius: 28px;
+    overflow: hidden;
+}
+
+.leaderboard .progress-container .bar {
+    background: green;
+    height: 100%;
+}
+
+.leaderboard .progress-container .value {
+    position: absolute;
+    top: 5px;
+    left: calc(50% - 20px);
+    color: white;
+    font-size: 20px;
+}

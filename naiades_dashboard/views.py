@@ -9,7 +9,7 @@ def dashboard(request):
     return render(request, 'dashboard.html')
 
 
-def get_measurement_data(metric):
+def get_measurement_data(metric, extra):
     qs = Consumption.objects.all()
 
     if metric == "total_hourly_consumption":
@@ -21,9 +21,19 @@ def get_measurement_data(metric):
     elif metric == "total_daily_consumption":
         qs = qs.\
             values('day').\
-            annotate(min_counter=Min('hour_idx')).\
-            order_by('min_counter').\
+            order_by('day').\
             annotate(total_consumption=Sum('consumption'))
+
+    elif metric == "weekly_consumption_by_meter":
+        qs = qs.\
+            values('meter_number', 'activity').\
+            annotate(total_consumption=Sum('consumption')).\
+            order_by('total_consumption')[:10]
+
+    elif metric == "all":
+        qs = qs.\
+            values('meter_number', 'latitude', 'longitude'). \
+            annotate(total_consumption=Sum('consumption'))[:50]
 
     else:
         raise ValueError('Invalid metric: "%s"' % metric)
@@ -33,5 +43,5 @@ def get_measurement_data(metric):
 
 def measurement_data(request):
     return JsonResponse({
-        "data": get_measurement_data(metric=request.GET.get('metric'))
+        "data": get_measurement_data(metric=request.GET.get('metric'), extra=request.GET)
     })

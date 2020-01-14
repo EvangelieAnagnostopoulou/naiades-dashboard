@@ -4,13 +4,28 @@
 
 {% block css %}
     <link href="{% static 'css/amcharts.css' %}" rel="stylesheet">
+    <link href="{% static 'css/components.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
-    <div id="chart-total_hourly_consumption" class="amchart"></div>
-    <div id="chart-total_daily_consumption" class="amchart"></div>
+    <div class="leaderboard--container">
+        <h1>Weekly leaderboard</h1>
+        <div id="component-weekly_consumption_by_meter" class="data-item data-component"></div>
+    </div>
+
+    <div id="chart-total_hourly_consumption" class="data-item data-chart"></div>
+    <div id="chart-total_daily_consumption" class="data-item data-chart"></div>
 {% endblock %}
 
 {% block js %}
-    <script src="{% static 'js/amcharts.js' %}"></script>
+    <script>
+        window.COMPONENT_CALLBACKS = {};
+    </script>
+    <script src="{% static 'js/components/leaderboard.js' %}"></script>
+    <script src="{% static 'js/components.js' %}"></script>
+
+    <script src="https://unpkg.com/mappa-mundi@0.0.5/dist/mappa.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.16/p5.min.js" type="text/javascript"></script>
+
+{#    <script src="{% static 'js/maps.js' %}"></script>#}
 {% endblock %}
