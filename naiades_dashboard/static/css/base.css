@@ -1,0 +1,78 @@
+/* Theme */
+body {
+    background-color: #333;
+    border: none;
+    color: white;
+    padding-top: 60px;
+    font-family: "Covered by your grace";
+}
+
+.navbar-default {
+    background-color: #333;
+    border: none;
+    position: fixed;
+    width: 100vw;
+    top: 0;
+}
+
+.navbar-default li > a:hover,
+.navbar-default li > a:focus,
+.navbar-default li > a.active {
+    text-decoration: none;
+    color: white;
+    background: none;
+}
+
+#page-wrapper {
+    background-color: #444;
+    border-color: #656565;
+}
+
+a.navbar-brand {
+    letter-spacing: 14px;
+    padding: 15px 40px;
+    color: #999;
+}
+
+a.navbar-brand > span {
+    position: absolute;
+    display: block;
+    top: 45px;
+    height: 1px;
+    width: 162px;
+    background: #999;
+}
+
+@media (min-width: 768px) {
+    #page-wrapper {
+        position: inherit;
+        margin: 0 40px;
+        padding: 0 30px;
+        border: none;
+    }
+}
+
+/* Charts */
+
+.data-item{
+    min-height: 200px;
+    margin-bottom: 20px;
+}
+
+.data-chart {
+    height: 400px;
+}
+
+.data-item.loading {
+    text-align: center;
+    font-size: 40px;
+}
+
+.data-item.error {
+    color: #e74c3c;
+    text-align: center;
+}
+
+a[href="http://www.amcharts.com"] {
+    display: none !important;
+}

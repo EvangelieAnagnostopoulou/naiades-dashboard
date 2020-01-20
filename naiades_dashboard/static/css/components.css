@@ -22,13 +22,21 @@
     font-size: 28px;
 }
 
+.leaderboard > div > .position.top-three {
+    background: white;
+}
+
+.leaderboard > div > .position.top-three img {
+    width: 30px;
+}
+
 .leaderboard > div > .info {
     width: 200px;
     padding: 0 20px;
 }
 
 .leaderboard .progress-container {
-    width: calc(100% - 480px);
+    width: calc(100% - 400px);
     background: #777;
     position: relative;
     height: 40px;
@@ -45,7 +53,8 @@
 .leaderboard .progress-container .value {
     position: absolute;
     top: 5px;
-    left: calc(50% - 20px);
     color: white;
     font-size: 20px;
+    width: 100%;
+    text-align: center;
 }

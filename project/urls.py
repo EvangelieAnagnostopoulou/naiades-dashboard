@@ -31,6 +31,10 @@ urlpatterns = [
     path('logout/', auth_views.logout, name='logout'),
     path('admin/', include('loginas.urls')),
 
-    path('', views.dashboard, name='dashboard'),
+    # api
     path('api/measurements/data', views.measurement_data, name='measurement-data'),
+
+    # pages
+    path('', views.leaderboard, name='leaderboard'),
+    path('statistics', views.statistics, name='statistics'),
 ]

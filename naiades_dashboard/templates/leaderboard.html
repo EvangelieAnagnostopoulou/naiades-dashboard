@@ -1,0 +1,17 @@
+{% extends "dashboard-base.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col col-xs-7">
+            <div class="leaderboard--container">
+                <h1>Weekly Water Consumption</h1>
+                <div id="component-weekly_consumption_by_meter" class="data-item data-component"></div>
+            </div>
+        </div>
+        <div class="col col-xs-5">
+            <div class="comparison--container">
+                <div id="chart-you_vs_others" class="data-item data-chart" style="margin-top: 80px;"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

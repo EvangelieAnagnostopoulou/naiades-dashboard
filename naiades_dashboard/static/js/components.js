@@ -4,7 +4,7 @@ $(function () {
             categoryField: "hour",
             graphs: [
                 {
-                    "balloonText": "[[title]] of [[category]]:[[value]]",
+                    "balloonText": "[[title]] of [[category]]: [[value]]",
                     "id": "AmGraph-1",
                     "title": "Total consumption per hour",
                     "bullet": "round",
@@ -25,11 +25,40 @@ $(function () {
                 }
             ]
         },
+        you_vs_others: {
+            categoryField: "entity",
+            graphs: [
+                {
+                    "balloonText": "[[category]] [[title]]: [[value]]",
+                    "id": "AmGraph-1",
+                    "title": "Total weekly consumption",
+                    "valueField": "weekly_total",
+                    "type": "column",
+                }
+            ],
+            titles: [
+                {
+                    "id": "Title-1",
+                    "size": 28,
+                    "text": "You vs. Others"
+                }
+            ],
+            valueAxes: [
+                {
+                    "id": "ValueAxis-1",
+                    "title": "Consumption (lt)",
+                    "minimum": 0,
+                }
+            ],
+            extra: {
+                rotate: true,
+            }
+        },
         total_daily_consumption: {
             categoryField: "day",
             graphs: [
                 {
-                    "balloonText": "[[title]] of [[category]]:[[value]]",
+                    "balloonText": "[[title]] of [[category]]: [[value]]",
                     "id": "AmGraph-1",
                     "title": "Total consumption per day",
                     "bullet": "round",
@@ -57,7 +86,7 @@ $(function () {
             categoryField: "meter_number",
             graphs: [
                 {
-                    "balloonText": "[[title]] of [[category]]:[[value]]",
+                    "balloonText": "[[title]] of [[category]]: [[value]]",
                     "id": "AmGraph-1",
                     "title": "Total weekly consumption",
                     "fillAlphas": 1,
@@ -91,6 +120,7 @@ $(function () {
         AmCharts.makeChart(chartId,
             {
                 "type": "serial",
+                "theme": "chalk",
                 "categoryField": config.categoryField,
                 "startDuration": 1,
                 "categoryAxis": {
@@ -107,6 +137,11 @@ $(function () {
                     "useGraphSettings": true
                 },
                 "titles": config.titles,
+                "numberFormatter": {
+                    "precision": 2,
+                    "decimalSeparator": ".",
+                    "thousandsSeparator": ","
+                },
                 "dataProvider": data,
                 ...(config.extra || {})
             }

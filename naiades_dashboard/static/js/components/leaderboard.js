@@ -15,9 +15,18 @@ window.COMPONENT_CALLBACKS.weekly_consumption_by_meter = function($container, me
     $.each(data, function(idx, datum) {
         const percentage = (datum.total_consumption - minTotal) / (maxTotal - minTotal) * 90;
 
+        const $rank = $('<div class="position" />');
+        if (idx < 3) {
+            $rank
+                .addClass('top-three')
+                .append($('<img />').attr('src', `${window.STATIC_ROOT}/img/leaderboard/${idx + 1}.png`))
+        } else {
+            $rank.text(idx + 1);
+        }
+
         $leaderboard.append(
             $('<div />')
-                .append($('<div class="position" />').text(idx + 1))
+                .append($rank)
                 .append($('<div />')
                     .addClass('info')
                     .append($('<div class="name" />').text(`Meter #${datum.meter_number}`))
