@@ -1,3 +1,5 @@
+import random
+
 from datetime import timedelta
 
 from django.db.models import Avg, Min, Sum
@@ -71,6 +73,18 @@ def get_measurement_data(metric, extra):
             {"entity": "Average", "weekly_total": avg},
             {"entity": "Your school", "weekly_total": your},
         ]
+
+    elif metric == "message":
+        if random.randint(0, 1) == 0:
+            qs = [{
+                'message': 'You ranked in the top 20%. Keep up the good work!!',
+                'type': 'SUCCESS'
+            }]
+        else:
+            qs = [{
+                'message': 'Try more to reduce your consumption!',
+                'type': 'FAILURE'
+            }]
 
     elif metric == "all":
         qs = qs.\
