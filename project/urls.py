@@ -19,8 +19,7 @@ from django.urls import path, include
 from django.contrib import admin
 import django.contrib.auth.views as auth_views
 
-from .views import test_home
-from naiades_dashboard import views
+from project import views
 
 
 urlpatterns = [
@@ -28,13 +27,11 @@ urlpatterns = [
 
     # auth
     path('login/', auth_views.login, name='login'),
-    path('logout/', auth_views.logout, name='logout'),
+    path('logout/', views.logout, name='logout'),
+
+    # django admin
     path('admin/', include('loginas.urls')),
 
-    # api
-    path('api/measurements/data', views.measurement_data, name='measurement-data'),
-
-    # pages
-    path('', views.leaderboard, name='leaderboard'),
-    path('statistics', views.statistics, name='statistics'),
+    # dashboard
+    path('', include('naiades_dashboard.urls')),
 ]

@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 
 import tqdm
 from dateutil import tz
+from django.contrib.auth.models import User
 
 from django.db.models import *
 from django.utils.timezone import now
@@ -33,6 +34,30 @@ class Consumption(Model):
     class Meta:
         db_table = 'data'
         managed = True
+
+    @staticmethod
+    def generate_school_accounts(default_password='pass1234'):
+        # drop other accounts
+        User.objects.exclude(is_superuser=True).delete()
+
+        # get meter numbers
+        meter_numbers = Consumption.objects.values_list('meter_number', flat=True).distinct()
+
+        # create one user per meter number
+        for idx, meter_number in tqdm.tqdm(
+            enumerate(meter_numbers),
+            total=len(meter_numbers),
+            desc='Creating user accounts...'
+        ):
+            # get or create the user
+            user, created = User.objects.get_or_create(username=meter_number)
+
+            # set props
+            user.first_name = f'Alicante School {idx + 1}'
+            user.set_password(raw_password=default_password)
+
+            # save
+            user.save()
 
     @staticmethod
     def generate_random_data(n_meters=1000):
@@ -100,3 +125,6 @@ class Consumption(Model):
 
             # insert all
             Consumption.objects.bulk_create(consumptions)
+
+            # generate user accounts
+            Consumption.generate_school_accounts()

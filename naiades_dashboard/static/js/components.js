@@ -4,7 +4,7 @@ $(function () {
             categoryField: "hour",
             graphs: [
                 {
-                    "balloonText": "[[title]] of [[category]]: [[value]]",
+                    "balloonText": "[[title]] of [[category]]: [[value]] lt.",
                     "id": "AmGraph-1",
                     "title": "Total consumption per hour",
                     "bullet": "round",
@@ -29,7 +29,7 @@ $(function () {
             categoryField: "entity",
             graphs: [
                 {
-                    "balloonText": "[[category]] [[title]]: [[value]]",
+                    "balloonText": "[[category]] [[title]]: [[value]] lt.",
                     "id": "AmGraph-1",
                     "title": "Total weekly consumption",
                     "valueField": "weekly_total",
@@ -58,7 +58,7 @@ $(function () {
             categoryField: "day",
             graphs: [
                 {
-                    "balloonText": "[[title]] of [[category]]: [[value]]",
+                    "balloonText": "[[title]] of [[category]]: [[value]] lt.",
                     "id": "AmGraph-1",
                     "title": "Total consumption per day",
                     "bullet": "round",
@@ -86,7 +86,7 @@ $(function () {
             categoryField: "meter_number",
             graphs: [
                 {
-                    "balloonText": "[[title]] of [[category]]: [[value]]",
+                    "balloonText": "[[title]] of [[category]]: [[value]] lt.",
                     "id": "AmGraph-1",
                     "title": "Total weekly consumption",
                     "fillAlphas": 1,

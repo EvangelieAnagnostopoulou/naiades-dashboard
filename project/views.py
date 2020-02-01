@@ -1,5 +1,10 @@
-from django.shortcuts import render
+from django.contrib.auth import logout as logout_fn
+from django.shortcuts import render, redirect
+from django.urls import reverse
 
 
-def test_home(request):
-    return render(request, 'base.html')
+def logout(request):
+    # clear session
+    logout_fn(request)
+
+    return redirect(reverse('login'))

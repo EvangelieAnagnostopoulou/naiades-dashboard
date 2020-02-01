@@ -29,7 +29,7 @@ window.COMPONENT_CALLBACKS.weekly_consumption_by_meter = function($container, me
                 .append($rank)
                 .append($('<div />')
                     .addClass('info')
-                    .append($('<div class="name" />').text(`Meter #${datum.meter_number}`))
+                    .append($('<div class="name" />').text(`${datum.name}`))
                     .append($('<div class="activity" />').text(datum.activity))
                 )
                 .append(

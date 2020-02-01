@@ -105,6 +105,8 @@ USE_TZ = True
 
 
 # Authentication
+LOGIN_URL = '/login'
+
 LOGIN_REDIRECT_URL = '/'
 
 APPEND_SLASH = True

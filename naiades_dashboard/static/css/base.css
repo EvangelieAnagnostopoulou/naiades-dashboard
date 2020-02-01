@@ -4,7 +4,19 @@ body {
     border: none;
     color: white;
     padding-top: 60px;
-    font-family: "Covered by your grace";
+    font-family: 'Shadows Into Light', cursive;
+}
+
+.nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
+    background: none !important;
+}
+
+.dropdown-menu.dropdown-user {
+    background: #333;
+}
+
+.dropdown-menu>li>a {
+    color: white;
 }
 
 .navbar-default {

@@ -2,6 +2,8 @@ import random
 
 from datetime import timedelta
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.db.models import Avg, Min, Sum
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -10,34 +12,43 @@ from django.utils.timezone import now
 from naiades_dashboard.models import Consumption
 
 
+@login_required
 def leaderboard(request):
     return render(request, 'leaderboard.html')
 
 
+@login_required
 def statistics(request):
     return render(request, 'statistics.html')
 
 
-def get_measurement_data(metric, extra):
+def get_measurement_data(request, metric, extra):
     qs = Consumption.objects.all()
 
     if metric == "total_hourly_consumption":
         qs = qs.\
+            filter(meter_number=request.user.username).\
             values('hour').\
             order_by('hour').\
             annotate(total_consumption=Sum('consumption'))
 
     elif metric == "total_daily_consumption":
-        qs = qs.\
+        qs = qs. \
+            filter(meter_number=request.user.username). \
             values('day').\
             order_by('day').\
             annotate(total_consumption=Sum('consumption'))
 
     elif metric == "weekly_consumption_by_meter":
-        qs = qs.\
+        qs = qs. \
+            filter(date__gte=now().date() - timedelta(days=7)).\
             values('meter_number', 'activity').\
             annotate(total_consumption=Sum('consumption')).\
             order_by('total_consumption')[:10]
+
+        qs = list(qs)
+        for q in qs:
+            q['name'] = User.objects.get(username=q['meter_number']).first_name
 
     elif metric == "you_vs_others":
         data_qs = qs.\
@@ -65,7 +76,7 @@ def get_measurement_data(metric, extra):
 
         # your school
         your = data_qs.\
-            filter(meter_number=Consumption.objects.all().first().meter_number).\
+            filter(meter_number=request.user.username).\
             aggregate(total=Sum('consumption'))['total'] or 0
 
         qs = [
@@ -99,5 +110,5 @@ def get_measurement_data(metric, extra):
 
 def measurement_data(request):
     return JsonResponse({
-        "data": get_measurement_data(metric=request.GET.get('metric'), extra=request.GET)
+        "data": get_measurement_data(request=request, metric=request.GET.get('metric'), extra=request.GET)
     })

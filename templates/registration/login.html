@@ -1,12 +1,37 @@
 {% extends 'base.html' %}
 
+{% block css %}
+    <style>
+        .login-panel {
+            border-color: #555;
+        }
+
+        .login-panel .panel-heading {
+            text-align: center;
+            background: #333;
+            border-color: #555;
+            color: white;
+        }
+
+        .login-panel .panel-body {
+            background: #555;
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
     <div class="col-md-4 col-md-offset-4">
         <div class="login-panel panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Please login to Naiades Dashboard</h3>
+                <h3 class="panel-title">Please login to continue</h3>
             </div>
             <div class="panel-body">
+
+                <p style="text-align: center">
+                    Use your meter number as your username
+                    and the provisioned password to login to the Naiades Dashboard.
+                </p>
+
                 <form method="post">
                     {% csrf_token %}
 
@@ -15,7 +40,7 @@
                     {% endwith %}
 
                     <div class="text-center">
-                        <button type="submit" class="btn btn-info btn-fill btn-wd">Login</button>
+                        <button type="submit" class="btn btn-success btn-fill btn-wd">Login</button>
                     </div>
                 </form>
             </div>
