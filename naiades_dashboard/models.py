@@ -41,7 +41,11 @@ class Consumption(Model):
         User.objects.exclude(is_superuser=True).delete()
 
         # get meter numbers
-        meter_numbers = Consumption.objects.values_list('meter_number', flat=True).distinct()
+        meter_numbers = Consumption.objects.\
+            values_list('meter_number', flat=True). \
+            order_by(). \
+            order_by('meter_number'). \
+            distinct()
 
         # create one user per meter number
         for idx, meter_number in tqdm.tqdm(
@@ -53,7 +57,7 @@ class Consumption(Model):
             user, created = User.objects.get_or_create(username=meter_number)
 
             # set props
-            user.first_name = f'Alicante School {idx + 1}'
+            user.first_name = f'Alicante School {idx}'
             user.set_password(raw_password=default_password)
 
             # save
