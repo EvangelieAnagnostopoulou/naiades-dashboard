@@ -130,5 +130,5 @@ class Consumption(Model):
             # insert all
             Consumption.objects.bulk_create(consumptions)
 
-            # generate user accounts
-            Consumption.generate_school_accounts()
+        # generate user accounts
+        Consumption.generate_school_accounts()

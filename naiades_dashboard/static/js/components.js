@@ -119,6 +119,7 @@ $(function () {
 
         AmCharts.makeChart(chartId,
             {
+                "fontFamily":  "'Open Sans', sans-serif",
                 "type": "serial",
                 "theme": "chalk",
                 "categoryField": config.categoryField,

@@ -8,6 +8,11 @@
     position: relative;
 }
 
+.leaderboard >div.my-school {
+    background: #555;
+    border-radius: 56px;
+}
+
 .leaderboard > div > * {
     display: inline-block;
 }
@@ -16,7 +21,7 @@
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    background: green;
+    background: #1ac61a;
     color: white;
     text-align: center;
     font-size: 28px;
@@ -37,16 +42,16 @@
 
 .leaderboard .progress-container {
     width: calc(100% - 400px);
-    background: #777;
+    background: #b3aeae;
     position: relative;
     height: 40px;
-    margin: 0 40px;
+    margin: 0 20px;
     border-radius: 28px;
     overflow: hidden;
 }
 
 .leaderboard .progress-container .bar {
-    background: green;
+    background: #1ac61a;
     height: 100%;
 }
 
@@ -57,6 +62,14 @@
     font-size: 20px;
     width: 100%;
     text-align: center;
+}
+
+.leaderboard >div.my-school span.my-school {
+    vertical-align: top;
+    padding: 0 10px;
+    margin-top: 10px;
+    background: #00a1ff;
+    border-radius: 12px;
 }
 
 #main-message {

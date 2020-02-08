@@ -13,7 +13,8 @@ window.COMPONENT_CALLBACKS.weekly_consumption_by_meter = function($container, me
     const maxTotal = Math.max.apply(Math, totals);
 
     $.each(data, function(idx, datum) {
-        const percentage = (datum.total_consumption - minTotal) / (maxTotal - minTotal) * 90;
+        const percentage = (maxTotal - datum.total_consumption) / (maxTotal - minTotal) * 90;
+        const isMySchool = datum.meter_number === window.USER.meterNumber;
 
         const $rank = $('<div class="position" />');
         if (idx < 3) {
@@ -26,6 +27,7 @@ window.COMPONENT_CALLBACKS.weekly_consumption_by_meter = function($container, me
 
         $leaderboard.append(
             $('<div />')
+                .addClass(isMySchool && 'my-school')
                 .append($rank)
                 .append($('<div />')
                     .addClass('info')
@@ -37,6 +39,9 @@ window.COMPONENT_CALLBACKS.weekly_consumption_by_meter = function($container, me
                         .addClass('progress-container')
                         .append($('<div class="bar" />').css('width', `${(percentage + 10).toFixed(1)}%`))
                         .append($('<div class="value" />').text(`${parseFloat(datum.total_consumption).toFixed(2)} lt`))
+                )
+                .append(
+                    isMySchool && $('<span />').addClass('my-school').text('My School')
                 )
         );
     });

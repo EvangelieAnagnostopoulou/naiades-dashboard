@@ -4,7 +4,7 @@ body {
     border: none;
     color: white;
     padding-top: 60px;
-    font-family: 'Shadows Into Light', cursive;
+    font-family: 'Open Sans', sans-serif !important;
 }
 
 .nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
@@ -38,6 +38,12 @@ body {
 #page-wrapper {
     background-color: #444;
     border-color: #656565;
+}
+
+@media screen and (max-width: 996px) {
+    #page-wrapper {
+        margin-top: 80px;
+    }
 }
 
 a.navbar-brand {
