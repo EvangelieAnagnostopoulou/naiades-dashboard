@@ -10,4 +10,6 @@ urlpatterns = [
     # pages
     path('', views.leaderboard, name='leaderboard'),
     path('statistics', views.statistics, name='statistics'),
+    path('reduction', views.reduction, name='reduction'),
+    path('consumption', views.consumption, name='consumption'),
 ]

@@ -64,9 +64,9 @@ class Consumption(Model):
             user.save()
 
     @staticmethod
-    def generate_random_data(n_meters=1000):
-        from_date = datetime(2020, 1, 1).replace(tzinfo=tz.tzutc())
-        to_date = now()
+    def generate_random_data(n_meters=10):
+        from_date = (now() - timedelta(days=365)).replace(tzinfo=tz.tzutc())
+        to_date = (now() + timedelta(days=365)).replace(tzinfo=tz.tzutc())
 
         lats = (38.34, 0.01)
         longs = (-0.49, 0.01)

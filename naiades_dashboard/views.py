@@ -4,7 +4,7 @@ from datetime import timedelta
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.db.models import Avg, Min, Sum
+from django.db.models import Avg, Min, Sum, Q
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils.timezone import now
@@ -21,9 +21,33 @@ def leaderboard(request):
 def statistics(request):
     return render(request, 'statistics.html')
 
+@login_required
+def reduction(request):
+    return render(request, 'reduction.html')
+
+@login_required
+def consumption(request):
+    return render(request, 'consumption.html')
+
+
+def get_weekly_consumption_by_meter(qs, week_q):
+    qs = qs. \
+             filter(week_q). \
+             values('meter_number', 'activity'). \
+             annotate(total_consumption=Sum('consumption')). \
+             order_by('total_consumption')
+
+    qs = list(qs)
+    for q in qs:
+        q['name'] = User.objects.get(username=q['meter_number']).first_name
+
+    return qs
+
 
 def get_measurement_data(request, metric, extra):
     qs = Consumption.objects.all()
+    week_q = Q(date__gt=now().date() - timedelta(days=7)) & \
+        Q(date__lte=now().date())
 
     if metric == "total_hourly_consumption":
         qs = qs.\
@@ -40,19 +64,11 @@ def get_measurement_data(request, metric, extra):
             annotate(total_consumption=Sum('consumption'))
 
     elif metric == "weekly_consumption_by_meter":
-        qs = qs. \
-            filter(date__gte=now().date() - timedelta(days=7)).\
-            values('meter_number', 'activity').\
-            annotate(total_consumption=Sum('consumption')).\
-            order_by('total_consumption')[:10]
-
-        qs = list(qs)
-        for q in qs:
-            q['name'] = User.objects.get(username=q['meter_number']).first_name
+        qs = get_weekly_consumption_by_meter(qs, week_q)
 
     elif metric == "you_vs_others":
         data_qs = qs.\
-            filter(date__gte=now().date() - timedelta(days=7))
+            filter(week_q)
 
         n_meters = data_qs.values('meter_number').distinct().count()
 
@@ -82,7 +98,7 @@ def get_measurement_data(request, metric, extra):
         qs = [
             {"entity": "Best 20%", "weekly_total": top_20},
             {"entity": "Average", "weekly_total": avg},
-            {"entity": "Your school", "weekly_total": your},
+            {"entity": "My school", "weekly_total": your},
         ]
 
     elif metric == "message":
@@ -96,6 +112,34 @@ def get_measurement_data(request, metric, extra):
                 'message': 'Try more to reduce your consumption!',
                 'type': 'FAILURE'
             }]
+
+    elif metric == "weekly_change":
+        last_week_q = Q(date__gt=now().date() - timedelta(days=14)) & \
+            Q(date__lte=now().date() - timedelta(days=7))
+
+        this_week_qs = get_weekly_consumption_by_meter(qs, week_q)
+        last_week_qs = {
+            datum["name"]: datum["total_consumption"]
+            for datum in get_weekly_consumption_by_meter(qs, last_week_q)
+        }
+
+        qs = []
+        for datum in this_week_qs:
+            baseline = last_week_qs.get(datum["name"], 0)
+
+            # we can not say how much it changed if last week was zero
+            if not baseline:
+                continue
+
+            change = round((datum["total_consumption"] - baseline) / baseline * 100, 1)
+
+            qs.append({
+                "school": datum["name"],
+                "increase" if change > 0 else "decrease": -change,
+                "change": change
+            })
+
+        qs = sorted(qs, key=lambda datum: datum["change"])
 
     elif metric == "all":
         qs = qs.\

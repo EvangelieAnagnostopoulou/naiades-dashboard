@@ -72,6 +72,12 @@
                 <li>
                     <a href="{% url "statistics" %}">Statistics</a>
                 </li>
+                <li>
+                    <a href="{% url "reduction" %}">Reduction</a>
+                </li>
+                 <li>
+                    <a href="{% url "consumption" %}">Consumption</a>
+                </li>
                 {% if request.user.is_authenticated and request.user.is_superuser %}
                     <li>
                         <div style="padding: 10px 20px;">
@@ -138,6 +144,9 @@
     <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
     <script type="text/javascript" src="https://www.amcharts.com/lib/3/serial.js"></script>
     <script type="text/javascript" src="https://www.amcharts.com/lib/3/themes/chalk.js"></script>
+    <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+    <script src="https://www.amcharts.com/lib/3/themes/dark.js"></script>
 
     <!-- Custom Theme JavaScript -->
     <script src="{% static 'js/sb-admin-2.js' %}"></script>

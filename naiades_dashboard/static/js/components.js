@@ -40,7 +40,7 @@ $(function () {
                 {
                     "id": "Title-1",
                     "size": 28,
-                    "text": "You vs. Others"
+                    "text": "My School vs. Others"
                 }
             ],
             valueAxes: [
@@ -50,9 +50,7 @@ $(function () {
                     "minimum": 0,
                 }
             ],
-            extra: {
-                rotate: true,
-            }
+            rotate: true,
         },
         total_daily_consumption: {
             categoryField: "day",
@@ -78,9 +76,7 @@ $(function () {
                     "title": "Consumption (lt)"
                 }
             ],
-            extra: {
-                colors: ["#3498db"]
-            }
+            colors: ["#3498db"]
         },
         weekly_consumption_by_meter: {
             categoryField: "meter_number",
@@ -111,6 +107,90 @@ $(function () {
                 colors: ["#59ad59"],
                 rotate: true
             }
+        },
+        weekly_change: {
+            "type": "serial",
+          "theme": "dark",
+          "rotate": true,
+          "marginBottom": 50,
+            "startDuration": 1,
+            titles: [
+                {
+                    "id": "Title-1",
+                    "size": 28,
+                    "text": "Consumption change since last week"
+                }
+            ],
+            "graphs": [{
+                "fillAlphas": 0.8,
+                "lineAlpha": 0.2,
+                "type": "column",
+                "valueField": "increase",
+                "title": "Increase",
+                "labelText": "+ [[value]]%",
+                "clustered": false,
+                "labelFunction": function(item) {
+                  return Math.abs(item.values.value);
+                },
+                "balloonFunction": function(item) {
+                  return item.category + ": " + Math.abs(item.values.value) + "%";
+                }
+              }, {
+                "fillAlphas": 0.8,
+                "lineAlpha": 0.2,
+                "type": "column",
+                "valueField": "decrease",
+                "title": "Decrease",
+                "labelText": "- [[value]]%",
+                "clustered": false,
+                "labelFunction": function(item) {
+                  return Math.abs(item.values.value);
+                },
+                "balloonFunction": function(item) {
+                  return item.category + ": " + Math.abs(item.values.value) + "%";
+                }
+              }],
+              "categoryField": "school",
+              "categoryAxis": {
+                "gridPosition": "start",
+                "gridAlpha": 0.2,
+                "axisAlpha": 0
+              },
+              "valueAxes": [{
+                "gridAlpha": 0,
+                "ignoreAxisWidth": true,
+                "labelFunction": function(value) {
+                  return Math.abs(value) + '%';
+                },
+                "guides": [{
+                  "value": 0,
+                  "lineAlpha": 0.2
+                }]
+              }],
+              "balloon": {
+                "fixedPosition": true
+              },
+              "chartCursor": {
+                "valueBalloonsEnabled": false,
+                "cursorAlpha": 0.05,
+                "fullWidth": true
+              },
+              "allLabels": [{
+                "text": "Increase",
+                "x": "28%",
+                "y": "97%",
+                "bold": true,
+                "align": "middle"
+              }, {
+                "text": "Decrease",
+                "x": "75%",
+                "y": "97%",
+                "bold": true,
+                "align": "middle"
+              }],
+             "export": {
+                "enabled": true
+              }
         }
     };
 
@@ -122,29 +202,25 @@ $(function () {
                 "fontFamily":  "'Open Sans', sans-serif",
                 "type": "serial",
                 "theme": "chalk",
-                "categoryField": config.categoryField,
                 "startDuration": 1,
                 "categoryAxis": {
                     "gridPosition": "start"
                 },
                 "trendLines": [],
-                "graphs": config.graphs,
                 "guides": [],
-                "valueAxes": config.valueAxes,
                 "allLabels": [],
                 "balloon": {},
                 "legend": {
                     "enabled": true,
                     "useGraphSettings": true
                 },
-                "titles": config.titles,
                 "numberFormatter": {
                     "precision": 2,
                     "decimalSeparator": ".",
                     "thousandsSeparator": ","
                 },
                 "dataProvider": data,
-                ...(config.extra || {})
+                ...(config || {})
             }
         );
     };

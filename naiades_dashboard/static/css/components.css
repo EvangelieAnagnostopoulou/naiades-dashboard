@@ -42,26 +42,29 @@
 
 .leaderboard .progress-container {
     width: calc(100% - 400px);
-    background: #b3aeae;
     position: relative;
     height: 40px;
     margin: 0 20px;
-    border-radius: 28px;
     overflow: hidden;
 }
 
 .leaderboard .progress-container .bar {
     background: #1ac61a;
     height: 100%;
+    border-radius: 6px;
+    display: inline-block;
 }
 
 .leaderboard .progress-container .value {
-    position: absolute;
-    top: 5px;
     color: white;
-    font-size: 20px;
-    width: 100%;
+    left: 0;
+    top: 0;
     text-align: center;
+    vertical-align: top;
+    margin-top: 12px;
+    margin-left: 10px;
+    font-size: 12px;
+    position: absolute;
 }
 
 .leaderboard >div.my-school span.my-school {
