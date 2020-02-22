@@ -78,6 +78,9 @@
                  <li>
                     <a href="{% url "consumption" %}">Consumption</a>
                 </li>
+                <li>
+                    <a href="{% url "report" %}">Report</a>
+                </li>
                 {% if request.user.is_authenticated and request.user.is_superuser %}
                     <li>
                         <div style="padding: 10px 20px;">

@@ -34,8 +34,14 @@ $(function () {
                     "title": "Total weekly consumption",
                     "valueField": "weekly_total",
                     "type": "column",
+                    "fillColorsField": "color",
+                    "fillAlphas": 1,
+                    "lineAlpha": 0.1,
                 }
             ],
+             "legend": {
+                    "enabled": false
+             },
             titles: [
                 {
                     "id": "Title-1",
@@ -110,7 +116,6 @@ $(function () {
         },
         weekly_change: {
             "type": "serial",
-          "theme": "dark",
           "rotate": true,
           "marginBottom": 50,
             "startDuration": 1,
@@ -188,9 +193,6 @@ $(function () {
                 "bold": true,
                 "align": "middle"
               }],
-             "export": {
-                "enabled": true
-              }
         }
     };
 
@@ -200,8 +202,8 @@ $(function () {
         AmCharts.makeChart(chartId,
             {
                 "fontFamily":  "'Open Sans', sans-serif",
+                "theme": CHART_THEME,
                 "type": "serial",
-                "theme": "chalk",
                 "startDuration": 1,
                 "categoryAxis": {
                     "gridPosition": "start"
@@ -220,6 +222,22 @@ $(function () {
                     "thousandsSeparator": ","
                 },
                 "dataProvider": data,
+                "export": {
+                    "enabled": true,
+                    "menu":[],
+                     "beforeCapture": function() {
+                      var chart = this.setup.chart;
+                      chart.theme = "none";
+                      chart.validateNow();
+                    },
+                    "afterCapture": function() {
+                      var chart = this.setup.chart;
+                      setTimeout(function() {
+                        chart.theme = "dark";
+                        chart.validateNow();
+                      }, 10);
+                    }
+                },
                 ...(config || {})
             }
         );

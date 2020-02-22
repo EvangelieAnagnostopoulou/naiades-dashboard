@@ -1,0 +1,76 @@
+@import url(https://fonts.googleapis.com/css?family=Lato);
+
+html, body {
+  font-family: Lato;!important;
+  background: #333;
+    color: #0c0c0c;
+}
+
+#page-wrapper {
+    background-color: #ffffff; !important;
+    border-color: #656565; !important;
+}
+
+h1{
+    color: #0c0c0c;
+    font-family: Lato;
+}
+.main {
+  width: 800px;
+  height: 100%;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.main h2 {
+  margin: 35px 0 10px 0;
+  clear: both;
+}
+
+.main p {
+  margin-bottom: 25px;
+}
+
+.main input[type=button] {
+  float: right;
+  font-size: 18px;
+  padding: 8px 18px;
+  margin-top: 25px;
+    color: #0c0c0c;
+}
+
+.main table {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+}
+
+.main table td, .main table th {
+  padding: 5px 8px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.chartdiv {
+  width: 47%;
+  height: 200px;
+  border: 1px solid #ccc;
+  margin: 0 15px 25px 0;
+  font-family: Lato;
+}
+
+.chartdiv.float {
+  float: left;
+}
+
+.chartdiv.wide {
+  width: 100%;
+  margin: 10px 0;
+  float: none;
+}
+
+.chartdiv.narrow {
+  width: 25%;
+}

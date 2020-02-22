@@ -29,6 +29,10 @@ def reduction(request):
 def consumption(request):
     return render(request, 'consumption.html')
 
+@login_required
+def report(request):
+    return render(request, 'report.html')
+
 
 def get_weekly_consumption_by_meter(qs, week_q):
     qs = qs. \
@@ -96,9 +100,9 @@ def get_measurement_data(request, metric, extra):
             aggregate(total=Sum('consumption'))['total'] or 0
 
         qs = [
-            {"entity": "Best 20%", "weekly_total": top_20},
-            {"entity": "Average", "weekly_total": avg},
-            {"entity": "My school", "weekly_total": your},
+            {"entity": "Best 20%", "weekly_total": top_20, "color": "#04D215"},
+            {"entity": "Average", "weekly_total": avg, "color": "#F8FF01"},
+            {"entity": "My school", "weekly_total": your, "color": "#FF9E01"},
         ]
 
     elif metric == "message":
