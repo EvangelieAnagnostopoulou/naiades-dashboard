@@ -39,6 +39,7 @@ h1{
   padding: 8px 18px;
   margin-top: 20px;
   border-radius: 32px;
+  outline: none !important;
 }
 
 .main table {
