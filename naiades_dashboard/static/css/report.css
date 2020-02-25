@@ -37,8 +37,8 @@ h1{
   float: right;
   font-size: 18px;
   padding: 8px 18px;
-  margin-top: 25px;
-    color: #0c0c0c;
+  margin-top: 20px;
+  border-radius: 32px;
 }
 
 .main table {

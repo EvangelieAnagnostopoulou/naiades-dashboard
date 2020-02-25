@@ -2,12 +2,12 @@
 {% load static %}
 
 {% block css %}
-    <link href="{% static 'css/report.css' %}?v=20200208.1" rel="stylesheet">
+    <link href="{% static 'css/report.css' %}?v=20200225.1" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
     <div class="main">
-        <input type="button" value="Export to PDF" onclick="exportReport();" />
+        <input type="button" class="btn btn-primary" value="Export to PDF" onclick="exportReport();" />
 
         <h1>Water Consumption weekly report</h1>
 
