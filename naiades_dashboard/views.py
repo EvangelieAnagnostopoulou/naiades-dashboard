@@ -164,13 +164,25 @@ def get_measurement_data(request, metric, extra):
         top_20_qs = data_qs[:int(len(data_qs) / 5)]
         top_20 = get_average_change(top_20_qs)
 
+        avg = get_average_change(data_qs)
         mine = [datum["change"] for datum in data_qs if datum["school"] == request.user.first_name][0]
 
-        qs = [
-            {"entity": "Best 20%", "weekly_change": top_20, "color": "#04D215"},
-            {"entity": "Average", "weekly_change": get_average_change(data_qs), "color": "#F8FF01"},
-            {"entity": "My school", "weekly_change": mine, "color": "#FF9E01"},
-        ]
+        qs = [{
+            "school": "Best 20%",
+            "increase" if top_20 > 0 else "decrease": top_20,
+            "change": top_20,
+            "color": "#FF0F00" if top_20 > 0 else "#04D215"
+        }, {
+            "school": "Average",
+            "increase" if avg > 0 else "decrease": avg,
+            "change": avg,
+            "color": "#FF0F00" if avg > 0 else "#04D215"
+        }, {
+            "school": "My school",
+            "increase" if mine > 0 else "decrease": mine,
+            "change": mine,
+            "color": "#FF0F00" if mine > 0 else "#04D215"
+        }]
 
     elif metric == "monthly_consumption":
         qs = [
