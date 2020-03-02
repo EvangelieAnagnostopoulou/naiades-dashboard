@@ -119,6 +119,7 @@ $(function () {
           "rotate": true,
           "marginBottom": 50,
             "startDuration": 1,
+            colors: ["#04D215", "#FF0F00"],
             titles: [
                 {
                     "id": "Title-1",
@@ -130,10 +131,11 @@ $(function () {
                 "fillAlphas": 0.8,
                 "lineAlpha": 0.2,
                 "type": "column",
-                "valueField": "increase",
-                "title": "Increase",
-                "labelText": "+ [[value]]%",
+                "valueField": "decrease",
+                "title": "Decrease",
+                "labelText": "- [[value]]%",
                 "clustered": false,
+                "fillColorsField": "color",
                 "labelFunction": function(item) {
                   return Math.abs(item.values.value);
                 },
@@ -144,10 +146,11 @@ $(function () {
                 "fillAlphas": 0.8,
                 "lineAlpha": 0.2,
                 "type": "column",
-                "valueField": "decrease",
-                "title": "Decrease",
-                "labelText": "- [[value]]%",
+                "valueField": "increase",
+                "title": "Increase",
+                "labelText": "+ [[value]]%",
                 "clustered": false,
+                "fillColorsField": "color",
                 "labelFunction": function(item) {
                   return Math.abs(item.values.value);
                 },
@@ -159,7 +162,7 @@ $(function () {
               "categoryAxis": {
                 "gridPosition": "start",
                 "gridAlpha": 0.2,
-                "axisAlpha": 0
+                "axisAlpha": 0,
               },
               "valueAxes": [{
                 "gridAlpha": 0,
@@ -181,18 +184,83 @@ $(function () {
                 "fullWidth": true
               },
               "allLabels": [{
-                "text": "Increase",
+                "text": "Decrease",
                 "x": "28%",
                 "y": "97%",
                 "bold": true,
                 "align": "middle"
               }, {
-                "text": "Decrease",
+                "text": "Increase",
                 "x": "75%",
                 "y": "97%",
                 "bold": true,
                 "align": "middle"
               }],
+        },
+        you_vs_others_weekly_change: {
+            categoryField: "entity",
+            graphs: [
+                {
+                    "balloonText": "[[category]] [[title]]: [[value]] %.",
+                    "id": "AmGraph-1",
+                    "title": "Consumption change",
+                    "valueField": "weekly_change",
+                    "type": "column",
+                    "fillColorsField": "color",
+                    "fillAlphas": 1,
+                    "lineAlpha": 0.1,
+                }
+            ],
+             "legend": {
+                    "enabled": false
+             },
+            titles: [
+                {
+                    "id": "Title-1",
+                    "size": 28,
+                    "text": "My School vs. Others"
+                }
+            ],
+            valueAxes: [
+                {
+                    "id": "ValueAxis-1",
+                    "title": "Consumption change (%)",
+                    "minimum": 0,
+                }
+            ],
+            rotate: true,
+        },
+        monthly_consumption:{
+            "type": "serial",
+            "theme": "dark",
+            "marginRight": 70,
+            "valueAxes": [{
+            "axisAlpha": 0,
+            "position": "left",
+            "title": "Monthly consumption"
+          }],
+          "startDuration": 1,
+          "graphs": [{
+            "balloonText": "<b>[[category]]: [[value]]</b>",
+            "fillColorsField": "color",
+            "fillAlphas": 0.9,
+            "lineAlpha": 0.2,
+            "type": "column",
+            "valueField": "consumption"
+          }],
+          "chartCursor": {
+            "categoryBalloonEnabled": false,
+            "cursorAlpha": 0,
+            "zoomable": false
+          },
+          "categoryField": "month",
+          "categoryAxis": {
+            "gridPosition": "start",
+            "labelRotation": 45
+          },
+          "export": {
+            "enabled": true
+          }
         }
     };
 

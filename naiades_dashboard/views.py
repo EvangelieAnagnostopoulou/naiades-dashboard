@@ -48,6 +48,44 @@ def get_weekly_consumption_by_meter(qs, week_q):
     return qs
 
 
+def get_weekly_change(qs, week_q=None):
+    if not week_q:
+        week_q = Q(date__gt=now().date() - timedelta(days=7)) & \
+            Q(date__lte=now().date())
+
+    last_week_q = Q(date__gt=now().date() - timedelta(days=14)) & \
+                  Q(date__lte=now().date() - timedelta(days=7))
+
+    this_week_qs = get_weekly_consumption_by_meter(qs, week_q)
+    last_week_qs = {
+        datum["name"]: datum["total_consumption"]
+        for datum in get_weekly_consumption_by_meter(qs, last_week_q)
+    }
+
+    qs = []
+    for datum in this_week_qs:
+        baseline = last_week_qs.get(datum["name"], 0)
+
+        # we can not say how much it changed if last week was zero
+        if not baseline:
+            continue
+
+        change = round((datum["total_consumption"] - baseline) / baseline * 100, 1)
+
+        qs.append({
+            "school": datum["name"],
+            "increase" if change > 0 else "decrease": change,
+            "change": change,
+            "color": "#FF0F00" if change > 0 else "#04D215"
+        })
+
+    return sorted(qs, key=lambda datum: datum["change"])
+
+
+def get_average_change(qs):
+    return sum(datum["change"] for datum in qs) / len(qs)
+
+
 def get_measurement_data(request, metric, extra):
     qs = Consumption.objects.all()
     week_q = Q(date__gt=now().date() - timedelta(days=7)) & \
@@ -118,32 +156,27 @@ def get_measurement_data(request, metric, extra):
             }]
 
     elif metric == "weekly_change":
-        last_week_q = Q(date__gt=now().date() - timedelta(days=14)) & \
-            Q(date__lte=now().date() - timedelta(days=7))
+        qs = get_weekly_change(qs, week_q=week_q)
 
-        this_week_qs = get_weekly_consumption_by_meter(qs, week_q)
-        last_week_qs = {
-            datum["name"]: datum["total_consumption"]
-            for datum in get_weekly_consumption_by_meter(qs, last_week_q)
-        }
+    elif metric == "you_vs_others_weekly_change":
+        data_qs = get_weekly_change(qs, week_q=week_q)
 
-        qs = []
-        for datum in this_week_qs:
-            baseline = last_week_qs.get(datum["name"], 0)
+        top_20_qs = data_qs[:int(len(data_qs) / 5)]
+        top_20 = get_average_change(top_20_qs)
 
-            # we can not say how much it changed if last week was zero
-            if not baseline:
-                continue
+        mine = [datum["change"] for datum in data_qs if datum["school"] == request.user.first_name][0]
 
-            change = round((datum["total_consumption"] - baseline) / baseline * 100, 1)
+        qs = [
+            {"entity": "Best 20%", "weekly_change": top_20, "color": "#04D215"},
+            {"entity": "Average", "weekly_change": get_average_change(data_qs), "color": "#F8FF01"},
+            {"entity": "My school", "weekly_change": mine, "color": "#FF9E01"},
+        ]
 
-            qs.append({
-                "school": datum["name"],
-                "increase" if change > 0 else "decrease": -change,
-                "change": change
-            })
-
-        qs = sorted(qs, key=lambda datum: datum["change"])
+    elif metric == "monthly_consumption":
+        qs = [
+            {"month": "December 2018", "consumption": 120, "color": "#04D215"},
+            {"month": "December 2019", "consumption": 80, "color": "#F8FF01"}
+        ]
 
     elif metric == "all":
         qs = qs.\
