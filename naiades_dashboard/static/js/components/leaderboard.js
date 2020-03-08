@@ -68,7 +68,9 @@ window.COMPONENT_CALLBACKS.weekly_consumption_by_meter = function($container, me
                             .css('width', `${(percentage + 10).toFixed(1)}%`)
                             .css('background-color', getGreenRedScaleColor(idx / 10))
                         )
-                        .append($('<div class="value" />').text(`${parseFloat(datum.total_consumption).toFixed(0)} lt`))
+                        .append($('<div class="value" />').text(
+                            `${datum.total_consumption.toLocaleString('en-US', {maximumFractionDigits:0})} lt`
+                        ))
                 )
                 .append(
                     isMySchool && $('<span />').addClass('my-school').text('My School')

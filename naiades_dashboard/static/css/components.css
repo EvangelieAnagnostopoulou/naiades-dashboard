@@ -4,7 +4,7 @@
 }
 
 .leaderboard > div {
-    padding: 20px 32px;
+    /*padding: 20px 32px; */
     position: relative;
 }
 
@@ -18,13 +18,16 @@
 }
 
 .leaderboard > div > .position {
-    width: 42px;
-    height: 42px;
+    width: 32px;
+    height: 32px;
+    margin: 5px 0 5px 10px;
     border-radius: 50%;
+    padding-top: 3px;
     background: #1ac61a;
     color: white;
     text-align: center;
-    font-size: 28px;
+    font-size: 20px;
+    vertical-align: top;
 }
 
 .leaderboard > div > .position.top-three {
@@ -38,20 +41,22 @@
 .leaderboard > div > .info {
     width: 200px;
     padding: 0 20px;
+    vertical-align: top;
+    margin-top: 10px;
 }
 
 .leaderboard .progress-container {
     width: calc(100% - 400px);
     position: relative;
-    height: 40px;
-    margin: 0 20px;
+    height: 30px;
+    margin: 5px 20px;
     overflow: hidden;
 }
 
 .leaderboard .progress-container .bar {
     background: #1ac61a;
     height: 100%;
-    border-radius: 6px;
+    border-radius: 0 6px 6px 0;
     display: inline-block;
 }
 
@@ -61,7 +66,7 @@
     top: 0;
     text-align: center;
     vertical-align: top;
-    margin-top: 12px;
+    margin-top: 7px;
     margin-left: 10px;
     font-size: 12px;
     position: absolute;

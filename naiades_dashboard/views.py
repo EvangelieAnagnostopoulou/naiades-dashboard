@@ -37,7 +37,7 @@ def report(request):
 def get_weekly_consumption_by_meter(qs, week_q):
     qs = qs. \
              filter(week_q). \
-             values('meter_number', 'activity'). \
+             values('meter_number'). \
              annotate(total_consumption=Sum('consumption')). \
              order_by('total_consumption')
 

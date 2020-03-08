@@ -118,6 +118,7 @@ $(function () {
                     "id": "AmGraph-1",
                     "title": "Total weekly consumption",
                     "valueField": "weekly_total",
+                    // "cornerRadiusTop": 8,
                     "type": "column",
                     "fillColorsField": "color",
                     "fillAlphas": 1,
