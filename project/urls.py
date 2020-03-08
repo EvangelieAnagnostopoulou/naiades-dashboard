@@ -34,4 +34,7 @@ urlpatterns = [
 
     # dashboard
     path('', include('naiades_dashboard.urls')),
+
+    # social
+    path('social/', include('social.urls')),
 ]

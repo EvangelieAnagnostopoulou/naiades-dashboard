@@ -1,0 +1,22 @@
+{% extends "dashboard-base.html" %}
+
+{% load static %}
+
+{% block extra_css %}
+    <link href="{% static 'css/tweets.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    {% csrf_token %}
+
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>Social Feed</h1>
+            <div id="tweet-feed"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/tweets.js'%}"></script>
+{% endblock %}

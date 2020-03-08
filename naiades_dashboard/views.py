@@ -21,13 +21,16 @@ def leaderboard(request):
 def statistics(request):
     return render(request, 'statistics.html')
 
+
 @login_required
 def reduction(request):
     return render(request, 'reduction.html')
 
+
 @login_required
 def consumption(request):
     return render(request, 'consumption.html')
+
 
 @login_required
 def report(request):

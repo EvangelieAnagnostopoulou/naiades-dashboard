@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'loginas',
 
     'naiades_dashboard',
+    'social',
 ]
 
 MIDDLEWARE = [
