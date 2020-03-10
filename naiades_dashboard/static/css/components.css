@@ -3,6 +3,12 @@
     padding: 40px 0;
 }
 
+.leaderboard--container > h2 {
+    text-align: center;
+    padding: 20px 0;
+}
+
+
 .leaderboard > div {
     /*padding: 20px 32px; */
     position: relative;
@@ -96,4 +102,9 @@
 
 #main-message > span > i.fa {
     margin-right: 20px;
+}
+
+.comparison--container > h2 {
+    text-align: center;
+    padding: 20px 0;
 }

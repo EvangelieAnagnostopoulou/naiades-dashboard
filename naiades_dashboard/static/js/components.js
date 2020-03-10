@@ -6,13 +6,13 @@ $(function () {
           "marginBottom": 50,
             "startDuration": 1,
             colors: ["#04D215", "#FF0F00"],
-            titles: [
-                {
-                    "id": "Title-1",
-                    "size": 28,
-                    "text": "Consumption change since last week"
-                }
-            ],
+            // titles: [
+            //     {
+            //         "id": "Title-1",
+            //         "size": 28,
+            //         "text": "Consumption change since last week"
+            //     }
+            // ],
             "graphs": [{
                 "fillAlphas": 0.8,
                 "lineAlpha": 0.2,

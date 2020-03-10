@@ -72,17 +72,17 @@
                 <li>
                     <a href="{% url "statistics" %}">Statistics</a>
                 </li>
-                <li>
+                <!--<li>
                     <a href="{% url "reduction" %}">Reduction</a>
                 </li>
                  <li>
                     <a href="{% url "consumption" %}">Consumption</a>
-                </li>
+                </li> -->
                 <li>
                     <a href="{% url "report" %}">Report</a>
                 </li>
                 <li>
-                    <a href="{% url "feed" %}">Feed</a>
+                    <a href="{% url "feed" %}">News</a>
                 </li>
                 {% if request.user.is_authenticated and request.user.is_superuser %}
                     <li>

@@ -189,8 +189,8 @@ def get_measurement_data(request, metric, extra):
 
     elif metric == "monthly_consumption":
         qs = [
-            {"month": "December 2018", "consumption": 120, "color": "#04D215"},
-            {"month": "December 2019", "consumption": 80, "color": "#F8FF01"}
+            {"month": "March 2018", "consumption": 120, "color": "#04D215"},
+            {"month": "March 2019", "consumption": 80, "color": "#F8FF01"}
         ]
 
     elif metric == "all":
