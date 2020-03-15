@@ -10,8 +10,19 @@
     {% csrf_token %}
 
     <div class="row">
-        <div class="col-xs-12">
-            <h1>Naiades News</h1>
+        <!-- Tab links -->
+        <div class="tab">
+          <button class="tablinks" onclick="openLeaderBoard(event, 'Community')" id="defaultOpen">Community</button>
+          <button class="tablinks" onclick="openLeaderBoard(event, 'School')">School</button>
+        </div>
+         <!-- Tab content -->
+        <div class="col-xs-12 tabcontent" id="Community">
+            <h1>Community Posts</h1>
+            <div id="tweet-feed"></div>
+        </div>
+
+        <div class="col-xs-12 tabcontent" id="School">
+            <h1>School Posts</h1>
             <div id="tweet-feed"></div>
         </div>
     </div>
