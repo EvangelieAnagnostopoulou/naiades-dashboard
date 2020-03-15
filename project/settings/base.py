@@ -16,6 +16,9 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 TESTING = False
 
+# load .env file settings
+from dotenv import load_dotenv
+load_dotenv()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -132,3 +135,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# FTP Credentials
+FTP = {
+    'HOST': os.environ['FTP_HOST'],
+    'USERNAME': os.environ['FTP_USER'],
+    'PASSWORD': os.environ['FTP_PASSWORD'],
+}

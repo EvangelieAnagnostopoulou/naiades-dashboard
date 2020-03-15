@@ -1,5 +1,3 @@
-tqdm
-python-dateutil
 # Django
 django==2
 django-loginas
@@ -8,7 +6,7 @@ django-loginas
 dj-database-url==0.3.0
 psycopg2-binary
 
-# deployment
+# Deployment
 gunicorn
 whitenoise==2.0.6
 newrelic
@@ -16,5 +14,10 @@ newrelic
 # Requests
 requests
 
-# development
+# utils
+tqdm
+python-dateutil
+pysftp
+
+# settings
 python-dotenv

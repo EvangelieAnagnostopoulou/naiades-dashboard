@@ -39,3 +39,29 @@ class Consumption(Model):
 
     # is consumption estimated?
     estimated = BooleanField(default=False)
+
+    @staticmethod
+    def parse_and_create(meter_number_id, consumption, timestamp, estimated=False):
+        return Consumption(
+            meter_number_id=meter_number_id,
+            consumption=consumption,
+            date=timestamp,
+            year=timestamp.year,
+            week=timestamp.isocalendar()[1],
+            month=timestamp.month,
+            day=timestamp.day,
+            hour=timestamp.hour,
+            estimated=estimated
+        )
+
+
+class UpdateFile(Model):
+    """
+    An update file that has been parsed into the system
+    """
+    created = DateTimeField(auto_now_add=True)
+    path = CharField(max_length=512)
+    filename = CharField(max_length=256)
+
+    class Meta:
+        unique_together = ('path', 'filename')

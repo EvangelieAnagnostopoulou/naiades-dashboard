@@ -42,15 +42,10 @@ class Command(BaseCommand):
                     replace(tzinfo=pytz.UTC)
 
                 # add record
-                consumptions.append(Consumption(
+                consumptions.append(Consumption.parse_and_create(
                     meter_number_id=meter_id,
                     consumption=row['Consumption'],
-                    date=t,
-                    year=t.year,
-                    week=t.isocalendar()[1],
-                    month=t.month,
-                    day=t.day,
-                    hour=t.hour,
+                    timestamp=t,
                     estimated=row['Real?'].lower() != 'y'
                 ))
 

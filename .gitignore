@@ -101,3 +101,6 @@ ENV/
 
 # Media
 media/*
+
+# Downloads
+downloads/*
