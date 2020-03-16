@@ -49,7 +49,7 @@ class Consumption(Model):
             year=timestamp.year,
             week=timestamp.isocalendar()[1],
             month=timestamp.month,
-            day=timestamp.weekday,
+            day=timestamp.weekday(),
             hour=timestamp.hour,
             estimated=estimated
         )
