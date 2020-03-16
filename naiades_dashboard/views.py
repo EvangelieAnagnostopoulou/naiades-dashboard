@@ -9,7 +9,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils.timezone import now
 
-from naiades_dashboard.models import Consumption
+from naiades_dashboard.models import Consumption, MeterInfo
 
 
 @login_required
@@ -46,7 +46,7 @@ def get_weekly_consumption_by_meter(qs, week_q):
 
     qs = list(qs)
     for q in qs:
-        q['name'] = User.objects.get(username=q['meter_number']).first_name
+        q['name'] = MeterInfo.objects.get(meter_number=q['meter_number']).user.first_name
 
     return qs
 
@@ -90,20 +90,20 @@ def get_average_change(qs):
 
 
 def get_measurement_data(request, metric, extra):
-    qs = Consumption.objects.all()
+    qs = Consumption.objects.filter(meter_number__activity='School')
     week_q = Q(date__gt=now().date() - timedelta(days=7)) & \
         Q(date__lte=now().date())
 
     if metric == "total_hourly_consumption":
         qs = qs.\
-            filter(meter_number=request.user.username).\
+            filter(meter_number=request.user.meter_info.meter_number).\
             values('hour').\
             order_by('hour').\
             annotate(total_consumption=Sum('consumption'))
 
     elif metric == "total_daily_consumption":
         qs = qs. \
-            filter(meter_number=request.user.username). \
+            filter(meter_number=request.user.meter_info.meter_number). \
             values('day').\
             order_by('day').\
             annotate(total_consumption=Sum('consumption'))
@@ -115,30 +115,41 @@ def get_measurement_data(request, metric, extra):
         data_qs = qs.\
             filter(week_q)
 
-        n_meters = data_qs.values('meter_number').distinct().count()
+        # get meter totals
+        meter_totals = [
+            datum
+            for datum in data_qs.\
+                values('meter_number').\
+                annotate(total_consumption=Sum('consumption'))
+            if (datum['total_consumption'] or 0) > 0
+        ]
+
+        # sort from smallest to largest
+        meter_totals = sorted(meter_totals, key=lambda datum: datum['total_consumption'])
 
         # top 20%
-        n_top_20 = int(n_meters / 5)
+        n_top_20 = int(len(meter_totals) / 5)
 
         try:
-            top_20 = (data_qs.\
-                values('meter_number').\
-                annotate(total=Sum('consumption')).\
-                order_by('total')[:n_top_20].\
-                aggregate(overall_total=Sum('total'))['overall_total'] or 0) / n_top_20
+            top_20 = sum([datum['total_consumption'] for datum in meter_totals[:n_top_20]]) / n_top_20
         except ZeroDivisionError:
             top_20 = 0
 
         # average
         try:
-            avg = (data_qs.aggregate(total=Sum('consumption'))['total'] or 0) / n_meters
+            avg = sum([datum['total_consumption'] for datum in meter_totals]) / len(meter_totals)
         except ZeroDivisionError:
             avg = 0
 
         # your school
-        your = data_qs.\
-            filter(meter_number=request.user.username).\
-            aggregate(total=Sum('consumption'))['total'] or 0
+        try:
+            your = [
+                datum['total_consumption']
+                for datum in meter_totals
+                if datum['meter_number'] == request.user.meter_info.meter_number
+            ][0]
+        except IndexError:
+            your = 0
 
         qs = [
             {"entity": "Best 20%", "weekly_total": top_20, "color": "#04D215"},
