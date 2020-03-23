@@ -18,7 +18,7 @@
         {% if request.user.is_authenticated %}
             window.USER = {
                 name: '{{ request.user.first_name }}',
-                meterNumber: '{{ request.user.meter_info.meter_number }}'
+                meterNumber: '{{ request.meter_info.meter_number }}'
             };
         {% endif %}
     </script>

@@ -6,7 +6,7 @@ from dateutil import tz
 from django.contrib.auth.models import User
 
 from django.db.models import *
-from django.utils.timezone import now
+from naiades_dashboard.lists import *
 
 
 def rand_range(range):
@@ -14,8 +14,6 @@ def rand_range(range):
 
 
 class MeterInfo(Model):
-    user = OneToOneField('auth.User', related_name='meter_info', on_delete=CASCADE)
-
     meter_number = CharField(max_length=32, primary_key=True)
     activity = CharField(max_length=128)
     latitude = DecimalField(max_digits=16, decimal_places=8, db_column="Lat")
@@ -53,6 +51,15 @@ class Consumption(Model):
             hour=timestamp.hour,
             estimated=estimated
         )
+
+
+class MeterInfoAccess(Model):
+    """
+    A user having access to a particular meter, with a specific role
+    """
+    meter_info = ForeignKey('naiades_dashboard.MeterInfo', on_delete=CASCADE, related_name='accesses')
+    user = ForeignKey('auth.User', on_delete=CASCADE, related_name='accesses')
+    role = CharField(max_length=16, choices=METER_INFO_ACCESS_ROLES)
 
 
 class UpdateFile(Model):

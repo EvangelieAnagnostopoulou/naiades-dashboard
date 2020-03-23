@@ -9,7 +9,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils.timezone import now
 
-from naiades_dashboard.models import Consumption, MeterInfo
+from naiades_dashboard.models import Consumption, MeterInfoAccess
 
 
 @login_required
@@ -46,7 +46,12 @@ def get_weekly_consumption_by_meter(qs, week_q):
 
     qs = list(qs)
     for q in qs:
-        q['name'] = MeterInfo.objects.get(meter_number=q['meter_number']).user.first_name
+        try:
+            q['name'] = MeterInfoAccess.objects.\
+                get(meter_info__meter_number=q['meter_number'], role='VIEWER').\
+                user.first_name
+        except MeterInfoAccess.DoesNotExist:
+            q['name'] = q['meter_number']
 
     return qs
 
