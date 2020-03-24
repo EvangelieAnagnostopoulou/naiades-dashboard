@@ -9,7 +9,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils.timezone import now
 
-from naiades_dashboard.models import Consumption, MeterInfoAccess
+from naiades_dashboard.models import Consumption, MeterInfoAccess, MeterInfo
 
 
 @login_required
@@ -95,20 +95,22 @@ def get_average_change(qs):
 
 
 def get_measurement_data(request, metric, extra):
+    meter_info = MeterInfo.objects.filter(accesses__user=request.user).first()
+
     qs = Consumption.objects.filter(meter_number__activity='School')
     week_q = Q(date__gt=now().date() - timedelta(days=7)) & \
         Q(date__lte=now().date())
 
     if metric == "total_hourly_consumption":
         qs = qs.\
-            filter(meter_number=request.user.meter_info.meter_number).\
+            filter(meter_number=meter_info.meter_number).\
             values('hour').\
             order_by('hour').\
             annotate(total_consumption=Sum('consumption'))
 
     elif metric == "total_daily_consumption":
         qs = qs. \
-            filter(meter_number=request.user.meter_info.meter_number). \
+            filter(meter_number=meter_info.meter_number). \
             values('day').\
             order_by('day').\
             annotate(total_consumption=Sum('consumption'))
@@ -151,7 +153,7 @@ def get_measurement_data(request, metric, extra):
             your = [
                 datum['total_consumption']
                 for datum in meter_totals
-                if datum['meter_number'] == request.user.meter_info.meter_number
+                if datum['meter_number'] == meter_info.meter_number
             ][0]
         except IndexError:
             your = 0

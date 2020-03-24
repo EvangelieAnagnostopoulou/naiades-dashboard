@@ -15,8 +15,13 @@ def get_tweets(request):
     max_tweets = 50
     tweets_qs = Tweet.objects.\
         exclude(is_deleted=True).\
+        filter(is_accepted=True).\
         order_by().\
         order_by('-created')
+
+    # filter only tweets for my school
+    if 'school' in request.GET:
+        tweets_qs = tweets_qs.filter(user__accesses__meter_info__meter_number=request.GET['school'])
 
     return JsonResponse({
         'tweets': [
@@ -42,9 +47,11 @@ def post_tweet(request):
         }, status=400)
 
     # create the tweet
+    # auto-accept if posted by staff
     tweet = Tweet.objects.create(
         user=request.user,
-        message=message
+        message=message,
+        is_accepted=request.user.is_staff
     )
 
     # return its json representation

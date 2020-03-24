@@ -111,6 +111,15 @@
                             <i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
+                            {% if request.user.is_staff %}
+                                <li>
+                                    <a href="/admin/social/tweet/">
+                                        <i class="fa fa-envelope"></i>
+                                        Moderate messages
+                                    </a>
+                                </li>
+                            {% endif %}
+
                             {% if request.user.is_authenticated %}
                                 <li>
                                     <a href="{% url 'logout' %}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>

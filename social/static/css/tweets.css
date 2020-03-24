@@ -1,8 +1,8 @@
-#tweet-feed .form-post {
+.tweet-feed .form-post {
     padding: 20px 0 0 0;
 }
 
-#tweet-feed .form-post textarea {
+.tweet-feed .form-post textarea {
     display: inline-block;
     width: calc(100% - 110px) !important;
     height: 42px !important;
@@ -14,20 +14,20 @@
     border-bottom: 1px solid #777;
 }
 
-#tweet-feed .form-post .btn {
+.tweet-feed .form-post .btn {
     vertical-align: top;
     margin: 10px 0 10px 10px;
     padding: 5px 0;
     width: 90px;
 }
 
-#tweet-feed .tweet {
+.tweet-feed .tweet {
     padding: 10px 0;
     border-bottom: 1px solid #777;
 }
 
-#tweet-feed .tweet .user,
-#tweet-feed .tweet .posted-at {
+.tweet-feed .tweet .user,
+.tweet-feed .tweet .posted-at {
     display: inline-block;
     margin-bottom: 10px;
     color: #999;

@@ -6,6 +6,7 @@ class Tweet(Model):
     updated = DateTimeField(auto_now=True)
     user = ForeignKey('auth.User', on_delete=CASCADE, related_name='tweets')
     is_deleted = BooleanField(default=False)
+    is_accepted = BooleanField(default=False)
     message = TextField()
 
     def to_dict(self):
@@ -19,5 +20,6 @@ class Tweet(Model):
             'created': self.created.strftime('%d/%m/%Y %H:%I'),
             'updated': self.updated.strftime('%d/%m/%Y %H:%I'),
             'message': self.message,
-            'is_deleted': str(self.is_deleted),
+            'is_deleted': self.is_deleted,
+            'is_accepted': self.is_accepted,
         }

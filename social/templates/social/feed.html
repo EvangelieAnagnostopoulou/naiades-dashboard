@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block extra_css %}
-    <link href="{% static 'css/tweets.css' %}" rel="stylesheet">
+    <link href="{% static 'css/tweets.css' %}?v=20200324.1" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -18,16 +18,16 @@
          <!-- Tab content -->
         <div class="col-xs-12 tabcontent" id="Community">
             <h1>Community Posts</h1>
-            <div id="tweet-feed"></div>
+            <div id="tweet-feed--all" class="tweet-feed"></div>
         </div>
 
         <div class="col-xs-12 tabcontent" id="School">
             <h1>School Posts</h1>
-            <div id="tweet-feed-school"></div>
+            <div id="tweet-feed--school" class="tweet-feed" data-schoolid="{{ meter_info.meter_number}}"></div>
         </div>
     </div>
 {% endblock %}
 
 {% block extra_js %}
-    <script src="{% static 'js/tweets.js'%}"></script>
+    <script src="{% static 'js/tweets.js'%}?v=20200324.1"></script>
 {% endblock %}
