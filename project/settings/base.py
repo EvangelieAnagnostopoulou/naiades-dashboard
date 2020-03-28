@@ -29,11 +29,11 @@ SECRET_KEY = '-_dn%qwvv91wsd9_zw#obb+zfb+g8^^j-1%ah$k^fa13)9an-#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Hosting
 ALLOWED_HOSTS = ['*']
-
+INTERNAL_IPS = ['127.0.0.1', '0.0.0.0']
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -45,6 +45,9 @@ INSTALLED_APPS = [
 
     'naiades_dashboard',
     'social',
+
+    # debugging
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -55,6 +58,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'project.middleware.NonHtmlDebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'project.urls'

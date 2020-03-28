@@ -20,7 +20,7 @@ from django.contrib import admin
 import django.contrib.auth.views as auth_views
 
 from project import views
-
+from project.settings import DEBUG
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -38,3 +38,11 @@ urlpatterns = [
     # social
     path('social/', include('social.urls')),
 ]
+
+# debug mode
+if DEBUG:
+    import debug_toolbar
+
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
