@@ -1,0 +1,26 @@
+{% extends "dashboard-base.html" %}
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'css/report.css' %}?v=20200225.1" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="main">
+        <input type="button" class="btn btn-primary" value="Export to PDF" onclick="exportReport();" />
+
+        <h1>Water Consumption weekly report</h1>
+
+        <p id="intro"></p>
+        <div id="chart-you_vs_others" class="data-item data-chart" style="margin-top: 80px;"></div>
+        <!--<div id="component-message" class="data-item data-component"></div> -->
+        <div id="chart-total_hourly_consumption" class="data-item data-chart"></div>
+        <div id="chart-total_daily_consumption" class="data-item data-chart"></div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        window.CHART_THEME = "light";
+    </script>
+{% endblock %}
