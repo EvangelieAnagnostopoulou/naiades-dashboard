@@ -1,6 +1,6 @@
 import random
 
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -96,11 +96,15 @@ def get_average_change(qs):
 
 
 def get_measurement_data(request, metric, extra):
-    meter_info = MeterInfo.objects.filter(accesses__user=request.user).first()
+    meter_info = MeterInfo.objects.filter(accesses__user=request.user).first() \
+        if request.user.is_authenticated \
+        else None
+
+    date = now().date()
 
     qs = Consumption.objects.filter(is_school=True)
-    week_q = Q(date__gt=now().date() - timedelta(days=7)) & \
-        Q(date__lte=now().date())
+    week_q = Q(date__gt=date - timedelta(days=7)) & \
+        Q(date__lte=date)
 
     if metric == "total_hourly_consumption":
         qs = qs.\
@@ -220,6 +224,9 @@ def get_measurement_data(request, metric, extra):
         qs = qs.\
             values('meter_number', 'latitude', 'longitude'). \
             annotate(total_consumption=Sum('consumption'))[:50]
+
+    elif metric == "meter_info":
+        return list(MeterInfo.objects.values("meter_number", "activity", "latitude", "longitude"))
 
     else:
         raise ValueError('Invalid metric: "%s"' % metric)
