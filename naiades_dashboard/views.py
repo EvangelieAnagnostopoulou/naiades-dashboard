@@ -113,9 +113,6 @@ def get_measurement_data(request, metric, extra):
 
     date = now().date()
 
-    if dest == "city_dashboard":
-        date = datetime(2020, 3, 28)
-
     qs = Consumption.objects.all()
 
     if dest == "naiades_dashboard":
