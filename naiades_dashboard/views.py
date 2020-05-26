@@ -1,3 +1,4 @@
+import os
 import random
 
 from datetime import timedelta, datetime
@@ -113,6 +114,9 @@ def get_measurement_data(request, metric, extra):
 
     date = now().date()
 
+    if os.environ.get("FIXED_DATE"):
+        date = datetime(2020, 3, 28)
+
     qs = Consumption.objects.all()
 
     if dest == "naiades_dashboard":
@@ -127,6 +131,12 @@ def get_measurement_data(request, metric, extra):
             values('hour').\
             order_by('hour').\
             annotate(total_consumption=Sum('consumption'))
+
+    elif metric == "meter_hourly_consumption":
+        qs = qs.\
+            filter(meter_number=request.GET.get("meter_number")).\
+            values('date', 'consumption').\
+            order_by('date')
 
     elif metric == "total_daily_consumption":
         qs = qs. \
