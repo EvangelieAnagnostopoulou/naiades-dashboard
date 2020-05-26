@@ -4,7 +4,7 @@ from datetime import timedelta, datetime
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.db.models import Avg, Min, Sum, Q
+from django.db.models import Avg, Min, Sum, Q, F
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils.timezone import now
@@ -45,13 +45,20 @@ def get_weekly_consumption_by_meter(qs, week_q):
              order_by('total_consumption')
 
     qs = list(qs)
+
+    # fetch viewer's first name per meter number
+    names_by_meter_number = {
+        datum["meter_number"]: datum["first_name"]
+        for datum in (
+            MeterInfoAccess.objects.
+            filter(meter_info__meter_number__in=[q["meter_number"] for q in qs], role='VIEWER').
+            annotate(meter_number=F("meter_info__meter_number")).
+            annotate(first_name=F("user__first_name")).
+            values("meter_number", "first_name")
+        )
+    }
     for q in qs:
-        try:
-            q['name'] = MeterInfoAccess.objects.\
-                get(meter_info__meter_number=q['meter_number'], role='VIEWER').\
-                user.first_name
-        except MeterInfoAccess.DoesNotExist:
-            q['name'] = q['meter_number']
+        q["name"] = names_by_meter_number.get(q['meter_number'], q['meter_number'])
 
     return qs
 
@@ -96,13 +103,24 @@ def get_average_change(qs):
 
 
 def get_measurement_data(request, metric, extra):
-    meter_info = MeterInfo.objects.filter(accesses__user=request.user).first() \
+    dest = "naiades_dashboard" \
         if request.user.is_authenticated \
+        else "city_dashboard"
+
+    meter_info = MeterInfo.objects.filter(accesses__user=request.user).first() \
+        if dest == "naiades_dashboard" \
         else None
 
     date = now().date()
 
-    qs = Consumption.objects.filter(is_school=True)
+    if dest == "city_dashboard":
+        date = datetime(2020, 3, 28)
+
+    qs = Consumption.objects.all()
+
+    if dest == "naiades_dashboard":
+        qs = qs.filter(is_school=True)
+
     week_q = Q(date__gt=date - timedelta(days=7)) & \
         Q(date__lte=date)
 
