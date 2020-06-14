@@ -135,7 +135,21 @@ def get_measurement_data(request, metric, extra):
     elif metric == "meter_hourly_consumption":
         qs = qs.\
             filter(meter_number=request.GET.get("meter_number")).\
+            filter(date__gt=now() - timedelta(days=90)).\
             values('date', 'consumption').\
+            order_by('date')
+
+    elif metric == "avg_hourly_consumption":
+
+        # filter by activity
+        if request.GET.get("activity"):
+            qs = qs.filter(meter_number__activity=request.GET["activity"])
+
+        # return hourly average consumption
+        qs = qs.\
+            filter(date__gt=now() - timedelta(days=90)).\
+            values('date').\
+            annotate(avg_consumption=Avg('consumption')).\
             order_by('date')
 
     elif metric == "total_daily_consumption":
