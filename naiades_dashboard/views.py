@@ -5,8 +5,8 @@ from datetime import timedelta, datetime
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.db.models import Avg, Min, Sum, Q, F
-from django.db.models.functions import TruncDate
+from django.db.models import Avg, Min, Sum, Q, F, Count, DecimalField
+from django.db.models.functions import TruncDate, Cast
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils.timezone import now
@@ -133,12 +133,14 @@ def get_measurement_data(request, metric, extra):
             order_by('hour').\
             annotate(total_consumption=Sum('consumption'))
 
-    elif metric == "meter_hourly_consumption":
-        qs = qs.\
-            filter(meter_number=request.GET.get("meter_number")).\
-            filter(date__gt=now() - timedelta(days=90)).\
-            values('date', 'consumption').\
-            order_by('date')
+    elif metric == "meter_daily_consumption":
+        qs = qs. \
+            filter(meter_number=request.GET.get("meter_number")). \
+            filter(date__gt=now() - timedelta(days=365)).\
+            annotate(date_grouped=TruncDate('date')).\
+            values('date_grouped').\
+            annotate(daily_consumption=Sum('consumption')).\
+            order_by('date_grouped')
 
     elif metric == "avg_daily_consumption":
 
@@ -151,7 +153,9 @@ def get_measurement_data(request, metric, extra):
             filter(date__gt=now() - timedelta(days=365)).\
             annotate(date_grouped=TruncDate('date')).\
             values('date_grouped').\
-            annotate(avg_consumption=Avg('consumption')).\
+            annotate(total_daily_consumption=Sum('consumption')).\
+            annotate(n_meters=Count('meter_number', distinct=True, output_field=DecimalField())).\
+            annotate(avg_daily_consumption=F('total_daily_consumption') / F('n_meters')).\
             order_by('date_grouped')
 
     elif metric == "total_daily_consumption":
