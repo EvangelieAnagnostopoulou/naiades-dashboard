@@ -6,6 +6,7 @@ from datetime import timedelta, datetime
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Avg, Min, Sum, Q, F
+from django.db.models.functions import TruncDate
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils.timezone import now
@@ -139,7 +140,7 @@ def get_measurement_data(request, metric, extra):
             values('date', 'consumption').\
             order_by('date')
 
-    elif metric == "avg_hourly_consumption":
+    elif metric == "avg_daily_consumption":
 
         # filter by activity
         if request.GET.get("activity"):
@@ -147,10 +148,11 @@ def get_measurement_data(request, metric, extra):
 
         # return hourly average consumption
         qs = qs.\
-            filter(date__gt=now() - timedelta(days=90)).\
-            values('date').\
+            filter(date__gt=now() - timedelta(days=365)).\
+            annotate(date_grouped=TruncDate('date')).\
+            values('date_grouped').\
             annotate(avg_consumption=Avg('consumption')).\
-            order_by('date')
+            order_by('date_grouped')
 
     elif metric == "total_daily_consumption":
         qs = qs. \
