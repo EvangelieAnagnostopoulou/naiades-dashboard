@@ -101,15 +101,25 @@ def get_weekly_change(qs, week_q=None, fn=get_weekly_consumption_by_meter):
 
         change = round((datum["total_consumption"] - baseline) / baseline * 100, 1)
 
-        qs.append({
-            "meter_number": datum["meter_number"],
-            "school": datum["name"],
+        entry = {
             "increase" if change > 0 else "decrease": change,
             "this_week": datum["total_consumption"],
             "last_week": baseline,
             "change": change,
             "color": "#FF0F00" if change > 0 else "#04D215"
-        })
+        }
+
+        if "meter_number" in datum:
+            entry.update({
+                "meter_number": datum["meter_number"],
+                "school": datum["name"],
+            })
+        else:
+            entry.update({
+                "name": datum["name"],
+            })
+
+        qs.append(entry)
 
     return sorted(qs, key=lambda datum: datum["change"])
 
