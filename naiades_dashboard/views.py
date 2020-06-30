@@ -44,7 +44,7 @@ def get_total_weekly_consumption_by_activity(qs, week_q):
         filter(week_q).\
         annotate(name=F('meter_number__activity')).\
         values('name').\
-        annotate(total_consumpiton=Sum('consumption'))
+        annotate(total_consumption=Sum('consumption'))
 
     qs = list(qs)
 
