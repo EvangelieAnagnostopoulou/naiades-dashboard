@@ -39,9 +39,9 @@ def report(request):
     return render(request, 'report.html')
 
 
-def get_total_weekly_consumption_by_activity(qs, week_q):
+def get_total_period_consumption_by_activity(qs, period_q):
     qs = qs.\
-        filter(week_q).\
+        filter(period_q).\
         annotate(name=F('meter_number__activity')).\
         values('name').\
         annotate(total_consumption=Sum('consumption'))
@@ -51,9 +51,9 @@ def get_total_weekly_consumption_by_activity(qs, week_q):
     return qs
 
 
-def get_weekly_consumption_by_meter(qs, week_q):
+def get_period_consumption_by_meter(qs, period_q):
     qs = qs. \
-             filter(week_q). \
+             filter(period_q). \
              values('meter_number'). \
              annotate(total_consumption=Sum('consumption')). \
              order_by('total_consumption')
@@ -77,23 +77,22 @@ def get_weekly_consumption_by_meter(qs, week_q):
     return qs
 
 
-def get_weekly_change(qs, week_q=None, fn=get_weekly_consumption_by_meter):
-    if not week_q:
-        week_q = Q(date__gt=now().date() - timedelta(days=7)) & \
-            Q(date__lte=now().date())
+def get_period_change(qs, days, fn=get_period_consumption_by_meter):
+    period_q = Q(date__gt=now().date() - timedelta(days=days)) & \
+        Q(date__lte=now().date())
 
-    last_week_q = Q(date__gt=now().date() - timedelta(days=14)) & \
-                  Q(date__lte=now().date() - timedelta(days=7))
+    last_period_q = Q(date__gt=now().date() - timedelta(days=days * 2)) & \
+                  Q(date__lte=now().date() - timedelta(days=days))
 
-    this_week_qs = fn(qs, week_q)
-    last_week_qs = {
+    this_period_qs = fn(qs, period_q)
+    last_period_qs = {
         datum["name"]: datum["total_consumption"]
-        for datum in fn(qs, last_week_q)
+        for datum in fn(qs, last_period_q)
     }
 
     qs = []
-    for datum in this_week_qs:
-        baseline = last_week_qs.get(datum["name"], 0)
+    for datum in this_period_qs:
+        baseline = last_period_qs.get(datum["name"], 0)
 
         # we can not say how much it changed if last week was zero
         if not baseline:
@@ -103,8 +102,8 @@ def get_weekly_change(qs, week_q=None, fn=get_weekly_consumption_by_meter):
 
         entry = {
             "increase" if change > 0 else "decrease": change,
-            "this_week": datum["total_consumption"],
-            "last_week": baseline,
+            "this_period": datum["total_consumption"],
+            "last_period": baseline,
             "change": change,
             "color": "#FF0F00" if change > 0 else "#04D215"
         }
@@ -190,7 +189,7 @@ def get_measurement_data(request, metric, extra):
             annotate(total_consumption=Sum('consumption'))
 
     elif metric == "weekly_consumption_by_meter":
-        qs = get_weekly_consumption_by_meter(qs, week_q)
+        qs = get_period_consumption_by_meter(qs, period_q=week_q)
 
     elif metric == "you_vs_others":
         data_qs = qs.\
@@ -251,13 +250,19 @@ def get_measurement_data(request, metric, extra):
             }]
 
     elif metric == "weekly_change":
-        qs = get_weekly_change(qs, week_q=week_q)
+        qs = get_period_change(qs, days=7)
 
     elif metric == "weekly_change_by_activity":
-        qs = get_weekly_change(qs, week_q=week_q, fn=get_total_weekly_consumption_by_activity)
+        qs = get_period_change(qs, days=7, fn=get_total_period_consumption_by_activity)
+
+    elif metric == "yearly_change":
+        qs = get_period_change(qs, days=365)
+
+    elif metric == "yearly_change_by_activity":
+        qs = get_period_change(qs, days=365, fn=get_total_period_consumption_by_activity)
 
     elif metric == "you_vs_others_weekly_change":
-        data_qs = get_weekly_change(qs, week_q=week_q)
+        data_qs = get_period_change(qs, days=7)
 
         top_20_qs = data_qs[:int(len(data_qs) / 5)]
         top_20 = get_average_change(top_20_qs)
