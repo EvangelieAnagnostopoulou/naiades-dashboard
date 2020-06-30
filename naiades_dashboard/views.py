@@ -39,6 +39,18 @@ def report(request):
     return render(request, 'report.html')
 
 
+def get_total_weekly_consumption_by_activity(qs, week_q):
+    qs = qs.\
+        filter(week_q).\
+        annotate(name=F('meter_number__activity')).\
+        values('name').\
+        annotate(total_consumpiton=Sum('consumption'))
+
+    qs = list(qs)
+
+    return qs
+
+
 def get_weekly_consumption_by_meter(qs, week_q):
     qs = qs. \
              filter(week_q). \
@@ -65,7 +77,7 @@ def get_weekly_consumption_by_meter(qs, week_q):
     return qs
 
 
-def get_weekly_change(qs, week_q=None):
+def get_weekly_change(qs, week_q=None, fn=get_weekly_consumption_by_meter):
     if not week_q:
         week_q = Q(date__gt=now().date() - timedelta(days=7)) & \
             Q(date__lte=now().date())
@@ -73,10 +85,10 @@ def get_weekly_change(qs, week_q=None):
     last_week_q = Q(date__gt=now().date() - timedelta(days=14)) & \
                   Q(date__lte=now().date() - timedelta(days=7))
 
-    this_week_qs = get_weekly_consumption_by_meter(qs, week_q)
+    this_week_qs = fn(qs, week_q)
     last_week_qs = {
         datum["name"]: datum["total_consumption"]
-        for datum in get_weekly_consumption_by_meter(qs, last_week_q)
+        for datum in fn(qs, last_week_q)
     }
 
     qs = []
@@ -93,6 +105,8 @@ def get_weekly_change(qs, week_q=None):
             "meter_number": datum["meter_number"],
             "school": datum["name"],
             "increase" if change > 0 else "decrease": change,
+            "this_week": datum["total_consumption"],
+            "last_week": baseline,
             "change": change,
             "color": "#FF0F00" if change > 0 else "#04D215"
         })
@@ -126,6 +140,10 @@ def get_measurement_data(request, metric, extra):
     week_q = Q(date__gt=date - timedelta(days=7)) & \
         Q(date__lte=date)
 
+    # filter by activity
+    if request.GET.get("activity"):
+        qs = qs.filter(meter_number__activity=request.GET["activity"])
+
     if metric == "total_hourly_consumption":
         qs = qs.\
             filter(meter_number=meter_info.meter_number).\
@@ -143,10 +161,6 @@ def get_measurement_data(request, metric, extra):
             order_by('date_grouped')
 
     elif metric == "avg_daily_consumption":
-
-        # filter by activity
-        if request.GET.get("activity"):
-            qs = qs.filter(meter_number__activity=request.GET["activity"])
 
         # return hourly average consumption
         qs = qs.\
@@ -228,6 +242,9 @@ def get_measurement_data(request, metric, extra):
 
     elif metric == "weekly_change":
         qs = get_weekly_change(qs, week_q=week_q)
+
+    elif metric == "weekly_change_by_activity":
+        qs = get_weekly_change(qs, week_q=week_q, fn=get_total_weekly_consumption_by_activity)
 
     elif metric == "you_vs_others_weekly_change":
         data_qs = get_weekly_change(qs, week_q=week_q)
