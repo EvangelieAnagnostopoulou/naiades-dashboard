@@ -6,7 +6,7 @@ from datetime import timedelta, datetime
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Avg, Min, Sum, Q, F, Count, DecimalField
-from django.db.models.functions import TruncDate, Cast
+from django.db.models.functions import TruncDate, Cast, ExtractDay
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils.timezone import now
@@ -153,7 +153,23 @@ def get_measurement_data(request, metric, extra):
     if request.GET.get("activity"):
         qs = qs.filter(meter_number__activity=request.GET["activity"])
 
-    if metric == "total_hourly_consumption":
+    if metric == "consumption":
+        days = int(request.GET.get("days", "30"))
+        days_offset = int(request.GET.get("days_offset", "0"))
+
+        if meter_info:
+            qs = qs.filter(meter_number=meter_info.meter_number)
+
+        qs = qs.\
+            filter(date__lt=now() - timedelta(days=days_offset)).\
+            filter(date__gte=now() - timedelta(days=days + days_offset)).\
+            annotate(mday=ExtractDay('date')).\
+            values('year', 'month', 'mday', 'hour').\
+            annotate(total_consumption=Sum('consumption')).\
+            order_by().\
+            order_by('year', 'month', 'day', 'hour')
+
+    elif metric == "total_hourly_consumption":
         qs = qs.\
             filter(meter_number=meter_info.meter_number).\
             values('hour').\
