@@ -167,7 +167,7 @@ def get_measurement_data(request, metric, extra):
             values('year', 'month', 'mday', 'hour').\
             annotate(total_consumption=Sum('consumption')).\
             order_by().\
-            order_by('year', 'month', 'day', 'hour')
+            order_by('year', 'month', 'mday', 'hour')
 
     elif metric == "total_hourly_consumption":
         qs = qs.\
