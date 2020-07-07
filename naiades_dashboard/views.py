@@ -153,6 +153,10 @@ def get_measurement_data(request, metric, extra):
     if request.GET.get("activity"):
         qs = qs.filter(meter_number__activity=request.GET["activity"])
 
+    # filter by meter id
+    if request.GET.get("id"):
+        qs = qs.filter(meter_number=request.GET["id"])
+
     if metric == "consumption":
         days = int(request.GET.get("days", "30"))
         days_offset = int(request.GET.get("days_offset", "0"))
