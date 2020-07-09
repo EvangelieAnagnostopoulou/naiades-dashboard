@@ -6,6 +6,7 @@ from naiades_dashboard import views
 urlpatterns = [
     # api
     path('api/measurements/data', views.measurement_data, name='measurement-data'),
+    path('api/meters', views.get_meter_infos, name='meter-infos'),
 
     # pages
     path('', views.leaderboard, name='leaderboard'),

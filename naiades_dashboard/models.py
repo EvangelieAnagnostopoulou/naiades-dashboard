@@ -19,6 +19,15 @@ class MeterInfo(Model):
     latitude = DecimalField(max_digits=16, decimal_places=8, db_column="Lat")
     longitude = DecimalField(max_digits=16, decimal_places=8, db_column="Long")
 
+    def to_dict(self):
+        return {
+            "meter_number": self.meter_number,
+            "name": f'Meter {self.meter_number}',
+            "activity": self.activity,
+            "latitude": "%.8f" % self.latitude,
+            "longitude": "%.8f" % self.longitude,
+        }
+
 
 class Consumption(Model):
     # related meter number

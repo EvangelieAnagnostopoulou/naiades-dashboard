@@ -127,6 +127,25 @@ def get_average_change(qs):
     return sum(datum["change"] for datum in qs) / len(qs)
 
 
+def get_meter_infos(request):
+    meter_infos = MeterInfo.objects.all()
+
+    # filter by activity type
+    if request.GET.get("activity"):
+        meter_infos = meter_infos.filter(activity=request.GET["activity"])
+
+    # text search
+    if request.GET.get("q"):
+        meter_infos = meter_infos.filter(meter_number__icontains=request.GET["q"])
+
+    return JsonResponse({
+        "meters": [
+            meter_info.to_dict()
+            for meter_info in meter_infos
+        ]
+    })
+
+
 def get_measurement_data(request, metric, extra):
     dest = "naiades_dashboard" \
         if request.user.is_authenticated \
