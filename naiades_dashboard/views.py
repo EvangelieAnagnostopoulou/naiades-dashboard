@@ -124,7 +124,10 @@ def get_period_change(qs, days, fn=get_period_consumption_by_meter):
 
 
 def get_average_change(qs):
-    return sum(datum["change"] for datum in qs) / len(qs)
+    try:
+        return sum(datum["change"] for datum in qs) / len(qs)
+    except ZeroDivisionError:
+        return 0
 
 
 def get_meter_infos(request):
@@ -158,7 +161,7 @@ def get_measurement_data(request, metric, extra):
     date = now().date()
 
     if os.environ.get("FIXED_DATE"):
-        date = datetime(2020, 3, 28)
+        date = datetime(2020, 3, 21)
 
     qs = Consumption.objects.all()
 
@@ -246,6 +249,15 @@ def get_measurement_data(request, metric, extra):
         # sort from smallest to largest
         meter_totals = sorted(meter_totals, key=lambda datum: datum['total_consumption'])
 
+        # filter out too low consumptions
+        # ignore schools with less than VS_OTHERS_MIN_LT_PER_MONTH lt/week
+        if os.environ.get('VS_OTHERS_MIN_LT_PER_MONTH'):
+            meter_totals = [
+                datum
+                for datum in meter_totals
+                if datum['total_consumption'] >= float(os.environ.get('VS_OTHERS_MIN_LT_PER_MONTH'))
+            ]
+
         # top 20%
         n_top_20 = int(len(meter_totals) / 5)
 
@@ -265,7 +277,7 @@ def get_measurement_data(request, metric, extra):
             your = [
                 datum['total_consumption']
                 for datum in meter_totals
-                if datum['meter_number'] == meter_info.meter_number
+                if meter_info and datum['meter_number'] == meter_info.meter_number
             ][0]
         except IndexError:
             your = 0
@@ -307,11 +319,15 @@ def get_measurement_data(request, metric, extra):
         top_20 = get_average_change(top_20_qs)
 
         avg = get_average_change(data_qs)
-        mine = [
-            datum["change"]
-            for datum in data_qs
-            if datum["meter_number"] == MeterInfoAccess.objects.filter(user=request.user).first().meter_info_id
-        ][0]
+
+        try:
+            mine = [
+                datum["change"]
+                for datum in data_qs
+                if datum["meter_number"] == MeterInfoAccess.objects.filter(user=request.user).first().meter_info_id
+            ][0]
+        except IndexError:
+            mine = 0
 
         qs = [{
             "school": "Best 20%",
@@ -320,7 +336,7 @@ def get_measurement_data(request, metric, extra):
             "color": "#FF0F00" if top_20 > 0 else "#04D215"
         }, {
             "school": "Average",
-            "increase" if avg > 0 else "decrease": avg,
+            "increase" if avg> 0 else "decrease": avg,
             "change": avg,
             "color": "#FF0F00" if avg > 0 else "#04D215"
         }, {
