@@ -14,6 +14,13 @@ from django.utils.timezone import now
 from naiades_dashboard.models import Consumption, MeterInfoAccess, MeterInfo
 
 
+def get_date():
+    if os.environ.get("FIXED_DATE"):
+        return datetime.strptime(os.environ.get("FIXED_DATE"), '%Y-%m-%d')
+
+    return now().date()
+
+
 @login_required
 def leaderboard(request):
     return render(request, 'leaderboard.html')
@@ -78,11 +85,17 @@ def get_period_consumption_by_meter(qs, period_q):
 
 
 def get_period_change(qs, days, fn=get_period_consumption_by_meter):
-    period_q = Q(date__gt=now().date() - timedelta(days=days)) & \
-        Q(date__lte=now().date())
+    date = get_date()
 
-    last_period_q = Q(date__gt=now().date() - timedelta(days=days * 2)) & \
-                  Q(date__lte=now().date() - timedelta(days=days))
+    period_q = (
+        Q(date__gt=date - timedelta(days=days)) &
+        Q(date__lte=date)
+    )
+
+    last_period_q = (
+        Q(date__gt=date - timedelta(days=days * 2)) &
+        Q(date__lte=date - timedelta(days=days))
+    )
 
     this_period_qs = fn(qs, period_q)
     last_period_qs = {
@@ -158,10 +171,7 @@ def get_measurement_data(request, metric, extra):
         if dest == "naiades_dashboard" \
         else None
 
-    date = now().date()
-
-    if os.environ.get("FIXED_DATE"):
-        date = datetime(2020, 3, 21)
+    date = get_date()
 
     qs = Consumption.objects.all()
 
@@ -187,8 +197,8 @@ def get_measurement_data(request, metric, extra):
             qs = qs.filter(meter_number=meter_info.meter_number)
 
         qs = qs.\
-            filter(date__lt=now() - timedelta(days=days_offset)).\
-            filter(date__gte=now() - timedelta(days=days + days_offset)).\
+            filter(date__lt=date - timedelta(days=days_offset)).\
+            filter(date__gte=date - timedelta(days=days + days_offset)).\
             annotate(mday=ExtractDay('date')).\
             values('year', 'month', 'mday', 'hour').\
             annotate(total_consumption=Sum('consumption')).\
@@ -205,7 +215,7 @@ def get_measurement_data(request, metric, extra):
     elif metric == "meter_daily_consumption":
         qs = qs. \
             filter(meter_number=request.GET.get("meter_number")). \
-            filter(date__gt=now() - timedelta(days=365)).\
+            filter(date__gt=date - timedelta(days=365)).\
             annotate(date_grouped=TruncDate('date')).\
             values('date_grouped').\
             annotate(daily_consumption=Sum('consumption')).\
@@ -215,7 +225,7 @@ def get_measurement_data(request, metric, extra):
 
         # return hourly average consumption
         qs = qs.\
-            filter(date__gt=now() - timedelta(days=365)).\
+            filter(date__gt=date - timedelta(days=365)).\
             annotate(date_grouped=TruncDate('date')).\
             values('date_grouped').\
             annotate(total_daily_consumption=Sum('consumption')).\
