@@ -368,7 +368,13 @@ def get_measurement_data(request, metric, extra):
             annotate(total_consumption=Sum('consumption'))[:50]
 
     elif metric == "meter_info":
-        return list(MeterInfo.objects.values("meter_number", "activity", "latitude", "longitude"))
+        return list(
+            MeterInfo.objects.values(
+                "meter_number", "activity",
+                "latitude", "longitude", "address",
+                "service_point_id", "service_connection_id"
+            )
+        )
 
     else:
         raise ValueError('Invalid metric: "%s"' % metric)

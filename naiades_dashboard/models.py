@@ -16,8 +16,15 @@ def rand_range(range):
 class MeterInfo(Model):
     meter_number = CharField(max_length=32, primary_key=True)
     activity = CharField(max_length=128)
+
+    # location
     latitude = DecimalField(max_digits=16, decimal_places=8, db_column="Lat")
     longitude = DecimalField(max_digits=16, decimal_places=8, db_column="Long")
+    address = CharField(max_length=128, blank=True, default='')
+
+    # service info
+    service_point_id = IntegerField(blank=True, null=True, default=None)
+    service_connection_id = IntegerField(blank=True, null=True, default=None)
 
     def to_dict(self):
         return {
@@ -26,6 +33,9 @@ class MeterInfo(Model):
             "activity": self.activity,
             "latitude": "%.8f" % self.latitude,
             "longitude": "%.8f" % self.longitude,
+            "address": self.address,
+            "service_point_id": self.service_point_id,
+            "service_connection_id": self.service_connection_id,
         }
 
 

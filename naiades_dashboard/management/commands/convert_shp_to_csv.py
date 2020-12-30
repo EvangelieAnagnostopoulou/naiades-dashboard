@@ -25,7 +25,7 @@ def read_data(sf, projections):
     for idx, shape in enumerate(shapes):
         record = records[idx]
         x, y = shape.points[0]
-        lat, lng = transform(projections["input"], projections["output"], x, y)
+        lng, lat = transform(projections["input"], projections["output"], x, y)
         data.append({
             "lat": lat,
             "lng": lng,
