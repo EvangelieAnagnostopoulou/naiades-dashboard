@@ -18,6 +18,7 @@ requests
 tqdm
 python-dateutil
 pysftp
+furl
 
 # settings
 python-dotenv

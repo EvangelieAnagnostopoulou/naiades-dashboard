@@ -1,119 +1,146 @@
-import os
-import csv
 import pytz
-import pysftp
+import tqdm
+
+from datetime import datetime
 
 from django.core.management.base import BaseCommand
-from django.db import transaction
 
-from naiades_dashboard.models import *
-from project.settings import FTP, BASE_DIR
-
-
-class UpdateFileRecord(object):
-
-    def __init__(self, path, filename, local_filename):
-        self.path = path
-        self.filename = filename
-        self.local_filename = local_filename
-
-    def set_as_parsed(self):
-        UpdateFile.objects.create(path=self.path, filename=self.filename)
+from context_manager_api import ContextManagerAPIClient
+from context_manager_api.orion import OrionError
+from naiades_dashboard.models import MeterInfo, Consumption
 
 
 class Command(BaseCommand):
-    help = 'Consume data updates from project FTP'
+    help = 'Consume data updates from context manager api'
+    client = None
+    meter_infos_idx = None
 
-    # paths to look at for new deliveries
-    PATHS = [
-        'AMAEM_INC_COLEGIOS',
-        'AMAEM_INC_MUNICIPALES',
-    ]
+    def load_updated_devices(self):
+        """
+        :return: Creates missing MeterInfo objects and returns list of all devices.
+        """
+        # load existing meter infos
+        self.meter_infos_idx = {
+            meter_info.meter_number: meter_info
+            for meter_info in MeterInfo.objects.all()
+        }
 
-    # downloads path
-    DOWNLOADS_PATH = os.path.join(BASE_DIR, 'downloads')
+        # get from API
+        devices = self.client.get(resource="entities", params={
+            "type": "Device",
+        })
 
-    def pull_deliveries(self):
-        # TODO revisit this, seems that host key can not be verified now
-        cnopts = pysftp.CnOpts()
-        cnopts.hostkeys = None
+        # hack to play around with at least some data
+        # TODO remove
+        for device in devices:
+            if device["id"] == "urn:ngsi-ld:Device:Benalua-Volume":
+                device["serialNumber"] = "X1234"
 
-        with pysftp.Connection(FTP['HOST'], username=FTP['USERNAME'], password=FTP['PASSWORD'], cnopts=cnopts) as sftp:
-            for path in self.PATHS:
-                with sftp.cd(path):  # temporarily chdir to public
+        # filter out devices with missing serial number or id
+        devices = [
+            device
+            for device in devices
+            if device.get("serialNumber") and device.get("id")
+        ]
 
-                    # foreach file in the directory
-                    for filename in sftp.listdir():
+        # add missing devices
+        new_meter_infos = []
+        for device in devices:
 
-                        # ignore already processed files
-                        if UpdateFile.objects.filter(path=path, filename=filename).exists():
-                            continue
+            # ignore already existing
+            # TODO consider updates
+            if device["serialNumber"] in self.meter_infos_idx:
+                continue
 
-                        # download
-                        local_filename = os.path.join(self.DOWNLOADS_PATH, f'{path.replace("/", "-")}-{filename}')
+            # get details
+            details = self.client.get(resource=f'entities/{device["id"]}')
 
-                        sftp.get(filename, local_filename)
+            # create meter info
+            info = MeterInfo(
+                meter_number=device["serialNumber"],
+                activity=details["description"],
+                latitude=details["location"]["coordinates"][0],
+                longitude=details["location"]["coordinates"][1],
+            )
 
-                        # yield record
-                        yield UpdateFileRecord(path=path, filename=filename, local_filename=local_filename)
+            # add to dict
+            self.meter_infos_idx.update({
+                info.meter_number: info,
+            })
 
-    def parse_record(self, record):
-        with transaction.atomic():
-            with open(record.local_filename, 'r', encoding='utf-8') as inp_f:
+            # add to new
+            new_meter_infos.append(info)
 
-                # open csv reader
-                reader = csv.reader(inp_f, delimiter=';')
+        # bulk create
+        MeterInfo.objects.bulk_create(new_meter_infos)
 
-                # bulk load consumptions
-                consumptions = []
+        # return index with all meter infos
+        return devices
 
-                # parse rows
-                for row in reader:
+    def process_data(self, data, device, latest_consumption=None):
+        # get device params for consumption records
+        params = {
+            'meter_number_id': device["serialNumber"],
+            'activity': self.meter_infos_idx[device["serialNumber"]].activity,
+        }
 
-                    # parse data
-                    meter_number = row[1]
-                    consumption = row[3].replace(',', '.')
-                    timestamp = datetime.strptime(row[0], '%d/%m/%Y %H:%M:%S'). \
-                        replace(tzinfo=pytz.UTC)
+        # parse data
+        consumptions = []
+        for idx, timestamp_str in reversed(list(enumerate(data.get("index", [])))):
+            # get consumption
+            consumption = data["values"][idx]
 
-                    # check if meter exists in database
-                    meter_info = MeterInfo.objects.filter(meter_number=meter_number).first()
+            # parse timestamp
+            timestamp = datetime.strptime(timestamp_str, '%Y-%m-%dT%H:%M:%S.%f'). \
+                replace(tzinfo=pytz.UTC)
 
-                    if not meter_info:
-                        continue
+            # break condition
+            if latest_consumption and latest_consumption.date > timestamp:
+                break
 
-                    # add consumption record
-                    consumptions.append(Consumption.parse_and_create(
-                        meter_number_id=meter_number,
-                        activity=meter_info.activity,
-                        consumption=consumption,
-                        timestamp=timestamp
-                    ))
+            # add consumption record
+            consumptions.append(Consumption.parse_and_create(
+                consumption=consumption,
+                timestamp=timestamp,
+                **params
+            ))
 
-                # bulk save
-                Consumption.objects.bulk_create(consumptions)
+        # bulk create
+        Consumption.objects.bulk_create(consumptions)
 
-            # drop local file
-            try:
-                os.unlink(record.local_filename)
-            except:
-                pass
+    def pull_latest_data(self, device):
+        # get latest consumption for this device
+        latest_consumption = Consumption.objects.\
+            filter(meter_number=device["serialNumber"]).\
+            order_by('-date').\
+            first()
 
-            # save record
-            UpdateFile.objects.create(path=record.path, filename=record.filename)
+        # get data
+        try:
+            data = self.client.get(
+                resource=f'entities/{device["id"]}/attrs/value',
+                params={
+                    "lastN": 10000,
+                },
+                source=self.client.history_endpoint
+            )
+        except OrionError as e:
+            # ignore not found errors for now
+            if e.error.get("error") == "Not Found":
+                return
+
+            raise
+
+        # process
+        self.process_data(data=data, device=device, latest_consumption=latest_consumption)
 
     def handle(self, *args, **kwargs):
-        # create downloads folder
-        if not os.path.exists(self.DOWNLOADS_PATH):
-            os.mkdir(self.DOWNLOADS_PATH)
+        # initialize client
+        self.client = ContextManagerAPIClient()
+
+        # load devices
+        devices = self.load_updated_devices()
 
         # pull new deliveries
-        with tqdm.tqdm() as bar:
-            for record in self.pull_deliveries():
-
-                # update progress
-                bar.set_description(f'{record.path} - {record.filename}')
-                bar.update(1)
-
-                # parse record
-                self.parse_record(record)
+        for device in tqdm.tqdm(devices):
+            self.pull_latest_data(device=device)

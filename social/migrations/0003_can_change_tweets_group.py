@@ -6,7 +6,9 @@ from django.db import migrations, models
 import django.db.models.deletion
 
 
-def create_can_change_tweets_group_set_admins(apps, schema_editor):
+def create_can_change_tweets_group_set_admins(_, schema_editor):
+    from django.apps import apps
+
     # get models at this stage
     ContentType = apps.get_model("contenttypes", "ContentType")
     Permission = apps.get_model("auth", "Permission")
@@ -30,7 +32,9 @@ def create_can_change_tweets_group_set_admins(apps, schema_editor):
         group.user_set.add(user)
 
 
-def delete_tweets_group(apps, schema_editor):
+def delete_tweets_group(_, schema_editor):
+    from django.apps import apps
+
     # get models at this stage
     Group = apps.get_model("auth", "Group")
 
