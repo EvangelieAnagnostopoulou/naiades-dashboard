@@ -185,6 +185,13 @@ def get_measurement_data(request, metric, extra):
     if request.GET.get("activity"):
         qs = qs.filter(meter_number__activity=request.GET["activity"])
 
+        # filter out consumptions points that do not have data for Feb 2019 from monthly/yearly charts
+        # TODO remove after review meeting
+        if "days" in request.GET and int(request.GET.get("days")) > 30:
+            qs = qs.filter(
+                meter_number__in=Consumption.objects.filter(year=now().year - 2, month=2).values_list("meter_number")
+            )
+
     # filter by meter id
     if request.GET.get("id"):
         qs = qs.filter(meter_number=request.GET["id"])
