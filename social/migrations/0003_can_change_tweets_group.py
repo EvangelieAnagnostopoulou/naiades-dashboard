@@ -16,7 +16,9 @@ def create_can_change_tweets_group_set_admins(_, schema_editor):
     User = apps.get_model("auth", "User")
 
     # get tweet content type
-    tweet_content_type = ContentType.objects.get(app_label='social', model='tweet')
+    tweet_content_type = ContentType.objects.filter(app_label='social', model='tweet').first()
+    if not tweet_content_type:
+        return
 
     # get permissions
     change_tweet_permission = Permission.objects.get(codename='change_tweet')
