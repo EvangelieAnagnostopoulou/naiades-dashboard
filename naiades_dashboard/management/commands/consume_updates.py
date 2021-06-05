@@ -3,6 +3,8 @@ import csv
 import pytz
 import pysftp
 
+from decimal import Decimal, InvalidOperation
+
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
@@ -80,6 +82,12 @@ class Command(BaseCommand):
                     meter_info = MeterInfo.objects.filter(meter_number=meter_number).first()
 
                     if not meter_info:
+                        continue
+
+                    # validate
+                    try:
+                        Decimal(consumption)
+                    except (ValueError, InvalidOperation):
                         continue
 
                     # add consumption record
