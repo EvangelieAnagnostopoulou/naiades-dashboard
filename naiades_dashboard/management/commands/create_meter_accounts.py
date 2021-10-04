@@ -66,14 +66,15 @@ class Command(BaseCommand):
                 user.set_password(self.TEMP_PASSWORD)
                 user.save()
 
-                # add meter info
-                meter_infos.append(MeterInfo(
+                # add meter info & access
+                meter_info = MeterInfo.objects.create(
                     meter_number=row['Meter ID'],
                     activity=activity,
                     latitude=row['Latitude'],
                     longitude=row['Longitude'],
-                    user=user
-                ))
-
-        # save to db
-        MeterInfo.objects.bulk_create(meter_infos)
+                )
+                MeterInfoAccess.objects.create(
+                    meter_info=meter_info,
+                    user=user,
+                    role="VIEWER"
+                )

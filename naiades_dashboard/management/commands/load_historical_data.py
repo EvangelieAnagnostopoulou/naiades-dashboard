@@ -22,7 +22,7 @@ class Command(BaseCommand):
 
         # load existing meter ids
         existing_meter_ids = {
-            meter_info.meter_nubmer: meter_info for meter_info in MeterInfo.objects.all()
+            meter_info.meter_number: meter_info for meter_info in MeterInfo.objects.all()
         }
 
         # drop all
