@@ -4,7 +4,7 @@ django-loginas
 
 # Database
 dj-database-url==0.3.0
-psycopg2-binary
+psycopg2-binary==2.8.4
 
 # Deployment
 gunicorn
