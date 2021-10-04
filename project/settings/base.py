@@ -147,3 +147,6 @@ FTP = {
     'USERNAME': os.environ['FTP_USER'],
     'PASSWORD': os.environ['FTP_PASSWORD'],
 }
+
+# File encoding
+FILE_CHARSET = "utf-8"
