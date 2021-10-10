@@ -1,20 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Lato);
 
-html, body {
-  font-family: Lato;!important;
-  background: #333;
-    color: #0c0c0c;
-}
-
-#page-wrapper {
-    background-color: #ffffff; !important;
-    border-color: #656565; !important;
-}
-
-h1{
-    color: #0c0c0c;
-    font-family: Lato;
-}
 .main {
   width: 800px;
   height: 100%;
