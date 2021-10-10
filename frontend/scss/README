@@ -1,0 +1,12 @@
+* Install sass using node.js
+
+npm install -g sass
+
+
+* Make change to your sass files
+
+* Compile from the /static folder
+
+sass static/scss/style.scss static/css/style.css
+
+

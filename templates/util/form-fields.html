@@ -6,14 +6,13 @@
 
 {% for field in form %}
     <div class="row">
-        <div class="{% if not full_row %}col-lg-6 {% endif %}col-xs-12 {% if centered %}col-lg-push-3{% endif %}">
-            <div class="form-group">
+        <div class="{% if not full_row %}col-lg-12 {% endif %}col-xs-12 {% if centered %}col-lg-push-3{% endif %}">
+            <div class="form_single_item {% if field.errors %}error{% endif %}">
                 {{ field.label_tag }}
                 {% if field.field.required %}
                     <span class="o-red">*</span>
                 {% endif %}
                 {{ field }}
-
                 {% if field.errors %}
                     {% for err in field.errors %}
                         <div class="o-red">
@@ -22,6 +21,8 @@
                     {% endfor %}
                 {% endif %}
             </div>
+
+
         </div>
     </div>
 {% endfor %}

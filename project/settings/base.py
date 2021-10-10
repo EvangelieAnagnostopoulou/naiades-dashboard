@@ -143,9 +143,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # FTP Credentials
 FTP = {
-    'HOST': os.environ['FTP_HOST'],
-    'USERNAME': os.environ['FTP_USER'],
-    'PASSWORD': os.environ['FTP_PASSWORD'],
+    'HOST': os.environ.get('FTP_HOST',''),
+    'USERNAME': os.environ.get('FTP_USER', ''),
+    'PASSWORD': os.environ.get('FTP_PASSWORD', ''),
 }
 
 # File encoding
