@@ -41,6 +41,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+
+    # allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
     'loginas',
 
     'naiades_dashboard',
@@ -116,7 +123,7 @@ USE_TZ = True
 
 # Authentication
 LOGIN_URL = '/login'
-
+LOGOUT_URL = '/logout'
 LOGIN_REDIRECT_URL = '/'
 
 APPEND_SLASH = True
@@ -150,3 +157,10 @@ FTP = {
 
 # File encoding
 FILE_CHARSET = "utf-8"
+
+# KeyRock Authentication
+OAUTH_SERVER_BASEURL = 'https://test.naiades-project.eu:3443'
+SOCIALACCOUNT_ADAPTER = 'keyrock.adapter.KeyRockAdapter'
+ACCOUNT_LOGOUT_REDIRECT_URL = "/"
+SITE_ID = 1
+ACCOUNT_EMAIL_VERIFICATION = "none"
