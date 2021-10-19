@@ -15,6 +15,7 @@ def logout(request):
     app = SocialApp.objects.filter(provider="keyrockprovider").first()
     if app:
         client_id = f"&client_id={app.client_id}"
+        print(client_id)
 
     # logout from keyrock
-    return redirect(f"{OAUTH_SERVER_BASEURL}/auth/external_logout?_method=DELETE{client_id}")
+    return redirect(f"{OAUTH_SERVER_BASEURL}/auth/logout?_method=DELETE{client_id}")
