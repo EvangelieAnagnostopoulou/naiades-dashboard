@@ -338,11 +338,15 @@ def get_measurement_data(request, metric, extra):
         avg = get_average_change(data_qs)
 
         try:
-            mine = [
-                datum["change"]
-                for datum in data_qs
-                if datum["meter_number"] == MeterInfoAccess.objects.filter(user=request.user).first().meter_info_id
-            ][0]
+            met = MeterInfoAccess.objects.filter(user=request.user).first()
+            if hasattr(met, 'meter_info_id'):
+                mine = [
+                    datum["change"]
+                    for datum in data_qs
+                    if datum["meter_number"] == MeterInfoAccess.objects.filter(user=request.user).first().meter_info_id
+                ][0]
+            else:
+                mine = 0
         except IndexError:
             mine = 0
 
