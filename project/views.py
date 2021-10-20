@@ -18,4 +18,4 @@ def logout(request):
         print(client_id)
 
     # logout from keyrock
-    return redirect(f"{OAUTH_SERVER_BASEURL}/auth/logout?_method=DELETE{client_id}")
+    return redirect(f"{OAUTH_SERVER_BASEURL}/auth/external_logout?_method=DELETE&{client_id}")
