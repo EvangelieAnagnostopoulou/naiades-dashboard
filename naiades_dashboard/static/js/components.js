@@ -237,10 +237,34 @@ $(function () {
         }
     };
 
+    AmCharts.checkEmptyData = function(chart) {
+          if (0 == chart.dataProvider.length) {
+            // set min/max on the value axis
+            chart.valueAxes[0].minimum = 0;
+            chart.valueAxes[0].maximum = 100;
+
+            // add dummy data point
+            var dataPoint = {
+              dummyValue: 0
+            };
+            dataPoint[chart.categoryField] = '';
+            chart.dataProvider = [dataPoint];
+
+            // add label
+            chart.addLabel(0, '50%', 'The chart contains no data', 'center');
+
+            // set opacity of the chart div
+            chart.chartDiv.style.opacity = 0.5;
+
+            // redraw it
+            chart.validateNow();
+          }
+    };
+
     const showChart = function(chartId, metric, data) {
         const config = CHART_CONFIGS[metric];
 
-        AmCharts.makeChart(chartId,
+        const charts = AmCharts.makeChart(chartId,
             {
                 "fontFamily":  "'Open Sans', sans-serif",
                 "theme": CHART_THEME,
@@ -282,6 +306,7 @@ $(function () {
                 ...(config || {})
             }
         );
+        AmCharts.checkEmptyData(charts);
     };
 
     $.each($('.data-item'), function(idx, container) {

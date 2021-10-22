@@ -213,11 +213,14 @@ def get_measurement_data(request, metric, extra):
             order_by('year', 'month', 'mday', 'hour')
 
     elif metric == "total_hourly_consumption":
-        qs = qs.\
-            filter(meter_number=meter_info.meter_number).\
-            values('hour').\
-            order_by('hour').\
-            annotate(total_consumption=Sum('consumption'))
+        if meter_info:
+            qs = qs.\
+                filter(meter_number=meter_info.meter_number).\
+                values('hour').\
+                order_by('hour').\
+                annotate(total_consumption=Sum('consumption'))
+        else:
+            qs = []
 
     elif metric == "meter_daily_consumption":
         qs = qs. \
@@ -241,11 +244,14 @@ def get_measurement_data(request, metric, extra):
             order_by('date_grouped')
 
     elif metric == "total_daily_consumption":
-        qs = qs. \
-            filter(meter_number=meter_info.meter_number). \
-            values('day').\
-            order_by('day').\
-            annotate(total_consumption=Sum('consumption'))
+        if meter_info:
+            qs = qs. \
+                filter(meter_number=meter_info.meter_number). \
+                values('day').\
+                order_by('day').\
+                annotate(total_consumption=Sum('consumption'))
+        else:
+            qs = []
 
     elif metric == "weekly_consumption_by_meter":
         qs = get_period_consumption_by_meter(qs, period_q=week_q)
