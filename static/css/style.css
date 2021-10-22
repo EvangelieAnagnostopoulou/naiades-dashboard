@@ -6889,4 +6889,11 @@ a.elementor-button, .elementor-button:hover {
   }
 }
 
+header .nav__user a {
+  color: #ff7700;
+}
+header .nav__user a:hover {
+  color: #306430;
+}
+
 /*# sourceMappingURL=style.css.map */

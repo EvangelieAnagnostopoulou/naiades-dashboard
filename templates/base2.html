@@ -132,6 +132,44 @@
                                         </a>
                                     </li>
                                 </ul>
+                                <ul class="nav navbar-top-links navbar-right nav__user">
+                                    <!-- /.dropdown -->
+                                    <li class="dropdown">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                            <i class="fa fa-user fa-fw"></i>
+                                            {% if request.user.first_name %}
+                                                {{ request.user.first_name }}
+                                            {% elif request.user.username %}
+                                                {{ request.user.username }}
+                                            {% else %}
+                                                Guest
+                                            {% endif %}
+                                            <i class="fa fa-caret-down"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-user">
+                                            {% if request.user.is_staff %}
+                                                <li>
+                                                    <a href="/admin/social/tweet/">
+                                                        <i class="fa fa-envelope"></i>
+                                                        Moderate messages
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+
+                                            {% if request.user.is_authenticated %}
+                                                <li>
+                                                    <a href="{% url 'logout' %}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                                                </li>
+                                            {% else %}
+                                                <li>
+                                                    <a href="{% url 'login' %}"><i class="fa fa-sign-out fa-fw"></i> Login</a>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                        <!-- /.dropdown-user -->
+                                    </li>
+                                    <!-- /.dropdown -->
+                                </ul>
                                 {% if request.user.is_authenticated and request.user.is_superuser %}
                                     <a href="/admin/" class="cu_btn btn_1">Admin interface</a>
                                 {% endif %}

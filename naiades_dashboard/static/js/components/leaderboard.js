@@ -47,7 +47,7 @@ window.COMPONENT_CALLBACKS.weekly_consumption_by_meter = function($container, me
         if (idx < 3) {
             $rank
                 .addClass('top-three')
-                .append($('<img />').attr('src', `${window.STATIC_ROOT}/img/leaderboard/${idx + 1}.png`))
+                .append($('<img />').attr('src', `${window.STATIC_ROOT}/img/leaderboard/achievement_${idx + 1}.svg`))
         } else {
             $rank.text(idx + 1);
         }

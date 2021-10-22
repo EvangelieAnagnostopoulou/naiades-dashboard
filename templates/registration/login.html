@@ -15,9 +15,15 @@
                         <div class="contact_form form_style">
                             <h2 class="kid_title mb-4"> <span class="title_overlay_effect">Please loging to continue</span></h2>
 
-                            <a class="btn btn-primary"
-                               href="{% provider_login_url "keyrockprovider" next="/" action="reauthenticate" %}">
-                                Login with your KeyRock account
+
+                            <a href="{% provider_login_url "keyrockprovider" next="/" action="reauthenticate" %}"
+                               class="btn pc-button elementor-button button-link cu_btn">
+                                <div class="button-content-wrapper">
+                                    <span class="elementor-button-text">KeyRock Login</span>
+                                    <svg class="pc-dashes inner-dashed-border animated-dashes">
+                                        <rect x="5px" y="5px" rx="25px" ry="25px" width="0" height="0"></rect>
+                                    </svg>
+                                </div>
                             </a>
                         </div>
                     </div>
