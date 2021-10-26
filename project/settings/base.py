@@ -54,9 +54,6 @@ INSTALLED_APPS = [
 
 ]
 
-if DEBUG:
-    INSTALLED_APPS.extend('debug_toolbar')
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -66,7 +63,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'project.middleware.NonHtmlDebugToolbarMiddleware',
 ]
 
@@ -165,3 +161,9 @@ SOCIALACCOUNT_ADAPTER = 'keyrock.adapter.KeyRockAdapter'
 ACCOUNT_LOGOUT_REDIRECT_URL = "/"
 SITE_ID = 1
 ACCOUNT_EMAIL_VERIFICATION = "none"
+
+
+if DEBUG:
+    print("Enabling debug_toolbar")
+    INSTALLED_APPS.extend('debug_toolbar')
+    MIDDLEWARE.extend('debug_toolbar.middleware.DebugToolbarMiddleware')
