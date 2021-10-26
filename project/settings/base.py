@@ -14,7 +14,6 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-TESTING = False
 
 # load .env file settings
 from dotenv import load_dotenv
@@ -27,7 +26,7 @@ load_dotenv()
 SECRET_KEY = '-_dn%qwvv91wsd9_zw#obb+zfb+g8^^j-1%ah$k^fa13)9an-#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ['DEBUG_MODE'] == 'TRUE'
+DEBUG = os.environ.get('DEBUG_MODE',False) == 'TRUE'
 
 # Hosting
 ALLOWED_HOSTS = ['*']
@@ -53,9 +52,11 @@ INSTALLED_APPS = [
     'naiades_dashboard',
     'social',
 
-    # debugging
-    'debug_toolbar',
 ]
+
+if DEBUG:
+    INSTALLED_APPS.extend('debug_toolbar')
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
