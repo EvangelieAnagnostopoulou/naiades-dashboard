@@ -167,3 +167,17 @@ if DEBUG:
     print("Enabling debug_toolbar")
     INSTALLED_APPS.extend('debug_toolbar')
     MIDDLEWARE.extend('debug_toolbar.middleware.DebugToolbarMiddleware')
+
+if os.environ.get("ENVIRONMENT") == "PRODUCTION":
+    ALLOWED_HOSTS = ['*']
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+    MIDDLEWARE.append(
+        'whitenoise.middleware.WhiteNoiseMiddleware',
+    )
+
+    # SSl settings
+    # Honor the 'X-Forwarded-Proto' header for request.is_secure()
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
