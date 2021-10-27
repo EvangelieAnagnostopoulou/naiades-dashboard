@@ -11,3 +11,5 @@ OAUTH_SERVER_BASEURL = 'https://test.naiades-project.eu:3443'
 ACCOUNT_LOGOUT_REDIRECT_URL = "/"
 SITE_ID = 1
 ACCOUNT_EMAIL_VERIFICATION = "none"
+
+DEBUG=True
