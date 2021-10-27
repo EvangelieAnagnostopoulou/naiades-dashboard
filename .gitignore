@@ -104,3 +104,5 @@ media/*
 
 # Downloads
 downloads/*
+
+!static/img/icon
