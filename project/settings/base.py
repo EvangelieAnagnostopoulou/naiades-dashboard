@@ -170,12 +170,12 @@ if DEBUG:
 
 if os.environ.get("ENVIRONMENT") == "PRODUCTION":
     ALLOWED_HOSTS = ['*']
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    #STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-    MIDDLEWARE.append(
-        'whitenoise.middleware.WhiteNoiseMiddleware',
-    )
+    # MIDDLEWARE.append(
+    #     'whitenoise.middleware.WhiteNoiseMiddleware',
+    # )
 
     # SSl settings
     # Honor the 'X-Forwarded-Proto' header for request.is_secure()
