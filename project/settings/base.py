@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -26,11 +27,11 @@ load_dotenv()
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG_MODE',False) == 'TRUE'
+DEBUG = os.environ.get('ENVIRONMENT','DEVELOPMENT') != 'PRODUCTION'
 
 # Hosting
 ALLOWED_HOSTS = ['*']
-INTERNAL_IPS = ['127.0.0.1']
+
 
 # Application definition
 INSTALLED_APPS = [
@@ -139,7 +140,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticroot')
 
 # Media files
 MEDIA_URL = '/media/'
@@ -155,29 +156,8 @@ FTP = {
 # File encoding
 FILE_CHARSET = "utf-8"
 
-# KeyRock Authentication
-OAUTH_SERVER_BASEURL = 'https://test.naiades-project.eu:3443'
 SOCIALACCOUNT_ADAPTER = 'keyrock.adapter.KeyRockAdapter'
-ACCOUNT_LOGOUT_REDIRECT_URL = "/"
-SITE_ID = 1
-ACCOUNT_EMAIL_VERIFICATION = "none"
+
+DATABASES = {'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))}
 
 
-if DEBUG:
-    print("Enabling debug_toolbar")
-    INSTALLED_APPS.extend('debug_toolbar')
-    MIDDLEWARE.extend('debug_toolbar.middleware.DebugToolbarMiddleware')
-
-if os.environ.get("ENVIRONMENT") == "PRODUCTION":
-    ALLOWED_HOSTS = ['*']
-    #STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-    #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-    # MIDDLEWARE.append(
-    #     'whitenoise.middleware.WhiteNoiseMiddleware',
-    # )
-
-    # SSl settings
-    # Honor the 'X-Forwarded-Proto' header for request.is_secure()
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-    SECURE_SSL_REDIRECT = True
