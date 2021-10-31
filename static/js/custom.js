@@ -124,7 +124,6 @@
             autoplay: true,
             autoplayHoverPause: true,
             smartSpeed: 500,
-            dots: false,
             responsive: {
                 0: {
                     items: 1

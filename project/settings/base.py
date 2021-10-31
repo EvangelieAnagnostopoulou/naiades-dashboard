@@ -125,7 +125,15 @@ APPEND_SLASH = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 # Media files
@@ -146,4 +154,9 @@ SOCIALACCOUNT_ADAPTER = 'keyrock.adapter.KeyRockAdapter'
 
 DATABASES = {'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))}
 
+# KeyRock Authentication
+OAUTH_SERVER_BASEURL = 'https://test.naiades-project.eu:3443'
+ACCOUNT_LOGOUT_REDIRECT_URL = "/"
+SITE_ID = 1
+ACCOUNT_EMAIL_VERIFICATION = "none"
 

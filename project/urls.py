@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-
+from django.shortcuts import redirect
 from django.urls import path, include
 
 from django.contrib import admin
@@ -32,6 +32,10 @@ urlpatterns = [
     # KeyRock
     path('', include('keyrock.urls')),
 
+    # after social account connect, redirect to home page
+    path('connect/', lambda request: redirect('/'), name='socialaccount_connections'),
+    path('signup/', lambda request: redirect('/'), name='socialaccount_signup'),
+
     # django admin
     path('admin/', include('loginas.urls')),
 
@@ -40,6 +44,7 @@ urlpatterns = [
 
     # social
     path('social/', include('social.urls')),
+
 ]
 
 # debug mode
