@@ -41,7 +41,7 @@
 }
 
 .leaderboard > div > .position.top-three img {
-    width: 30px;
+    width: 42px;
 }
 
 .leaderboard > div > .info {
@@ -60,7 +60,7 @@
 }
 
 .leaderboard .progress-container .bar {
-    background: #1ac61a;
+    background: #51bee2;
     height: 100%;
     border-radius: 0 6px 6px 0;
     display: inline-block;

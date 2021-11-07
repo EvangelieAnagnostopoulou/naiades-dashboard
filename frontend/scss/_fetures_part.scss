@@ -1,0 +1,110 @@
+.single_fetures_part {
+    border-radius: 30px;
+    background-color: #0DA2FF;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0px 5px 20px 0px rgba(242, 238, 249, 0.1);
+    padding: 35px 40px 70px;
+    text-align: center;
+    @include transform_time(.3s);
+    @media #{$big_device} {
+        &:hover{
+            margin-bottom: 10px;
+            margin-top: -10px;
+        }
+        
+    }    
+    @media #{$mobile} {
+        padding: 35px 20px 30px;
+        margin-bottom: 30px;
+    }
+
+    @media #{$tab_device} {
+        padding: 35px 20px 40px;
+        margin-bottom: 30px;
+    }
+    @media #{$medium_device} {
+        padding: 35px 20px 40px;
+    }
+
+    .single_fetures_icon {
+        margin-bottom: 20px;
+        height: 225px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    h4 {
+        font-size: 24px;
+        margin-top: 39px;
+        font-weight: 700;
+        a{
+            color: $white;
+        }
+        @media #{$tab} {
+            margin-top: 30px;
+        }
+    }
+
+    p {
+        color: $white;
+        margin-top: 15px;
+    }
+    &.lightblue_bg{
+        background-color: #695FFE;
+    }
+    &.pink_bg{
+        background-color: #F42478;
+    }
+}
+
+.fetures_part {
+    background-color: #FCF9F4;
+    position: relative;
+    z-index: 1;
+    [class^="feature_animation_"],
+    [class*=" feature_animation_"] {
+        position: absolute;
+        z-index: -1;
+        @media #{$tab}{
+            display: none;
+        }
+    }
+    .feature_animation_1 {
+        left: 10%;
+        top: 10%;
+    }
+    .feature_animation_2 {
+        right: 10%;
+        top: 15%;
+    }
+    .feature_animation_3 {
+        left: 12%;
+        bottom: 30%;
+    }
+    .feature_animation_4 {
+        right: 5%;
+        bottom: -5%;
+    }
+}
+
+//fetures part style 2 part css
+.home_two_feture {
+    background-color: $base_color;
+    [class^="feature_animation_"],
+    [class*=" feature_animation_"] {
+        position: absolute;
+        z-index: -1;
+    }
+}
+
+//fetures part style 3 part css
+.fetures_part_s3{
+    .single_fetures_part{
+        padding: 0 45px 0;
+        background-color: transparent;
+        background-image: none;
+        box-shadow: none;
+    }
+}

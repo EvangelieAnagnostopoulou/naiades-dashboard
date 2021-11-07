@@ -1,15 +1,9 @@
 from project.settings.base import *
 
-# Database
-# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+print("Loading development version")
+INTERNAL_IPS = ['127.0.0.1']
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DATABASE_NAME', 'naiades_db_new'),
-        'USER': os.getenv('DATABASE_USER', 'postgres'),
-        'PASSWORD': os.getenv('DATABASE_PASSWORD', '1234'),
-        'HOST': os.getenv('DATABASE_HOST', 'localhost'),
-        'PORT': os.getenv('DATABASE_PORT', '5432'),
-    }
-}
+INSTALLED_APPS.extend(['debug_toolbar'])
+MIDDLEWARE.extend(['debug_toolbar.middleware.DebugToolbarMiddleware'])
+
+DEBUG=True

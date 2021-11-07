@@ -3,6 +3,8 @@ import tqdm
 
 from datetime import datetime
 
+from decimal import Decimal, InvalidOperation
+
 from django.core.management.base import BaseCommand
 
 from context_manager_api import ContextManagerAPIClient

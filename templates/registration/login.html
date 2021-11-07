@@ -1,48 +1,52 @@
-{% extends 'base.html' %}
-
-{% block css %}
-    <style>
-        .login-panel {
-            border-color: #555;
-        }
-
-        .login-panel .panel-heading {
-            text-align: center;
-            background: #333;
-            border-color: #555;
-            color: white;
-        }
-
-        .login-panel .panel-body {
-            background: #555;
-        }
-    </style>
-{% endblock %}
-
+{% extends 'base2.html' %}
+{% load static %}
+{% load i18n %}
+{% load socialaccount %}
 {% block content %}
-    <div class="col-md-4 col-md-offset-4">
-        <div class="login-panel panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Please login to continue</h3>
-            </div>
-            <div class="panel-body">
 
-                <p style="text-align: center">
-                    Use your credentials to access Naiades Dashboard.
-                </p>
+    <!-- services part here -->
+    <section class="cta_section contact_page section_padding">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 wow fadeInUp" data-wow-delay=".3s">
+                    <div class="cta_section_wrapper">
 
-                <form method="post">
-                    {% csrf_token %}
+                        <img src="{% static 'img/cta_img.png' %}" alt="#" class="img-fluid">
+                        <div class="contact_form form_style">
+                            <h2 class="kid_title mb-4"> <span class="title_overlay_effect">Please loging to continue</span></h2>
 
-                    {% with centered=True %}
-                        {% include 'util/form-fields.html' %}
-                    {% endwith %}
 
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-success btn-fill btn-wd">Login</button>
+                            <a href="{% provider_login_url "keyrockprovider" next="/" action="reauthenticate" %}"
+                               class="btn pc-button elementor-button button-link cu_btn">
+                                <div class="button-content-wrapper">
+                                    <span class="elementor-button-text">KeyRock Login</span>
+                                    <svg class="pc-dashes inner-dashed-border animated-dashes">
+                                        <rect x="5px" y="5px" rx="25px" ry="25px" width="0" height="0"></rect>
+                                    </svg>
+                                </div>
+                            </a>
+                        </div>
                     </div>
-                </form>
+
+                </div>
             </div>
         </div>
-    </div>
+
+        <div class="cta_animation_1">
+            <div data-parallax='{"x": 2, "y": 120, "rotateZ":0}'><img src="{% static 'img/icon/cta_1.png' %}" alt="#"></div>
+        </div>
+        <div class="cta_animation_2">
+            <div data-parallax='{"x": 10, "y": 100, "rotateZ":0}'><img src="{% static 'img/icon/event_7.png' %}" alt="#">
+            </div>
+        </div>
+        <div class="cta_animation_3">
+            <div data-parallax='{"x": 30, "y": 110, "rotateZ":0}'><img src="{% static 'img/icon/cta_3.png' %}" alt="#">
+            </div>
+        </div>
+        <div class="cta_animation_4">
+            <div data-parallax='{"x": 5, "y": 105, "rotateZ":0}'><img src="{% static 'img/icon/banner_two_3.png' %}" alt="#"></div>
+        </div>
+    </section>
+    <!-- services part end -->
+
 {% endblock %}

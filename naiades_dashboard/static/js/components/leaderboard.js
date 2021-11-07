@@ -47,7 +47,7 @@ window.COMPONENT_CALLBACKS.weekly_consumption_by_meter = function($container, me
         if (idx < 3) {
             $rank
                 .addClass('top-three')
-                .append($('<img />').attr('src', `${window.STATIC_ROOT}/img/leaderboard/${idx + 1}.png`))
+                .append($('<img />').attr('src', `${window.STATIC_ROOT}/img/leaderboard/achievement_${idx + 1}.svg`))
         } else {
             $rank.text(idx + 1);
         }
@@ -79,53 +79,17 @@ window.COMPONENT_CALLBACKS.weekly_consumption_by_meter = function($container, me
     });
 
     $container.append($leaderboard);
-
-    function openLeaderBoard(evt, LeaderBoardName) {
-        // Declare all variables
-        var i, tabcontent, tablinks;
-
-        // Get all elements with class="tabcontent" and hide them
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-        }
-
-        // Get all elements with class="tablinks" and remove the class "active"
-        tablinks = document.getElementsByClassName("tablinks");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-
-        // Show the current tab, and add an "active" class to the button that opened the tab
-        document.getElementById(LeaderBoardName).style.display = "block";
-        evt.currentTarget.className += " active";
-    }
-
-    // Get the element with id="defaultOpen" and click on it
-    document.getElementById("defaultOpen").click();
 };
 
 
-function openLeaderBoard(evt, LeaderBoardName) {
-    // Declare all variables
-    var i, tabcontent, tablinks;
+$(document).ready(function(){
+    var $tab = $('.tab')
+    $tab.on('click','.tablinks',function (e){
+        $('.tabcontent').addClass('d-none')
+        $('.tab').find('.tablinks').removeClass('active')
 
-    // Get all elements with class="tabcontent" and hide them
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-
-    // Get all elements with class="tablinks" and remove the class "active"
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-
-    // Show the current tab, and add an "active" class to the button that opened the tab
-    document.getElementById(LeaderBoardName).style.display = "block";
-    evt.currentTarget.className += " active";
-}
-
-// Get the element with id="defaultOpen" and click on it
-document.getElementById("defaultOpen").click();
+        $(this).addClass('active')
+        var $tabContent = $('#'+$(this).data('tab'))
+        $tabContent.removeClass('d-none')
+    })
+})

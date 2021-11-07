@@ -1,0 +1,40 @@
+/* Generic */
+.hidden {
+    display: none;
+}
+
+/* Colors */
+.o-red {
+    color: #EB5E28;
+}
+
+.o-green {
+    color: #5cb85c;
+}
+
+/* Charts */
+.data-item{
+    min-height: 200px;
+    margin-bottom: 20px;
+}
+
+.data-chart {
+    height: 400px;
+}
+
+.data-item.loading {
+    text-align: center;
+    font-size: 40px;
+}
+
+.data-item.error {
+    color: #e74c3c;
+    text-align: center;
+}
+
+a[href="http://www.amcharts.com"],
+a[href="http://www.amcharts.com/javascript-charts/"] {
+    display: none !important;
+}
+
+

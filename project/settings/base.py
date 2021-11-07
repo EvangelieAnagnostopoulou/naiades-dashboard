@@ -11,27 +11,21 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import dj_database_url
 
+DEBUG=False
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-TESTING = False
-
-# load .env file settings
-from dotenv import load_dotenv
-load_dotenv()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '-_dn%qwvv91wsd9_zw#obb+zfb+g8^^j-1%ah$k^fa13)9an-#'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # Hosting
 ALLOWED_HOSTS = ['*']
-INTERNAL_IPS = ['127.0.0.1']
+
 
 # Application definition
 INSTALLED_APPS = [
@@ -41,14 +35,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+
+    # allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
     'loginas',
 
     'naiades_dashboard',
     'social',
 
-    # debugging
-    'debug_toolbar',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -58,7 +58,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'project.middleware.NonHtmlDebugToolbarMiddleware',
 ]
 
@@ -116,7 +115,7 @@ USE_TZ = True
 
 # Authentication
 LOGIN_URL = '/login'
-
+LOGOUT_URL = '/logout'
 LOGIN_REDIRECT_URL = '/'
 
 APPEND_SLASH = True
@@ -134,8 +133,8 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 # Media files
 MEDIA_URL = '/media/'
@@ -143,7 +142,21 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # FTP Credentials
 FTP = {
-    'HOST': os.environ['FTP_HOST'],
-    'USERNAME': os.environ['FTP_USER'],
-    'PASSWORD': os.environ['FTP_PASSWORD'],
+    'HOST': os.environ.get('FTP_HOST',''),
+    'USERNAME': os.environ.get('FTP_USER', ''),
+    'PASSWORD': os.environ.get('FTP_PASSWORD', ''),
 }
+
+# File encoding
+FILE_CHARSET = "utf-8"
+
+SOCIALACCOUNT_ADAPTER = 'keyrock.adapter.KeyRockAdapter'
+
+DATABASES = {'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))}
+
+# KeyRock Authentication
+OAUTH_SERVER_BASEURL = 'https://test.naiades-project.eu:3443'
+ACCOUNT_LOGOUT_REDIRECT_URL = "/"
+SITE_ID = 1
+ACCOUNT_EMAIL_VERIFICATION = "none"
+

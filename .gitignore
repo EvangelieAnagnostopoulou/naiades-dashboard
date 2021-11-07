@@ -99,8 +99,11 @@ ENV/
 .ropeproject
 .idea/*
 
-# Media
+# Media & Collected statics
 media/*
+staticfiles
 
 # Downloads
 downloads/*
+
+!static/img/icon

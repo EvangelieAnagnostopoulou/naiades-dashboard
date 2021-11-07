@@ -1,42 +1,85 @@
 {% extends "dashboard-base.html" %}
+{% load static %}
 
 {% block content %}
-    <div class="row">
-        <!-- Tab links -->
-        <div class="tab">
-          <button class="tablinks" onclick="openLeaderBoard(event, 'Consumption')" id="defaultOpen">Consumption</button>
-          <button class="tablinks" onclick="openLeaderBoard(event, 'Consumption change')">Consumption change</button>
-        </div>
+    <!-- team part here -->
+    <section class="team_section ">
+        <div class="container">
 
-        <!-- Tab content -->
-        <div class="tabcontent" id="Consumption">
-            <div class="col col-lg-7 col-xs-12">
-                <div class="leaderboard--container">
-                    <h1>Weekly Water Consumption <abbr title="In leaderboard, you can see schools ranked based on their water consumption in the last seven days"><i class="fa fa-info-circle" style="color: #FFFFFF; font-size: 0.5em;"></i></abbr></h1>
-                    <div id="component-weekly_consumption_by_meter" class="data-item data-component"></div>
+            <!-- Tab links -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="tab">
+                        <button class="tablinks cu_btn tab_btn active" data-tab="consumption">Consumption</button>
+                        <button class="tablinks cu_btn tab_btn" data-tab="consumption-change">Consumption change</button>
+                    </div>
                 </div>
             </div>
-            <div class="col col-lg-5 col-xs-12">
-                <div class="comparison--container">
-                    <div id="chart-you_vs_others" class="data-item data-chart" style="margin-top: 80px;"></div>
-                    <div id="component-message" class="data-item data-component"></div>
+            <div class="tabcontent row" id="consumption">
+                <div class="col col-lg-7 col-xs-12">
+                    <div class="leaderboard--container">
+                        <div class="section_tittle_style_02">
+                            <h2 class="title wow fadeInDown" data-wow-delay=".3s"> <span class="title_overlay_effect">Weekly Water Consumption</span></h2>
+                            <p class="description wow fadeInDown" data-wow-delay=".3s">
+                                In leaderboard, you can see schools ranked based on their water consumption in the last seven days
+                            </p>
+                        </div>
+                        <div id="component-weekly_consumption_by_meter" class="data-item data-component"></div>
+                    </div>
+                </div>
+                <div class="col col-lg-5 col-xs-12">
+                    <div class="comparison--container">
+                        <div id="chart-you_vs_others" class="data-item data-chart" style="margin-top: 80px;"></div>
+                        <div id="component-message" class="data-item data-component"></div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-        <div class="tabcontent" id="Consumption change">
-            <div class="col col-lg-7 col-xs-12">
-                <div class="leaderboard--container">
-                    <h2>Consumption change since last week <abbr title="In leaderboard, you can see schools ranked based on their water consumption change in the last seven days"><i class="fa fa-info-circle" style="color: #FFFFFF; font-size: 0.5em;"></i></abbr></h2>
-                    <div id="chart-weekly_change" class="data-item data-chart data-component" style="height: 500px;margin-top: 20px;"></div>
+            <div class="tabcontent row d-none" id="consumption-change">
+                <div class="col col-lg-7 col-xs-12">
+                    <div class="leaderboard--container">
+
+                        <div class="section_tittle_style_02">
+                            <h2 class="title wow fadeInDown" data-wow-delay=".3s"> <span class="title_overlay_effect">Consumption change since last week</span></h2>
+                            <p class="description wow fadeInDown" data-wow-delay=".3s">
+                                <i class="fa fa-info-circle" style="color: #FFFFFF; font-size: 0.5em;"></i> In leaderboard, you can see schools ranked based on their water consumption change in the last seven days
+                            </p>
+                        </div>
+
+                        <div id="chart-weekly_change" class="data-item data-chart data-component" style="height: 500px;margin-top: 20px;"></div>
+                    </div>
                 </div>
-            </div>
-            <div class="col col-lg-5 col-xs-12">
-                <div class="comparison--container">
-                    <h2>My school vs others <abbr title="Comparison of my school vs other regarding the water consumption change in the last seven days"><i class="fa fa-info-circle" style="color: #FFFFFF; font-size: 0.5em;"></i></abbr></h2>
-                    <div id="chart-you_vs_others_weekly_change" class="data-item data-chart data-component" style="height: 500px;margin-top: 20px;"></div>
+                <div class="col col-lg-5 col-xs-12">
+                    <div class="comparison--container">
+                        <div class="section_tittle_style_02">
+                            <h2 class="title wow fadeInDown" data-wow-delay=".3s"> <span class="title_overlay_effect">My school vs others </span></h2>
+                            <p class="description wow fadeInDown" data-wow-delay=".3s">
+                                <i class="fa fa-info-circle" style="color: #FFFFFF; font-size: 0.5em;"></i> Comparison of my school vs other regarding the water consumption change in the last seven days
+                            </p>
+                        </div>
+                        <div id="chart-you_vs_others_weekly_change" class="data-item data-chart data-component" style="height: 500px;margin-top: 20px;"></div>
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="team_animation_1">
+            <div data-parallax='{"x": 2, "y": 120, "rotateZ":0}'><img src="{% static '/img/icon/story_animation_1.png' %}" alt="#"></div>
+        </div>
+        <div class="team_animation_2">
+            <div data-parallax='{"x": 10, "y": 100, "rotateZ":0}'><img src="{% static '/img/icon/story_animation_2.png' %}" alt="#">
+            </div>
+        </div>
+        <div class="team_animation_3">
+            <div data-parallax='{"x": 30, "y": 110, "rotateZ":0}'><img src="{% static '/img/icon/story_animation_3.png' %}" alt="#">
+            </div>
+        </div>
+        <div class="team_animation_4">
+            <div data-parallax='{"x": 5, "y": 105, "rotateZ":0}'><img src="{% static '/img/icon/team_animation.png' %}" alt="#"></div>
+        </div>
+        <div class="team_animation_5">
+            <div data-parallax='{"x": 8, "y": 110, "rotateZ":0}'><img src="{% static '/img/icon/story_animation_5.png' %}" alt="#"></div>
+        </div>
+    </section>
+    <!-- team part end -->
+
 {% endblock %}

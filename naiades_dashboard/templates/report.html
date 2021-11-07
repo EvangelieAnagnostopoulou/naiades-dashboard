@@ -2,21 +2,77 @@
 {% load static %}
 
 {% block css %}
-    <link href="{% static 'css/report.css' %}?v=20200225.1" rel="stylesheet">
+    <link href="{% static '/css/report.css' %}?v=20200225.1" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
-    <div class="main">
-        <input type="button" class="btn btn-primary" value="Export to PDF" onclick="exportReport();" />
 
-        <h1>Water Consumption weekly report</h1>
+    <!-- blog part -->
+    <section class="blog_page section_padding">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="section_tittle_style_02">
+                        <h2 class="title wow fadeInDown" data-wow-delay=".3s"> <span class="title_overlay_effect">Water Consumption weekly report</span></h2>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn pc-button elementor-button button-link cu_btn " onclick="exportReport();">
+                            <div class="button-content-wrapper">
+                                <span class="elementor-button-text">Export to PDF</span>
+                                <svg class="pc-dashes inner-dashed-border animated-dashes">
+                                    <rect x="5px" y="5px" rx="25px" ry="25px" width="0" height="0"></rect>
+                                </svg>
+                            </div>
+                        </button>
 
-        <p id="intro"></p>
-        <div id="chart-you_vs_others" class="data-item data-chart" style="margin-top: 80px;"></div>
-        <!--<div id="component-message" class="data-item data-component"></div> -->
-        <div id="chart-total_hourly_consumption" class="data-item data-chart"></div>
-        <div id="chart-total_daily_consumption" class="data-item data-chart"></div>
-    </div>
+                    </div>
+                    <p id="intro"></p>
+                    <div id="chart-you_vs_others" class="data-item data-chart" style="margin-top: 80px;"></div>
+                    <!--<div id="component-message" class="data-item data-component"></div> -->
+                    <div id="chart-total_hourly_consumption" class="data-item data-chart"></div>
+                    <div id="chart-total_daily_consumption" class="data-item data-chart"></div>
+                </div>
+
+            </div>
+        </div>
+        <div class="blog_animation_1">
+            <div data-parallax='{"x": 2, "y": 120, "rotateZ":0}'><img src="{% static '/img/icon/story_animation_5.png' %}" alt="#">
+            </div>
+        </div>
+        <div class="blog_animation_2">
+            <div data-parallax='{"x": 10, "y": 100, "rotateZ":0}'><img src="{% static '/img/icon/event_6.png' %}" alt="#">
+            </div>
+        </div>
+        <div class="blog_animation_3">
+            <div data-parallax='{"x": 30, "y": 110, "rotateZ":0}'><img src="{% static '/img/icon/icon_8.png' %}" alt="#">
+            </div>
+        </div>
+        <div class="blog_animation_4">
+            <div data-parallax='{"x": 5, "y": 105, "rotateZ":0}'><img src="{% static '/img/icon/contact_icon.png' %}" alt="#"></div>
+        </div>
+
+
+        <div class="blog_animation_6">
+            <div data-parallax='{"x": 8, "y": 110, "rotateZ":0}'><img src="{% static '/img/icon/icon_9.png' %}" alt="#">
+            </div>
+        </div>
+
+        <div class="blog_animation_8">
+            <div data-parallax='{"x": 10, "y": 100, "rotateZ":0}'><img src="{% static '/img/icon/event_6.png' %}" alt="#">
+            </div>
+        </div>
+        <div class="blog_animation_9">
+            <div data-parallax='{"x": 30, "y": 110, "rotateZ":0}'><img src="{% static '/img/icon/icon_8.png' %}" alt="#">
+            </div>
+        </div>
+        <div class="blog_animation_10">
+            <div data-parallax='{"x": 5, "y": 105, "rotateZ":0}'><img src="{% static '/img/icon/contact_icon.png' %}" alt="#"></div>
+        </div>
+    </section>
+    <!-- blog part end -->
+
+
+
 {% endblock %}
 
 {% block extra_js %}
