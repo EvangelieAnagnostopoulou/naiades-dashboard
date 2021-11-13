@@ -1,9 +1,9 @@
-{% extends 'base2.html' %}
+{% extends 'base.html' %}
 
 {% load static %}
 
 {% block css %}
-    <link href="{% static '/css/components.css' %}?v=20200310.1" rel="stylesheet">
+    <link href="{% static '/css/components.css' %}?v=20211113.1" rel="stylesheet">
     <link href="{% static '/css/leaderboard.css' %}?v=20200310.1" rel="stylesheet">
 
     {% block extra_css %}{% endblock %}
@@ -22,6 +22,7 @@
             };
         {% endif %}
     </script>
+    {% include 'translations.html' %}
     <script src="{% static '/js/components/report.js' %}"></script>
     <script src="{% static '/js/components/consumption.js' %}"></script>
     <script src="{% static '/js/components/leaderboard.js' %}?v=20200316.1"></script>

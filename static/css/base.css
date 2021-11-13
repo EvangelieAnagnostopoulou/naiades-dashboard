@@ -37,4 +37,23 @@ a[href="http://www.amcharts.com/javascript-charts/"] {
     display: none !important;
 }
 
+/* Language picker */
+#language-picker {
+    display: inline-block;
+    margin-left: 20px;
+}
 
+#language-picker > form {
+    display: inline-block;
+}
+
+#language-picker > form > button {
+    color: white;
+}
+
+#language-picker > form > button.btn-primary {
+    background-color: #ffd8a9;
+    border-color: #ffd8a9;
+    color: #ff7700;
+    font-weight: 700;
+}

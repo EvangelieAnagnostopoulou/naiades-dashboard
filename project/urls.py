@@ -23,6 +23,10 @@ from project import views
 from project.settings import DEBUG
 
 urlpatterns = [
+    # i18n
+    path('i18n/', include('django.conf.urls.i18n')),
+
+    # admin
     path('admin/', admin.site.urls),
 
     # auth

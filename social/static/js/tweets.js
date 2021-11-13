@@ -15,7 +15,7 @@ $(function() {
                 )
                 .append($('<div />')
                     .addClass('posted-at')
-                    .text(`, posted at ${tweet.created}`)
+                    .text(`, ${window.MESSAGES.tweets.postedAt} ${tweet.created}`)
                 )
                 .append($('<div />')
                     .addClass('content')
@@ -27,7 +27,7 @@ $(function() {
 
         const loadFeed = function($feedContainer) {
             // set loading
-            $feedContainer.append($('<div />').text('Loading...'));
+            $feedContainer.append($('<div />').text(`${window.MESSAGES.tweets.loading}...`));
 
             // load feed
             $.ajax({
@@ -64,7 +64,7 @@ $(function() {
 
             $btn
                 .attr('disabled', 'disabled')
-                .text('Posting...');
+                .text(`${window.MESSAGES.tweets.posting}...`);
 
             // get message & clear input
             const message = $inp.val();
@@ -86,10 +86,7 @@ $(function() {
 
                     // show message if pending for moderation
                     if (!tweet.is_accepted) {
-                        return window.alert(
-                            'Thank you for your feedback! ' +
-                            'Your comment will be reviewed by your school\'s moderator.'
-                        );
+                        return window.alert(window.MESSAGES.tweets.success);
                     }
 
                     $feedContainer.prepend(
@@ -106,7 +103,7 @@ $(function() {
         const $formContainer = config.canPostTweet ? $('<div />')
             .addClass('form-post')
             .append($('<textarea />')
-                .attr('placeholder', 'Post your thoughts here...')
+                .attr('placeholder', `${window.MESSAGES.tweets.postThoughtsHere}...`)
                 .on('keyup', function(e) {
                     if (e.keyCode === 13){
                         postTweet($feedContainer);
@@ -115,7 +112,7 @@ $(function() {
             )
             .append($('<button />')
                 .addClass('btn btn-primary post-button')
-                .text('Post')
+                .text(window.MESSAGES.tweets.post)
                 .on('click', function() {
                     postTweet($feedContainer);
                 })

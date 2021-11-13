@@ -15,7 +15,7 @@
 }
 
 .leaderboard >div.my-school {
-    background: #555;
+    background: #ffd8a9;
     border-radius: 56px;
 }
 
@@ -84,6 +84,7 @@
     margin-top: 10px;
     background: #00a1ff;
     border-radius: 12px;
+    color: white;
 }
 
 #main-message {
