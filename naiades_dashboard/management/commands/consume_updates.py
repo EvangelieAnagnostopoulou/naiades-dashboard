@@ -3,13 +3,11 @@ import tqdm
 
 from datetime import datetime
 
-from decimal import Decimal, InvalidOperation
-
 from django.core.management.base import BaseCommand
 
 from context_manager_api import ContextManagerAPIClient
 from context_manager_api.orion import OrionError
-from naiades_dashboard.models import MeterInfo, Consumption
+from naiades_dashboard.models import MeterInfo, Consumption, Indication
 
 
 class Command(BaseCommand):
@@ -31,12 +29,6 @@ class Command(BaseCommand):
         devices = self.client.get(resource="entities", params={
             "type": "Device",
         })
-
-        # hack to play around with at least some data
-        # TODO remove
-        for device in devices:
-            if device["id"] == "urn:ngsi-ld:Device:Benalua-Volume":
-                device["serialNumber"] = "X1234"
 
         # filter out devices with missing serial number or id
         devices = [
@@ -79,22 +71,36 @@ class Command(BaseCommand):
         # return index with all meter infos
         return devices
 
-    def process_data(self, data, device, latest_consumption=None):
+    def process_data(self, data, device, indication=None):
         # get device params for consumption records
         params = {
             'meter_number_id': device["serialNumber"],
             'activity': self.meter_infos_idx[device["serialNumber"]].activity,
         }
 
+        # maintain state
+        state = {
+            "timestamp": None,
+            "indication": None,
+        }
+
         # parse data
         consumptions = []
         for idx, timestamp_str in reversed(list(enumerate(data.get("index", [])))):
-            # get consumption
-            consumption = data["values"][idx]
+            # get indication
+            indication = data["values"][idx]
 
             # parse timestamp
             timestamp = datetime.strptime(timestamp_str, '%Y-%m-%dT%H:%M:%S.%f'). \
                 replace(tzinfo=pytz.UTC)
+
+            # check if hour changed
+            if state["timestamp"] and state["timestamp"].hour != timestamp.hour:
+                consumptions.append(Consumption.parse_and_create(
+                    consumption=indication - state["indication"],
+                    timestamp=datetime(),
+                    **params
+                ))
 
             # break condition
             if latest_consumption and latest_consumption.date > timestamp:
@@ -111,10 +117,9 @@ class Command(BaseCommand):
         Consumption.objects.bulk_create(consumptions)
 
     def pull_latest_data(self, device):
-        # get latest consumption for this device
-        latest_consumption = Consumption.objects.\
+        # get indication for this device
+        indication = Indication.objects.\
             filter(meter_number=device["serialNumber"]).\
-            order_by('-date').\
             first()
 
         # get data
@@ -134,7 +139,7 @@ class Command(BaseCommand):
             raise
 
         # process
-        self.process_data(data=data, device=device, latest_consumption=latest_consumption)
+        self.process_data(data=data, device=device, indication=indication)
 
     def handle(self, *args, **kwargs):
         # initialize client
