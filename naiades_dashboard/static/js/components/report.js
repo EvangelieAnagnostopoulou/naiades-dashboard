@@ -5,7 +5,7 @@
 function exportReport() {
 
   // So that we know export was started
-  console.log("Starting export...");
+  console.log(`${window.MESSAGES.report.startingExport}...`);
 
   // Define IDs of the charts we want to include in the report
   var ids = ["chart-you_vs_others", "chart-total_hourly_consumption", "chart-total_daily_consumption"];
@@ -50,7 +50,7 @@ function exportReport() {
   function generatePDF() {
 
     // Log
-    console.log("Generating PDF...");
+    console.log(`${window.MESSAGES.report.generatingPDF}...`);
     console.log(charts);
     // Initiliaze a PDF layout
     var layout = {
@@ -59,7 +59,7 @@ function exportReport() {
 
     // Let's add a custom title
     layout.content.push({
-      "text": "Water Consumption weekly report",
+      "text": window.MESSAGES.report.weeklyTitle,
       "fontSize": 15
     });
 

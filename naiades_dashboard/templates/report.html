@@ -1,5 +1,7 @@
 {% extends "dashboard-base.html" %}
+
 {% load static %}
+{% load i18n %}
 
 {% block css %}
     <link href="{% static '/css/report.css' %}?v=20200225.1" rel="stylesheet">
@@ -13,7 +15,9 @@
             <div class="row justify-content-center">
                 <div class="col-lg-12">
                     <div class="section_tittle_style_02">
-                        <h2 class="title wow fadeInDown" data-wow-delay=".3s"> <span class="title_overlay_effect">Water Consumption weekly report</span></h2>
+                        <h2 class="title wow fadeInDown" data-wow-delay=".3s"> <span class="title_overlay_effect">
+                            {% trans "Water Consumption weekly report" %}
+                        </span></h2>
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn pc-button elementor-button button-link cu_btn " onclick="exportReport();">

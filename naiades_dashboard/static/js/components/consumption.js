@@ -13,20 +13,20 @@ var chart = AmCharts.makeChart("chartdiv2", {
   "trendLines": [],
   "graphs": [
     {
-      "balloonText": "This week consumption:[[value]]",
+      "balloonText": `${window.MESSAGES.consumption.thisWeek}:[[value]]`,
       "fillAlphas": 0.8,
       "id": "AmGraph-1",
       "lineAlpha": 0.2,
-      "title": "This week",
+      "title": window.MESSAGES.consumption.thisWeek,
       "type": "column",
       "valueField": "this week"
     },
     {
-      "balloonText": "Last week:[[value]]",
+      "balloonText": `${window.MESSAGES.consumption.lastWeek}:[[value]]`,
       "fillAlphas": 0.8,
       "id": "AmGraph-2",
       "lineAlpha": 0.2,
-      "title": "Last week",
+      "title": window.MESSAGES.consumption.lastWeek,
       "type": "column",
       "valueField": "last week"
     }
@@ -42,7 +42,7 @@ var chart = AmCharts.makeChart("chartdiv2", {
   "allLabels": [],
   "balloon": {},
   "titles": [{
-          "text":"This week vs last week consumption"
+          "text": window.MESSAGES.consumption.thisVsLastWeek
       }],
   "dataProvider": [
     {
@@ -124,7 +124,7 @@ var chart = AmCharts.makeChart("chartdiv3", {
     "startDuration": 1,
     "graphs": [{
         "balloonText": "<span style='font-size:13px;'>[[title]] consumption at [[category]]:<b>[[value]]</b></span>",
-        "title": "This week",
+        "title": window.MESSAGES.consumption.thisWeek,
         "type": "column",
         "fillAlphas": 0.8,
 
@@ -139,7 +139,7 @@ var chart = AmCharts.makeChart("chartdiv3", {
         "lineThickness": 2,
         "lineAlpha": 1,
         "bulletSize": 7,
-        "title": "Last week",
+        "title": window.MESSAGES.consumption.lastWeek,
         "valueField": "last week"
     }],
     "rotate": true,
@@ -190,17 +190,17 @@ var chart = AmCharts.makeChart("chartdiv4", {
     }],
     "startDuration": 1,
     "graphs": [{
-        "balloonText": " This week consumption at [[category]] : <b>[[value]]</b>",
+        "balloonText": ` ${window.MESSAGES.consumption.thisWeekConsumptionAt} [[category]] : <b>[[value]]</b>`,
         "fillAlphas": 0.9,
         "lineAlpha": 0.2,
-        "title": "this week",
+        "title": window.MESSAGES.consumption.thisWeek,
         "type": "column",
         "valueField": "this week"
     }, {
-        "balloonText": "Last week consumption at [[category]] : <b>[[value]]</b>",
+        "balloonText": ` ${window.MESSAGES.consumption.lastWeekConsumptionAt} [[category]] : <b>[[value]]</b>`,
         "fillAlphas": 0.9,
         "lineAlpha": 0.2,
-        "title": "last week",
+        "title": window.MESSAGES.consumption.lastWeek,
         "type": "column",
         "clustered":false,
         "columnWidth":0.5,

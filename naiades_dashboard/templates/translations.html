@@ -1,0 +1,41 @@
+{% load i18n %}
+
+<script>
+    window.MESSAGES = {
+        consumption: {
+            thisWeek: "{% trans 'This week' %}",
+            thisWeekConsumptionAt: "{% trans 'This week consumption at' %}",
+            lastWeek: "{% trans 'Last week' %}",
+            lastWeekConsumptionAt: "{% trans 'Last week consumption at' %}",
+            thisVsLastWeek: "{% trans 'This week vs last week consumption' %}"
+        },
+        leaderboard: {
+            mySchool: "{% trans 'My School' %}"
+        },
+        report: {
+            startingExport: "{% trans 'Starting export' %}",
+            generatingPDF: "{% trans 'Generating PDF' %}",
+            weeklyTitle: "{% trans 'Water Consumption weekly report' %}"
+        },
+        components: {
+            decrease: "{% trans 'Decrease' %}",
+            increase: "{% trans 'Increase' %}",
+            totalConsumptionPerHour: "{% trans 'Total consumption per hour' %}",
+            consumptionLt: "{% trans 'Consumption (lt)' %}",
+            totalWeeklyConsumption: "{% trans 'Total weekly consumption' %}",
+            mySchoolVsOthers: "{% trans 'My School vs. Others' %}",
+            totalConsumptionPerDay: "{% trans 'Total consumption per day' %}",
+            monthlyConsumption: "{% trans 'Monthly Consumption' %}",
+            noData: "{% trans 'The chart contains no data' %}",
+            error: "{% trans 'An error occurred when loading data for' %}"
+        },
+        tweets: {
+            postedAt: "{% trans 'posted at' %}",
+            loading: "{% trans 'Loading' %}",
+            posting: "{% trans 'Posting' %}",
+            success: "{% trans 'Thank you for your feedback! Your comment will be reviewed by your school\'s moderator.' %}",
+            postThoughtsHere: "{% trans 'Post your thoughts here' %}",
+            post: "{% trans 'Post' %}"
+        }
+    };
+</script>

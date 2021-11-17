@@ -1,6 +1,7 @@
 {% extends "dashboard-base.html" %}
 
 {% load static %}
+{% load i18n %}
 
 {% block extra_css %}
     <link href="{% static 'css/tweets.css' %}?v=20200324.1" rel="stylesheet">
@@ -15,8 +16,12 @@
                 <div class="col-12">
                     <!-- Tab links -->
                     <div class="tab">
-                        <button class="tablinks cu_btn tab_btn active" data-tab='community' >Community</button>
-                        <button class="tablinks cu_btn tab_btn" data-tab="school">School</button>
+                        <button class="tablinks cu_btn tab_btn active" data-tab='community'>
+                            {% trans "Community" %}
+                        </button>
+                        <button class="tablinks cu_btn tab_btn" data-tab="school">
+                            {% trans "School" %}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -24,7 +29,9 @@
             <div class="tabcontent row" id="community">
                 <div class="col-12">
                     <div class="section_tittle_style_02">
-                        <h2 class="title wow fadeInDown" data-wow-delay=".3s"> <span class="title_overlay_effect">Community Posts</span></h2>
+                        <h2 class="title wow fadeInDown" data-wow-delay=".3s"> <span class="title_overlay_effect">
+                            {% trans "Community Posts" %}
+                        </span></h2>
                     </div>
                     <div id="tweet-feed--all" class="tweet-feed"></div>
                 </div>
@@ -33,7 +40,9 @@
             <div class="tabcontent row d-none" id="school">
                 <div class="col-12">
                     <div class="section_tittle_style_02">
-                        <h2 class="title wow fadeInDown" data-wow-delay=".3s"> <span class="title_overlay_effect">School Posts</span></h2>
+                        <h2 class="title wow fadeInDown" data-wow-delay=".3s"> <span class="title_overlay_effect">
+                            {% trans "School Posts" %}
+                        </span></h2>
                     </div>
                     <div id="tweet-feed--school" class="tweet-feed" data-schoolid="{{ meter_info.meter_number}}"></div>
                 </div>

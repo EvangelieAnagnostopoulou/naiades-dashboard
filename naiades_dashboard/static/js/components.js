@@ -18,7 +18,7 @@ $(function () {
                 "lineAlpha": 0.2,
                 "type": "column",
                 "valueField": "decrease",
-                "title": "Decrease",
+                "title": window.MESSAGES.components.decrease,
                 "labelText": "- [[value]]%",
                 "clustered": false,
                 "fillColorsField": "color",
@@ -33,7 +33,7 @@ $(function () {
                 "lineAlpha": 0.2,
                 "type": "column",
                 "valueField": "increase",
-                "title": "Increase",
+                "title": window.MESSAGES.components.increase,
                 "labelText": "+ [[value]]%",
                 "clustered": false,
                 "fillColorsField": "color",
@@ -70,13 +70,13 @@ $(function () {
                 "fullWidth": true
               },
               "allLabels": [{
-                "text": "Decrease",
+                "text": window.MESSAGES.components.decrease,
                 "x": "28%",
                 "y": "97%",
                 "bold": true,
                 "align": "middle"
               }, {
-                "text": "Increase",
+                "text": window.MESSAGES.components.increase,
                 "x": "75%",
                 "y": "97%",
                 "bold": true,
@@ -91,7 +91,7 @@ $(function () {
                 {
                     "balloonText": "[[title]] of [[category]]: [[value]] lt.",
                     "id": "AmGraph-1",
-                    "title": "Total consumption per hour",
+                    "title": window.MESSAGES.components.totalConsumptionPerHour,
                     "bullet": "round",
                     "valueField": "total_consumption"
                 }
@@ -100,13 +100,13 @@ $(function () {
                 {
                     "id": "Title-1",
                     "size": 15,
-                    "text": "Total consumption per hour"
+                    "text": window.MESSAGES.components.totalConsumptionPerHour
                 }
             ],
             valueAxes: [
                 {
                     "id": "ValueAxis-1",
-                    "title": "Consumption (lt)"
+                    "title": window.MESSAGES.components.consumptionLt
                 }
             ]
         },
@@ -116,7 +116,7 @@ $(function () {
                 {
                     "balloonText": "[[category]] [[title]]: [[value]] lt.",
                     "id": "AmGraph-1",
-                    "title": "Total weekly consumption",
+                    "title": window.MESSAGES.components.totalWeeklyConsumption,
                     "valueField": "weekly_total",
                     // "cornerRadiusTop": 8,
                     "type": "column",
@@ -132,13 +132,13 @@ $(function () {
                 {
                     "id": "Title-1",
                     "size": 28,
-                    "text": "My School vs. Others"
+                    "text": window.MESSAGES.components.mySchoolVsOthers
                 }
             ],
             valueAxes: [
                 {
                     "id": "ValueAxis-1",
-                    "title": "Consumption (lt)",
+                    "title": window.MESSAGES.components.consumptionLt,
                     "minimum": 0,
                 }
             ],
@@ -159,13 +159,13 @@ $(function () {
                 {
                     "id": "Title-1",
                     "size": 15,
-                    "text": "Total consumption per day"
+                    "text": window.MESSAGES.components.totalConsumptionPerDay
                 }
             ],
             valueAxes: [
                 {
                     "id": "ValueAxis-1",
-                    "title": "Consumption (lt)"
+                    "title": window.MESSAGES.components.consumptionLt
                 }
             ],
             colors: ["#3498db"]
@@ -176,7 +176,7 @@ $(function () {
                 {
                     "balloonText": "[[title]] of [[category]]: [[value]] lt.",
                     "id": "AmGraph-1",
-                    "title": "Total weekly consumption",
+                    "title": window.MESSAGES.components.totalWeeklyConsumption,
                     "fillAlphas": 1,
                     "valueField": "total_consumption",
                     "type": "column"
@@ -186,13 +186,13 @@ $(function () {
                 {
                     "id": "Title-1",
                     "size": 15,
-                    "text": "Total weekly consumption"
+                    "text": window.MESSAGES.components.totalWeeklyConsumption
                 }
             ],
             valueAxes: [
                 {
                     "id": "ValueAxis-1",
-                    "title": "Consumption (lt)"
+                    "title": window.MESSAGES.components.consumptionLt
                 }
             ],
             extra: {
@@ -209,7 +209,7 @@ $(function () {
             "valueAxes": [{
             "axisAlpha": 0,
             "position": "left",
-            "title": "Monthly consumption"
+            "title": window.MESSAGES.components.monthlyConsumption
           }],
             "legend": {"enabled": false},
           "startDuration": 1,
@@ -251,7 +251,7 @@ $(function () {
             chart.dataProvider = [dataPoint];
 
             // add label
-            chart.addLabel(0, '50%', 'The chart contains no data', 'center');
+            chart.addLabel(0, '50%', window.MESSAGES.components.noData, 'center');
 
             // set opacity of the chart div
             chart.chartDiv.style.opacity = 0.5;
@@ -341,19 +341,8 @@ $(function () {
                     .empty()
                     .removeClass('loading')
                     .addClass('error')
-                    .text(`An error occurred when loading data for ${metric}`)
+                    .text(`${window.MESSAGES.components.error} ${metric}`)
             }
         });
     });
-
-    // request map data
-    // $.ajax({
-    //     url: `/api/measurements/data?metric=all&idx=0`,
-    //     success: function({data}) {
-    //         updateMap(data);
-    //     },
-    //     error: function(error) {
-    //         console.error(`An error occurred when loading data for map data.`)
-    //     }
-    // });
 });

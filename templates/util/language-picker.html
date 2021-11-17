@@ -1,0 +1,19 @@
+{% load i18n %}
+
+{% get_current_language as LANGUAGE_CODE %}
+
+<div id="language-picker">
+    <form action="{% url 'set_language' %}" method="post">
+        {% csrf_token %}
+        <input name="next" type="hidden" value="{{ request.get_full_path }}" />
+        <input name="language" type="hidden" value="en" />
+        <button role="option" {% if LANGUAGE_CODE == "en" %}disabled{% endif %} class="btn btn-sm {% if LANGUAGE_CODE == "en" %}btn-primary{% else %}btn-default{% endif %}">EN</button>
+    </form>
+
+    <form action="{% url 'set_language' %}" method="post">
+        {% csrf_token %}
+        <input name="next" type="hidden" value="{{ request.get_full_path }}" />
+        <input name="language" type="hidden" value="es" />
+        <button role="option" {% if LANGUAGE_CODE == "es" %}disabled{% endif %} class="btn btn-sm {% if LANGUAGE_CODE == "es" %}btn-primary{% else %}btn-default{% endif %}">ES</button>
+    </form>
+</div>

@@ -73,7 +73,7 @@ window.COMPONENT_CALLBACKS.weekly_consumption_by_meter = function($container, me
                         ))
                 )
                 .append(
-                    isMySchool && $('<span />').addClass('my-school').text('My School')
+                    isMySchool && $('<span />').addClass('my-school').text(window.MESSAGES.leaderboard.mySchool)
                 )
         );
     });
