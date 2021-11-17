@@ -76,15 +76,6 @@ class Consumption(Model):
         )
 
 
-class Indication(Model):
-    """
-    Device indication at a specific timestamp
-    """
-    meter_info = ForeignKey('naiades_dashboard.MeterInfo', on_delete=CASCADE, related_name='indications')
-    timestamp = DateTimeField()
-    consumption = DecimalField(max_digits=32, decimal_places=16)
-
-
 class MeterInfoAccess(Model):
     """
     A user having access to a particular meter, with a specific role

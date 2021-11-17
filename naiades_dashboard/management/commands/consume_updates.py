@@ -1,13 +1,13 @@
 import pytz
 import tqdm
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.core.management.base import BaseCommand
 
 from context_manager_api import ContextManagerAPIClient
 from context_manager_api.orion import OrionError
-from naiades_dashboard.models import MeterInfo, Consumption, Indication
+from naiades_dashboard.models import MeterInfo, Consumption
 
 
 class Command(BaseCommand):
@@ -28,13 +28,14 @@ class Command(BaseCommand):
         # get from API
         devices = self.client.get(resource="entities", params={
             "type": "Device",
+            "lastN": 10000,
         })
 
-        # filter out devices with missing serial number or id
+        # filter out devices with missing id
         devices = [
             device
             for device in devices
-            if device.get("serialNumber") and device.get("id")
+            if device.get("id") and device.get("serialNumber")
         ]
 
         # add missing devices
@@ -71,40 +72,35 @@ class Command(BaseCommand):
         # return index with all meter infos
         return devices
 
-    def process_data(self, data, device, indication=None):
+    def process_data(self, data, device, latest_consumption=None):
         # get device params for consumption records
         params = {
             'meter_number_id': device["serialNumber"],
             'activity': self.meter_infos_idx[device["serialNumber"]].activity,
         }
 
-        # maintain state
-        state = {
-            "timestamp": None,
-            "indication": None,
-        }
-
         # parse data
         consumptions = []
-        for idx, timestamp_str in reversed(list(enumerate(data.get("index", [])))):
-            # get indication
-            indication = data["values"][idx]
+        timestamps = set()
+        for idx, timestamp_str in enumerate(data.get("index", [])):
+            # get consumption
+            consumption = data["values"][idx]
 
             # parse timestamp
+            # a consumption value for 12:00 should be saved with start time 11:00
+            # since the value returned is the consumption measured last 60 minutes
             timestamp = datetime.strptime(timestamp_str, '%Y-%m-%dT%H:%M:%S.%f'). \
-                replace(tzinfo=pytz.UTC)
+                replace(minute=0, second=0, microsecond=0, tzinfo=pytz.UTC) - timedelta(hours=1)
 
-            # check if hour changed
-            if state["timestamp"] and state["timestamp"].hour != timestamp.hour:
-                consumptions.append(Consumption.parse_and_create(
-                    consumption=indication - state["indication"],
-                    timestamp=datetime(),
-                    **params
-                ))
+            # ignore if hour was already processed
+            if timestamp in timestamps:
+                continue
 
-            # break condition
-            if latest_consumption and latest_consumption.date > timestamp:
-                break
+            timestamps.add(timestamp)
+
+            # avoid inserting duplicates
+            if latest_consumption and latest_consumption.date >= timestamp:
+                continue
 
             # add consumption record
             consumptions.append(Consumption.parse_and_create(
@@ -117,19 +113,20 @@ class Command(BaseCommand):
         Consumption.objects.bulk_create(consumptions)
 
     def pull_latest_data(self, device):
-        # get indication for this device
-        indication = Indication.objects.\
+        # get latest consumption for this device
+        latest_consumption = Consumption.objects.\
             filter(meter_number=device["serialNumber"]).\
+            order_by('-date').\
             first()
 
         # get data
         try:
             data = self.client.get(
                 resource=f'entities/{device["id"]}/attrs/value',
+                source=self.client.history_endpoint,
                 params={
                     "lastN": 10000,
                 },
-                source=self.client.history_endpoint
             )
         except OrionError as e:
             # ignore not found errors for now
@@ -139,7 +136,7 @@ class Command(BaseCommand):
             raise
 
         # process
-        self.process_data(data=data, device=device, indication=indication)
+        self.process_data(data=data, device=device, latest_consumption=latest_consumption)
 
     def handle(self, *args, **kwargs):
         # initialize client

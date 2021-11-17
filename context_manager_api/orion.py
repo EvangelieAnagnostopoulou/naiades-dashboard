@@ -13,7 +13,7 @@ class OrionError(ValueError):
 
 class OrionClient(object):
     endpoint = '5.53.108.182:1026'
-    history_endpoint = '5.53.108.182:8668'
+    history_endpoint = '5.53.108.182/time-series-api'
     service = None
 
     def get_headers(self, source):
@@ -26,6 +26,7 @@ class OrionClient(object):
         if source == self.history_endpoint:
             headers.update({
                 'Fiware-ServicePath': '/',
+                'Accept-Encoding': 'gzip, deflate',
             })
 
         return headers
