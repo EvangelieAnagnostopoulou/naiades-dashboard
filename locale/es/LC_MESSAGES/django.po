@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-13 20:27+0200\n"
+"POT-Creation-Date: 2021-11-17 19:11+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,7 +38,9 @@ msgid ""
 "                                    based on their water consumption in the "
 "last seven days\n"
 "                                "
-msgstr "En la clasificación, pueden ver las escuelas por ragno\n, basado and su consumo de agua semanal, en los ultimos siete dias"
+msgstr "\n"
+"En la clasificación, pueden ver las escuelas por ragno\n"
+", basado and su consumo de agua semanal, en los ultimos siete dias"
 
 #: .\naiades_dashboard\templates\leaderboard.html:54
 msgid "Consumption change since last week"
@@ -52,7 +54,10 @@ msgid ""
 "                                    on their water consumption change in the "
 "last seven days\n"
 "                                "
-msgstr "\n En la clasificación, pueden ver las escuelas por rango, basado en su consumo de agua en los últimos siete días "
+msgstr ""
+"\n"
+" En la clasificación, pueden ver las escuelas por rango, basado en su "
+"consumo de agua en los últimos siete días "
 
 #: .\naiades_dashboard\templates\leaderboard.html:72
 msgid "My school vs others"
@@ -65,7 +70,10 @@ msgid ""
 "                                    regarding the water consumption change "
 "in the last seven days\n"
 "                                "
-msgstr "\n Comparacion de mi escuela vs otras\n con respecto al cambio den consumación de agua en los últimos siete días "
+msgstr ""
+"\n"
+" Comparacion de mi escuela vs otras\n"
+" con respecto al cambio den consumación de agua en los últimos siete días "
 
 #: .\naiades_dashboard\templates\report.html:19
 #: .\naiades_dashboard\templates\translations.html:18
@@ -159,7 +167,8 @@ msgstr "Mandando"
 #: .\naiades_dashboard\templates\translations.html:36
 msgid ""
 "Thank you for your feedback! Your comment will be reviewed by your school\\"
-msgstr "¡Gracias por tu mensaje! Tu comentario va a ser revisado por tu escuela"
+msgstr ""
+"¡Gracias por tu mensaje! Tu comentario va a ser revisado por tu escuela"
 
 #: .\naiades_dashboard\templates\translations.html:37
 msgid "Post your thoughts here"
@@ -169,7 +178,7 @@ msgstr "Manda tu mensaje aquí"
 msgid "Post"
 msgstr "Mandar"
 
-#: .\social\templates\social\feed.html:20 .\templates\base.html:133
+#: .\social\templates\social\feed.html:20 .\templates\base.html:135
 msgid "Community"
 msgstr "Comunidad"
 
@@ -193,31 +202,31 @@ msgstr "Tablero de Naiades"
 msgid "Contact Us"
 msgstr "Contactar"
 
-#: .\templates\base.html:98
+#: .\templates\base.html:100
 msgid "Leaderboard"
 msgstr "Tabla de clasificación"
 
-#: .\templates\base.html:105
+#: .\templates\base.html:107
 msgid "Statistics"
 msgstr "Estadísticas"
 
-#: .\templates\base.html:126
+#: .\templates\base.html:128
 msgid "Report"
 msgstr "Reporte"
 
-#: .\templates\base.html:147
+#: .\templates\base.html:149
 msgid "Guest"
 msgstr "Huésped"
 
-#: .\templates\base.html:156
+#: .\templates\base.html:158
 msgid "Moderate messages"
 msgstr "Mensajes moderados"
 
-#: .\templates\base.html:177
+#: .\templates\base.html:179
 msgid "Admin interface"
 msgstr "Administración"
 
-#: .\templates\base.html:200
+#: .\templates\base.html:202
 msgid ""
 "\n"
 "                                This dashboard has been developed in the "
@@ -230,25 +239,27 @@ msgid ""
 "                                Horizon 2020 research and innovation program "
 "under grant agreement No. 820985\n"
 "                            "
-msgstr "Esta herramienta ha sido creada en el contexto del proyecto NAIADES\n "
-" con el objetivo de aumentar el conocimiento sobre el gasto de agua en su escuela.\n"
+msgstr "\n"
+"Esta herramienta ha sido creada en el contexto del proyecto NAIADES\n"
+"  con el objetivo de aumentar el conocimiento sobre el gasto de agua en su "
+"escuela.\n"
 " NAIADES ha recibido fondos de la Unión Europa. \n"
-" Horizon 2020 research and innovation program "
-  "under grant agreement No. 820985"
+" Horizon 2020 research and innovation program under grant agreement No. "
+"820985"
 
-#: .\templates\base.html:219
+#: .\templates\base.html:221
 msgid "Project Information"
 msgstr "Información del Proyecto"
 
-#: .\templates\base.html:222
+#: .\templates\base.html:224
 msgid "About Us"
 msgstr "Sobre Nosotros"
 
-#: .\templates\base.html:224
+#: .\templates\base.html:226
 msgid "Get In Touch Wirh Us"
 msgstr "Contáctenos"
 
-#: .\templates\base.html:231
+#: .\templates\base.html:233
 msgid "Copyright"
 msgstr "Derechos"
 
