@@ -249,7 +249,7 @@ msgstr "\n"
 
 #: .\templates\base.html:221
 msgid "Project Information"
-msgstr "Información del Proyecto"
+msgstr "Información sobre el Proyecto"
 
 #: .\templates\base.html:224
 msgid "About Us"
