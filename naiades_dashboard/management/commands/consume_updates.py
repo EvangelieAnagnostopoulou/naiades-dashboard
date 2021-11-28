@@ -22,8 +22,33 @@ class Command(BaseCommand):
             strptime(timestamp_str, self.date_format).\
             replace(tzinfo=pytz.utc)
 
+    @staticmethod
+    def _add_results(response, new_results):
+        # list of results
+        if type(new_results) == list:
+
+            if not response.get("results"):
+                response["results"] = []
+
+            response["results"] += new_results
+
+            return len(new_results)
+
+        # dict of index/values lists
+        props = ["index", "values"]
+        if not response.get("results"):
+            response["results"] = {
+                prop: []
+                for prop in props
+            }
+
+        for prop in props:
+            response["results"][prop] += new_results[prop]
+
+        return len(new_results[props[0]])
+
     def _load_all(self, resource, source, params, page_size):
-        results = []
+        response = {}
 
         offset = 0
         limit = page_size
@@ -42,21 +67,8 @@ class Command(BaseCommand):
                 params=page_params
             )
 
-            # add to results
-            if type(new_results) == list:
-                results += new_results
-                size = len(new_results)
-            else:
-                if not results:
-                    results = {
-                        "index": [],
-                        "values": []
-                    }
-
-                for prop in ["index", "values"]:
-                    results[prop] += new_results[prop]
-
-                size = len(new_results["index"])
+            # add to response
+            size = self._add_results(response=response, new_results=new_results)
 
             # break condition
             if size < page_size:
@@ -66,7 +78,7 @@ class Command(BaseCommand):
             offset += page_size
             limit += page_size
 
-        return results
+        return response["results"]
 
     def _load_devices(self):
         # request all from api
