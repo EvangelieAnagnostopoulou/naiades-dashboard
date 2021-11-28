@@ -1,7 +1,8 @@
+import copy
 import pytz
 import tqdm
 
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from django.core.management.base import BaseCommand
 
@@ -14,6 +15,76 @@ class Command(BaseCommand):
     help = 'Consume data updates from context manager api'
     client = None
     meter_infos_idx = None
+    date_format = '%Y-%m-%dT%H:%M:%S.%f'
+
+    def _parse_timestamp_str(self, timestamp_str):
+        return datetime.\
+            strptime(timestamp_str, self.date_format).\
+            replace(tzinfo=pytz.utc)
+
+    def _load_all(self, resource, source, params, page_size):
+        results = []
+
+        offset = 0
+        limit = page_size
+        while True:
+            # prepare request params
+            page_params = copy.deepcopy(params)
+            page_params.update({
+                "offset": offset,
+                "limit": limit,
+            })
+
+            # get from API
+            new_results = self.client.get(
+                resource=resource,
+                source=source,
+                params=page_params
+            )
+
+            # add to results
+            if type(new_results) == list:
+                results += new_results
+                size = len(new_results)
+            else:
+                if not results:
+                    results = {
+                        "index": [],
+                        "values": []
+                    }
+
+                for prop in ["index", "values"]:
+                    results[prop] += new_results[prop]
+
+                size = len(new_results["index"])
+
+            # break condition
+            if size < page_size:
+                break
+
+            # move to next page
+            offset += page_size
+            limit += page_size
+
+        return results
+
+    def _load_devices(self):
+        # request all from api
+        devices = self._load_all(
+            resource="entities",
+            source=self.client.endpoint,
+            params={
+                "type": "Device"
+            },
+            page_size=1000
+        )
+
+        # filter out devices with missing id
+        return [
+            device
+            for device in devices
+            if device.get("id") and device.get("serialNumber")
+        ]
 
     def load_updated_devices(self):
         """
@@ -25,22 +96,12 @@ class Command(BaseCommand):
             for meter_info in MeterInfo.objects.all()
         }
 
-        # get from API
-        devices = self.client.get(resource="entities", params={
-            "type": "Device",
-            "lastN": 10000,
-        })
-
-        # filter out devices with missing id
-        devices = [
-            device
-            for device in devices
-            if device.get("id") and device.get("serialNumber")
-        ]
+        # load all devices from API
+        devices = self._load_devices()
 
         # add missing devices
         new_meter_infos = []
-        for device in devices:
+        for device in tqdm.tqdm(devices, desc="Updating devices", unit=" devices"):
 
             # ignore already existing
             # TODO consider updates
@@ -81,22 +142,12 @@ class Command(BaseCommand):
 
         # parse data
         consumptions = []
-        timestamps = set()
         for idx, timestamp_str in enumerate(data.get("index", [])):
             # get consumption
             consumption = data["values"][idx]
 
             # parse timestamp
-            # a consumption value for 12:00 should be saved with start time 11:00
-            # since the value returned is the consumption measured last 60 minutes
-            timestamp = datetime.strptime(timestamp_str, '%Y-%m-%dT%H:%M:%S.%f'). \
-                replace(minute=0, second=0, microsecond=0, tzinfo=pytz.UTC) - timedelta(hours=1)
-
-            # ignore if hour was already processed
-            if timestamp in timestamps:
-                continue
-
-            timestamps.add(timestamp)
+            timestamp = self._parse_timestamp_str(timestamp_str)
 
             # avoid inserting duplicates
             if latest_consumption and latest_consumption.date >= timestamp:
@@ -121,12 +172,23 @@ class Command(BaseCommand):
 
         # get data
         try:
-            data = self.client.get(
+            params = {
+                "aggrMethod": "sum",
+                "aggrPeriod": "hour",
+            }
+
+            # only retrieve after latest
+            if latest_consumption:
+                params.update({
+                    "fromDate": latest_consumption.date.strftime(self.date_format)
+                })
+
+            # get all consumptions
+            data = self._load_all(
                 resource=f'entities/{device["id"]}/attrs/value',
                 source=self.client.history_endpoint,
-                params={
-                    "lastN": 10000,
-                },
+                params=params,
+                page_size=10000,
             )
         except OrionError as e:
             # ignore not found errors for now
@@ -146,5 +208,5 @@ class Command(BaseCommand):
         devices = self.load_updated_devices()
 
         # pull new deliveries
-        for device in tqdm.tqdm(devices):
+        for device in tqdm.tqdm(devices, desc="Retrieving consumptions...", unit=" devices"):
             self.pull_latest_data(device=device)
