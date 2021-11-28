@@ -1,0 +1,21 @@
+version: "3.3"
+
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  web:
+    build: .
+    image: eanagnostopoulou/naiades-school-web
+    command: sh -c "python manage.py collectstatic --noinput &&
+      python manage.py migrate --noinput &&
+      python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "${NAIADES_SCHOOL_PORT:-80}:8000"
+    environment:
+        - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
+    depends_on:
+      - db
