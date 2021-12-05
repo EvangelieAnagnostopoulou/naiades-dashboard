@@ -26,6 +26,9 @@ class MeterInfo(Model):
     service_point_id = IntegerField(blank=True, null=True, default=None)
     service_connection_id = IntegerField(blank=True, null=True, default=None)
 
+    # size (e.g. number of users for schools)
+    size = IntegerField(blank=True, null=True, default=None)
+
     def to_dict(self):
         return {
             "meter_number": self.meter_number,
@@ -36,6 +39,7 @@ class MeterInfo(Model):
             "address": self.address,
             "service_point_id": self.service_point_id,
             "service_connection_id": self.service_connection_id,
+            "size": self.size,
         }
 
 

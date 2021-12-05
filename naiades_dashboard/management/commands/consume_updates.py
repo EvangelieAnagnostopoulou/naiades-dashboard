@@ -112,13 +112,10 @@ class Command(BaseCommand):
         devices = self._load_devices()
 
         # add missing devices
-        new_meter_infos = []
         for device in tqdm.tqdm(devices, desc="Updating devices", unit=" devices"):
 
-            # ignore already existing
-            # TODO consider updates
-            if device["serialNumber"] in self.meter_infos_idx:
-                continue
+            # check if exists
+            exists = device["serialNumber"] in self.meter_infos_idx
 
             # get details
             details = self.client.get(resource=f'entities/{device["id"]}')
@@ -129,18 +126,17 @@ class Command(BaseCommand):
                 activity=details["description"],
                 latitude=details["location"]["coordinates"][0],
                 longitude=details["location"]["coordinates"][1],
+                size=details.get("numberOfUsers"),
             )
 
-            # add to dict
-            self.meter_infos_idx.update({
-                info.meter_number: info,
-            })
-
-            # add to new
-            new_meter_infos.append(info)
-
-        # bulk create
-        MeterInfo.objects.bulk_create(new_meter_infos)
+            # create or updated
+            if exists:
+                info.save(update_fields=["latitude", "longitude", "size"])
+            else:
+                info.save()
+                self.meter_infos_idx.update({
+                    info.meter_number: info,
+                })
 
         # return index with all meter infos
         return devices
