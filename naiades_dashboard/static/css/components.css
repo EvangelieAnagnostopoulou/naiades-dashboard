@@ -38,7 +38,7 @@
 
 .leaderboard > div > .position.top-three {
     background: white;
-    margin-left: 5px;
+    margin: 5px;
 }
 
 .leaderboard > div > .position.top-three img {

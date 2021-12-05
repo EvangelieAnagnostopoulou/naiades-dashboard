@@ -5,7 +5,7 @@ from datetime import timedelta, datetime
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.db.models import Avg, Min, Sum, Q, F, Count, DecimalField
+from django.db.models import Avg, Min, Sum, Q, F, Count, DecimalField, ExpressionWrapper
 from django.db.models.functions import TruncDate, Cast, ExtractDay
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -58,12 +58,21 @@ def get_total_period_consumption_by_activity(qs, period_q):
     return qs
 
 
-def get_period_consumption_by_meter(qs, period_q):
+def get_period_consumption_by_meter(qs, period_q, absolute=False):
     qs = qs. \
-             filter(period_q). \
-             values('meter_number'). \
-             annotate(total_consumption=Sum('consumption')). \
-             order_by('total_consumption')
+        filter(period_q). \
+        values('meter_number', 'meter_number__size')
+
+    if not absolute:
+        qs = qs.annotate(total_consumption=ExpressionWrapper(
+            Sum('consumption') / F("meter_number__size"),
+            output_field=DecimalField()
+        ))
+    else:
+        qs = qs.annotate(total_consumption=Sum('consumption'))
+
+    # sort
+    qs = qs.order_by('total_consumption')
 
     qs = list(qs)
 
@@ -162,6 +171,62 @@ def get_meter_infos(request):
     })
 
 
+def get_you_vs_others(data_qs, meter_info):
+    # get meter totals
+    meter_totals = [
+        datum
+        for datum in data_qs.
+            values('meter_number', 'meter_number__size').
+            annotate(total_consumption=ExpressionWrapper(
+            Sum('consumption') / F('meter_number__size'),
+            output_field=DecimalField()
+        ))
+        if (datum['total_consumption'] or 0) > 0
+    ]
+
+    # sort from smallest to largest
+    meter_totals = sorted(meter_totals, key=lambda datum: datum['total_consumption'])
+
+    # filter out too low consumptions
+    # ignore schools with less than VS_OTHERS_MIN_LT_PER_MONTH lt/week
+    if os.environ.get('VS_OTHERS_MIN_LT_PER_MONTH'):
+        meter_totals = [
+            datum
+            for datum in meter_totals
+            if datum['total_consumption'] >= float(os.environ.get('VS_OTHERS_MIN_LT_PER_MONTH'))
+        ]
+
+    # top 20%
+    n_top_20 = int(len(meter_totals) / 5)
+
+    try:
+        top_20 = sum([datum['total_consumption'] for datum in meter_totals[:n_top_20]]) / n_top_20
+    except ZeroDivisionError:
+        top_20 = 0
+
+    # average
+    try:
+        avg = sum([datum['total_consumption'] for datum in meter_totals]) / len(meter_totals)
+    except ZeroDivisionError:
+        avg = 0
+
+    # your school
+    try:
+        your = [
+            datum['total_consumption']
+            for datum in meter_totals
+            if meter_info and datum['meter_number'] == meter_info.meter_number
+        ][0]
+    except IndexError:
+        your = 0
+
+    return [
+        {"entity": "Best 20%", "weekly_total": top_20, "color": "#04D215"},
+        {"entity": "Average", "weekly_total": avg, "color": "#F8FF01"},
+        {"entity": "My school", "weekly_total": your, "color": "#FF9E01"},
+    ]
+
+
 def get_measurement_data(request, metric, extra):
     dest = "naiades_dashboard" \
         if request.user.is_authenticated \
@@ -254,64 +319,15 @@ def get_measurement_data(request, metric, extra):
             qs = []
 
     elif metric == "weekly_consumption_by_meter":
-        qs = get_period_consumption_by_meter(qs, period_q=week_q)
+        qs = get_period_consumption_by_meter(qs, period_q=week_q, absolute=bool(request.GET.get("absolute")))
 
     elif metric == "you_vs_others":
-        data_qs = qs.\
-            filter(week_q)
-
-        # get meter totals
-        meter_totals = [
-            datum
-            for datum in data_qs.\
-                values('meter_number').\
-                annotate(total_consumption=Sum('consumption'))
-            if (datum['total_consumption'] or 0) > 0
-        ]
-
-        # sort from smallest to largest
-        meter_totals = sorted(meter_totals, key=lambda datum: datum['total_consumption'])
-
-        # filter out too low consumptions
-        # ignore schools with less than VS_OTHERS_MIN_LT_PER_MONTH lt/week
-        if os.environ.get('VS_OTHERS_MIN_LT_PER_MONTH'):
-            meter_totals = [
-                datum
-                for datum in meter_totals
-                if datum['total_consumption'] >= float(os.environ.get('VS_OTHERS_MIN_LT_PER_MONTH'))
-            ]
-
-        # top 20%
-        n_top_20 = int(len(meter_totals) / 5)
-
-        try:
-            top_20 = sum([datum['total_consumption'] for datum in meter_totals[:n_top_20]]) / n_top_20
-        except ZeroDivisionError:
-            top_20 = 0
-
-        # average
-        try:
-            avg = sum([datum['total_consumption'] for datum in meter_totals]) / len(meter_totals)
-        except ZeroDivisionError:
-            avg = 0
-
-        # your school
-        try:
-            your = [
-                datum['total_consumption']
-                for datum in meter_totals
-                if meter_info and datum['meter_number'] == meter_info.meter_number
-            ][0]
-        except IndexError:
-            your = 0
-
-        qs = [
-            {"entity": "Best 20%", "weekly_total": top_20, "color": "#04D215"},
-            {"entity": "Average", "weekly_total": avg, "color": "#F8FF01"},
-            {"entity": "My school", "weekly_total": your, "color": "#FF9E01"},
-        ]
+        qs = get_you_vs_others(qs.filter(week_q), meter_info=meter_info)
 
     elif metric == "message":
+        # we need you vs. others to calculate message
+        you_vs_others = get_you_vs_others(qs.filter(week_q), meter_info=meter_info)
+
         if random.randint(0, 1) == 0:
             qs = [{
                 'message': 'You ranked in the top 20%. Keep up the good work!!',

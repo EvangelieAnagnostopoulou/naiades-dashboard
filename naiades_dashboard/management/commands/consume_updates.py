@@ -8,6 +8,7 @@ from django.core.management.base import BaseCommand
 
 from context_manager_api import ContextManagerAPIClient
 from context_manager_api.orion import OrionError
+from naiades_dashboard.managers.users import MeterUserManager
 from naiades_dashboard.models import MeterInfo, Consumption
 
 
@@ -15,6 +16,7 @@ class Command(BaseCommand):
     help = 'Consume data updates from context manager api'
     client = None
     meter_infos_idx = None
+    user_manager = None
     date_format = '%Y-%m-%dT%H:%M:%S.%f'
 
     def _parse_timestamp_str(self, timestamp_str):
@@ -92,10 +94,11 @@ class Command(BaseCommand):
         )
 
         # filter out devices with missing id
+        # as well as accumulative measurements
         return [
             device
             for device in devices
-            if device.get("id") and device.get("serialNumber")
+            if device.get("id") and device.get("serialNumber") and (not device["serialNumber"].endswith("-Accum"))
         ]
 
     def load_updated_devices(self):
@@ -110,6 +113,9 @@ class Command(BaseCommand):
 
         # load all devices from API
         devices = self._load_devices()
+
+        # start user manager
+        user_manager = MeterUserManager()
 
         # add missing devices
         for device in tqdm.tqdm(devices, desc="Updating devices", unit=" devices"):
@@ -126,6 +132,7 @@ class Command(BaseCommand):
                 activity=details["description"],
                 latitude=details["location"]["coordinates"][0],
                 longitude=details["location"]["coordinates"][1],
+                name=(details.get("name") or "")[:128],
                 size=details.get("numberOfUsers"),
             )
 
@@ -137,6 +144,10 @@ class Command(BaseCommand):
                 self.meter_infos_idx.update({
                     info.meter_number: info,
                 })
+
+                # create users
+                if info.activity == "School":
+                    user_manager.create_users(meter_info=info)
 
         # return index with all meter infos
         return devices

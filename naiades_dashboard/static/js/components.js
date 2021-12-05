@@ -138,7 +138,7 @@ $(function () {
             valueAxes: [
                 {
                     "id": "ValueAxis-1",
-                    "title": window.MESSAGES.components.consumptionLt,
+                    "title": window.MESSAGES.components.consumptionLtPerUser,
                     "minimum": 0,
                 }
             ],

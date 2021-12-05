@@ -31,7 +31,7 @@ def create_can_change_tweets_group_set_admins(_, schema_editor):
     delete_tweet_permission = Permission.objects.get(codename='delete_tweet')
 
     # create tweet admins group & add permissions for this content type
-    group = Group.objects.create(name='Tweet Admins')
+    group, _ = Group.objects.get_or_create(name='Tweet Admins')
     group.permissions.add(change_tweet_permission)
     group.permissions.add(delete_tweet_permission)
 

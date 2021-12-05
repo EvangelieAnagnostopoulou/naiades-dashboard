@@ -26,6 +26,9 @@ class MeterInfo(Model):
     service_point_id = IntegerField(blank=True, null=True, default=None)
     service_connection_id = IntegerField(blank=True, null=True, default=None)
 
+    # other metadata
+    name = CharField(max_length=128, blank=True, default='')
+
     # size (e.g. number of users for schools)
     size = IntegerField(blank=True, null=True, default=None)
 
