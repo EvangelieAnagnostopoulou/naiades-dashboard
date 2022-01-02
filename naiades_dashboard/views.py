@@ -11,6 +11,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils.timezone import now
 
+from naiades_dashboard.managers.messages import MessageManager
 from naiades_dashboard.models import Consumption, MeterInfoAccess, MeterInfo
 
 
@@ -210,21 +211,62 @@ def get_you_vs_others(data_qs, meter_info):
     except ZeroDivisionError:
         avg = 0
 
-    # your school
+    # my school
     try:
-        your = [
+        my_school = [
             datum['total_consumption']
             for datum in meter_totals
             if meter_info and datum['meter_number'] == meter_info.meter_number
         ][0]
     except IndexError:
-        your = 0
+        my_school = 0
 
     return [
-        {"entity": "Best 20%", "weekly_total": top_20, "color": "#04D215"},
-        {"entity": "Average", "weekly_total": avg, "color": "#F8FF01"},
-        {"entity": "My school", "weekly_total": your, "color": "#FF9E01"},
+        {"entity": "Best 20%", "weekly_total": top_20, "color": "#04D215", "id": "best20"},
+        {"entity": "Average", "weekly_total": avg, "color": "#F8FF01", "id": "avg"},
+        {"entity": "My school", "weekly_total": my_school, "color": "#FF9E01", "id": "me"},
     ]
+
+
+def get_you_vs_others_change(data_qs, meter_info):
+    data_qs = get_period_change(data_qs, days=7)
+
+    top_20_qs = data_qs[:int(len(data_qs) / 5)]
+    top_20 = get_average_change(top_20_qs)
+
+    avg = get_average_change(data_qs)
+
+    try:
+        if meter_info:
+            mine = [
+                datum["change"]
+                for datum in data_qs
+                if datum["meter_number"] == meter_info.meter_number
+            ][0]
+        else:
+            mine = 0
+    except IndexError:
+        mine = 0
+
+    return [{
+        "school": "Best 20%",
+        "increase" if top_20 > 0 else "decrease": top_20,
+        "change": top_20,
+        "color": "#FF0F00" if top_20 > 0 else "#04D215",
+        "id": "best20"
+    }, {
+        "school": "Average",
+        "increase" if avg > 0 else "decrease": avg,
+        "change": avg,
+        "color": "#FF0F00" if avg > 0 else "#04D215",
+        "id": "avg",
+    }, {
+        "school": "My school",
+        "increase" if mine > 0 else "decrease": mine,
+        "change": mine,
+        "color": "#FF0F00" if mine > 0 else "#04D215",
+        "id": "me"
+    }]
 
 
 def get_measurement_data(request, metric, extra):
@@ -326,18 +368,13 @@ def get_measurement_data(request, metric, extra):
 
     elif metric == "message":
         # we need you vs. others to calculate message
-        you_vs_others = get_you_vs_others(qs.filter(week_q), meter_info=meter_info)
-
-        if random.randint(0, 1) == 0:
-            qs = [{
-                'message': 'You ranked in the top 20%. Keep up the good work!!',
-                'type': 'SUCCESS'
-            }]
-        else:
-            qs = [{
-                'message': 'Try more to reduce your consumption!',
-                'type': 'FAILURE'
-            }]
+        try:
+            qs = MessageManager(you_vs_others=get_you_vs_others(
+                qs.filter(week_q), meter_info=meter_info
+            )).get_messages(n_messages=1, message_type=MessageManager.MESSAGE_TYPE_CONSUMPTION)
+        except MessageManager.YouVsOthersFormatError:
+            # connected user is not a school, skip
+            qs = []
 
     elif metric == "weekly_change":
         qs = get_period_change(qs, days=7)
@@ -352,42 +389,16 @@ def get_measurement_data(request, metric, extra):
         qs = get_period_change(qs, days=365, fn=get_total_period_consumption_by_activity)
 
     elif metric == "you_vs_others_weekly_change":
-        data_qs = get_period_change(qs, days=7)
+        qs = get_you_vs_others_change(data_qs=qs, meter_info=meter_info)
 
-        top_20_qs = data_qs[:int(len(data_qs) / 5)]
-        top_20 = get_average_change(top_20_qs)
-
-        avg = get_average_change(data_qs)
-
+    elif metric == "message_change":
         try:
-            met = MeterInfoAccess.objects.filter(user=request.user).first()
-            if hasattr(met, 'meter_info_id'):
-                mine = [
-                    datum["change"]
-                    for datum in data_qs
-                    if datum["meter_number"] == MeterInfoAccess.objects.filter(user=request.user).first().meter_info_id
-                ][0]
-            else:
-                mine = 0
-        except IndexError:
-            mine = 0
-
-        qs = [{
-            "school": "Best 20%",
-            "increase" if top_20 > 0 else "decrease": top_20,
-            "change": top_20,
-            "color": "#FF0F00" if top_20 > 0 else "#04D215"
-        }, {
-            "school": "Average",
-            "increase" if avg> 0 else "decrease": avg,
-            "change": avg,
-            "color": "#FF0F00" if avg > 0 else "#04D215"
-        }, {
-            "school": "My school",
-            "increase" if mine > 0 else "decrease": mine,
-            "change": mine,
-            "color": "#FF0F00" if mine > 0 else "#04D215"
-        }]
+            qs = MessageManager(you_vs_others=get_you_vs_others_change(
+                qs, meter_info=meter_info
+            )).get_messages(n_messages=1, message_type=MessageManager.MESSAGE_TYPE_CONSUMPTION_CHANGE)
+        except MessageManager.YouVsOthersFormatError:
+            # connected user is not a school, skip
+            qs = []
 
     elif metric == "monthly_consumption":
         qs = [

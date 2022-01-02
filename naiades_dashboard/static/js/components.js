@@ -264,6 +264,17 @@ $(function () {
     const showChart = function(chartId, metric, data) {
         const config = CHART_CONFIGS[metric];
 
+        // format day, hour
+        $.each(data, function(idx, datum) {
+            if (datum.hasOwnProperty("hour") && datum.hour >= 0 && datum.hour < 24) {
+                datum.hour = `${datum.hour.toLocaleString('en', {minimumIntegerDigits: 2})}:00`;
+            }
+
+            if (datum.hasOwnProperty("day") && datum.day >= 0 && datum.day < 7) {
+                datum.day = window.MESSAGES.days[datum.day]
+            }
+        });
+
         const charts = AmCharts.makeChart(chartId,
             {
                 "fontFamily":  "'Open Sans', sans-serif",

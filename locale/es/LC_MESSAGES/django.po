@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-17 19:11+0200\n"
+"POT-Creation-Date: 2022-01-02 17:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,70 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\naiades_dashboard\managers\messages.py:15
+msgid ""
+"This week your consumption is ranked within the top 20%. Keep up the good "
+"work!!"
+msgstr "Esta semana su consumación ha sido classificada en el  mejor 20%. ¡Felicitaciones sige asi!"
+
+#: .\naiades_dashboard\managers\messages.py:16
+msgid ""
+"This week your consumption is ranked within the top 20%. Continue saving "
+"water."
+msgstr "Esta semana su consumación ha sido classificada en el mejor 20%. Sige  ahorrando agua."
+
+#: .\naiades_dashboard\managers\messages.py:19
+#: .\naiades_dashboard\managers\messages.py:35
+msgid "Keep up the good work!"
+msgstr "¡Felicitaciones sige asi!"
+
+#: .\naiades_dashboard\managers\messages.py:20
+#: .\naiades_dashboard\managers\messages.py:36
+msgid "Well done! Continue saving water."
+msgstr "¡Muy bien! Sige ahorrando agua."
+
+#: .\naiades_dashboard\managers\messages.py:23
+msgid "Try more to reduce your consumption!"
+msgstr "Intenta reducir su consumación de agua."
+
+#: .\naiades_dashboard\managers\messages.py:24
+msgid "Your peers are saving more. Use water, don’t waste it."
+msgstr "Tus compañeros han ahorrado más que tu. Usa agua, no lo desgastes."
+
+#: .\naiades_dashboard\managers\messages.py:25
+#: .\naiades_dashboard\managers\messages.py:41
+msgid "Try more to save water! Use water wisely, every drop counts!"
+msgstr "¡Intenta ahorrar agua! ¡Usa agua con cuidado, cada gota vale!"
+
+#: .\naiades_dashboard\managers\messages.py:26
+#: .\naiades_dashboard\managers\messages.py:42
+msgid "Try more! By saving water, together we can make a difference."
+msgstr "¡Intenta un poco más! Con ahorrar agua, todos juntos podemos marcar la diferencia."
+
+#: .\naiades_dashboard\managers\messages.py:31
+msgid ""
+"This week your consumption reduction is ranked within the top 20%. Keep up "
+"the good work!!"
+msgstr ""
+"Esta semana su reducción de consumación ha sido classificada en el mejor 20%. ¡Felicitaciones sige asi!"
+
+#: .\naiades_dashboard\managers\messages.py:32
+msgid ""
+"This week your consumption reduction is ranked within the top 20%. Continue "
+"saving water."
+msgstr ""
+"Esta semana su reducción de consumación ha sido classificada en el mejor 20%. Sige  ahorrando agua."
+
+#: .\naiades_dashboard\managers\messages.py:39
+msgid "Try more to improve your consumption reduction!"
+msgstr "¡Intenta mejorar su consumación de agua!"
+
+#: .\naiades_dashboard\managers\messages.py:40
+msgid ""
+"Your peers are reducing their consumption more. Use water, don’t waste it."
+msgstr ""
+"Tus compañeros han reducido su consumación más que tu. Usa agua, no lo desgastes."
 
 #: .\naiades_dashboard\templates\leaderboard.html:16
 msgid "Consumption"
@@ -31,14 +95,23 @@ msgid "Weekly Water Consumption"
 msgstr "Consumo Semanal"
 
 #: .\naiades_dashboard\templates\leaderboard.html:31
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "                                    In leaderboard, you can see schools "
+#| "ranked\n"
+#| "                                    based on their water consumption in "
+#| "the last seven days\n"
+#| "                                "
 msgid ""
 "\n"
 "                                    In leaderboard, you can see schools "
 "ranked\n"
-"                                    based on their water consumption in the "
-"last seven days\n"
+"                                    based on their water consumption per "
+"student in the last seven days\n"
 "                                "
-msgstr "\n"
+msgstr ""
+"\n"
 "En la clasificación, pueden ver las escuelas por ragno\n"
 ", basado and su consumo de agua semanal, en los ultimos siete dias"
 
@@ -129,52 +202,58 @@ msgid "Consumption (lt)"
 msgstr "Consumación (lt)"
 
 #: .\naiades_dashboard\templates\translations.html:25
+#, fuzzy
+#| msgid "Consumption (lt)"
+msgid "Consumption per student (lt)"
+msgstr "Consumación (lt)"
+
+#: .\naiades_dashboard\templates\translations.html:26
 msgid "Total weekly consumption"
 msgstr "Consumación semanal total"
 
-#: .\naiades_dashboard\templates\translations.html:26
+#: .\naiades_dashboard\templates\translations.html:27
 msgid "My School vs. Others"
 msgstr "Mi escuela vs. otras"
 
-#: .\naiades_dashboard\templates\translations.html:27
+#: .\naiades_dashboard\templates\translations.html:28
 msgid "Total consumption per day"
 msgstr "Consumación total por día"
 
-#: .\naiades_dashboard\templates\translations.html:28
+#: .\naiades_dashboard\templates\translations.html:29
 msgid "Monthly Consumption"
 msgstr "Consumación Mensual"
 
-#: .\naiades_dashboard\templates\translations.html:29
+#: .\naiades_dashboard\templates\translations.html:30
 msgid "The chart contains no data"
 msgstr "El gráfico no contiene datos"
 
-#: .\naiades_dashboard\templates\translations.html:30
+#: .\naiades_dashboard\templates\translations.html:31
 msgid "An error occurred when loading data for"
 msgstr "Ha ocurrido un error cargando los datos"
 
-#: .\naiades_dashboard\templates\translations.html:33
+#: .\naiades_dashboard\templates\translations.html:34
 msgid "posted at"
 msgstr "creado el"
 
-#: .\naiades_dashboard\templates\translations.html:34
+#: .\naiades_dashboard\templates\translations.html:35
 msgid "Loading"
 msgstr "Cargando"
 
-#: .\naiades_dashboard\templates\translations.html:35
+#: .\naiades_dashboard\templates\translations.html:36
 msgid "Posting"
 msgstr "Mandando"
 
-#: .\naiades_dashboard\templates\translations.html:36
+#: .\naiades_dashboard\templates\translations.html:37
 msgid ""
 "Thank you for your feedback! Your comment will be reviewed by your school\\"
 msgstr ""
 "¡Gracias por tu mensaje! Tu comentario va a ser revisado por tu escuela"
 
-#: .\naiades_dashboard\templates\translations.html:37
+#: .\naiades_dashboard\templates\translations.html:38
 msgid "Post your thoughts here"
 msgstr "Manda tu mensaje aquí"
 
-#: .\naiades_dashboard\templates\translations.html:38
+#: .\naiades_dashboard\templates\translations.html:39
 msgid "Post"
 msgstr "Mandar"
 
@@ -239,7 +318,8 @@ msgid ""
 "                                Horizon 2020 research and innovation program "
 "under grant agreement No. 820985\n"
 "                            "
-msgstr "\n"
+msgstr ""
+"\n"
 "Esta herramienta ha sido creada en el contexto del proyecto NAIADES\n"
 "  con el objetivo de aumentar el conocimiento sobre el gasto de agua en su "
 "escuela.\n"

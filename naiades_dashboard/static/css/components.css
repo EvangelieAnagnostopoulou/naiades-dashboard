@@ -36,15 +36,6 @@
     vertical-align: top;
 }
 
-.leaderboard > div > .position.top-three {
-    background: white;
-    margin: 5px;
-}
-
-.leaderboard > div > .position.top-three img {
-    width: 42px;
-}
-
 .leaderboard > div > .info {
     width: 200px;
     padding: 0 20px;
@@ -88,22 +79,27 @@
     color: white;
 }
 
-#main-message {
+#main-message,
+#message-change {
     text-align: center;
     font-size: 18px;
 }
 
-#main-message > span {
+#main-message > span,
+#message-change > span {
     display: block;
-    padding: 10px 40px 10px 10px;
-    margin-left: 90px;
-    margin-right: 20px;
-    box-shadow: 0 0 3px white;
-    border-radius: 20px;
+    padding: 10px 20px 10px 10px;
+    margin-left: 60px;
+    box-shadow: 0 0 3px #ff7700;
+    border-radius: 6px;
+    color: #ff7700;
+    font-style: italic;
+    font-weight: 600;
 }
 
-#main-message > span > i.fa {
-    margin-right: 20px;
+#main-message > span > i.fa,
+#message-change > span > i.fa {
+    margin-right: 6px;
 }
 
 .comparison--container > h2 {
