@@ -14,6 +14,7 @@ from django.utils.translation import gettext_lazy as _
 
 from naiades_dashboard.managers.messages import MessageManager
 from naiades_dashboard.models import Consumption, MeterInfoAccess, MeterInfo
+from project.settings import OVERALL_CHANGE_DATE
 
 
 def get_date():
@@ -25,7 +26,9 @@ def get_date():
 
 @login_required
 def leaderboard(request):
-    return render(request, 'leaderboard.html')
+    return render(request, 'leaderboard/leaderboard.html', {
+        "OVERALL_CHANGE_DATE": OVERALL_CHANGE_DATE,
+    })
 
 
 @login_required
@@ -316,10 +319,14 @@ def get_measurement_data(request, metric, extra):
 
     date = get_date()
 
-    qs = Consumption.objects.all()
+    qs = Consumption.objects.all().\
+        filter(day__lte=4)
 
+    # only include schools, exclude weekend consumptions
     if dest == "naiades_dashboard":
-        qs = qs.filter(is_school=True)
+        qs = qs.\
+            filter(is_school=True). \
+            filter(day__lte=4)
 
     week_q = Q(date__gt=date - timedelta(days=7)) & \
         Q(date__lte=date)
@@ -414,6 +421,9 @@ def get_measurement_data(request, metric, extra):
 
     elif metric == "weekly_change":
         qs = get_period_change(qs, days=7)
+
+    elif metric == "overall_change":
+        qs = get_period_change(qs, days=(now().date() - OVERALL_CHANGE_DATE).days)
 
     elif metric == "weekly_change_by_activity":
         qs = get_period_change(qs, days=7, fn=get_total_period_consumption_by_activity)

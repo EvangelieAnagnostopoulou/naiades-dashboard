@@ -1,0 +1,23 @@
+{% load i18n %}
+
+<div class="tabcontent row d-none" id="consumption-change-overall">
+    <div class="col col-xs-12">
+        <div class="leaderboard--container">
+
+            <div class="section_tittle_style_02">
+                <h2 class="title wow fadeInDown" data-wow-delay=".3s"> <span class="title_overlay_effect">
+                    {% trans "Overall Consumption change" %}
+                </span></h2>
+                <p class="description wow fadeInDown" data-wow-delay=".3s">
+                    <i class="fa fa-info-circle" style="color: #FFFFFF; font-size: 0.5em;"></i>
+                    {% blocktrans %}
+                        In this chart, you can see schools ranked based
+                        on their water consumption change since {{ OVERALL_CHANGE_DATE }}.
+                    {% endblocktrans %}
+                </p>
+            </div>
+
+            <div id="chart-overall_change" class="data-item data-chart data-component" style="height: 500px;margin-top: 20px;"></div>
+        </div>
+    </div>
+</div>

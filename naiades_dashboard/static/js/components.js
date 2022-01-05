@@ -19,14 +19,14 @@ $(function () {
                 "type": "column",
                 "valueField": "decrease",
                 "title": window.MESSAGES.components.decrease,
-                "labelText": "- [[value]]%",
+                "labelText": "[[value]]%",
                 "clustered": false,
                 "fillColorsField": "color",
                 "labelFunction": function(item) {
                   return Math.abs(item.values.value);
                 },
                 "balloonFunction": function(item) {
-                  return item.category + ": " + Math.abs(item.values.value) + "%";
+                  return `${item.category}: ${Math.abs(item.values.value)}%`;
                 }
               }, {
                 "fillAlphas": 0.8,
@@ -202,15 +202,16 @@ $(function () {
         },
         weekly_change: weeklyChange,
         you_vs_others_weekly_change: JSON.parse(JSON.stringify(weeklyChange)),
+        overall_change: JSON.parse(JSON.stringify(weeklyChange)),
         monthly_consumption: {
-            "type": "serial",
-            "marginRight": 70,
-            "valueAxes": [
+            type: "serial",
+            marginRight: 70,
+            valueAxes: [
                 {
-                    "axisAlpha": 0,
-                    "position": "left",
-                    "minimum": 0,
-                    "title": window.MESSAGES.components.monthlyConsumption
+                    axisAlpha: 0,
+                    position: "left",
+                    minimum: 0,
+                    title: window.MESSAGES.components.monthlyConsumption
                 }
             ],
             titles: [
@@ -224,14 +225,16 @@ $(function () {
                 enabled: false,
             },
             startDuration: 1,
-            graphs: [{
-                balloonText: "<b>[[category]]: [[value]]</b>",
-                fillColorsField: "color",
-                fillAlphas: 0.9,
-                lineAlpha: 0.2,
-                type: "column",
-                valueField: "consumption"
-            }],
+            graphs: [
+                {
+                    balloonText: "<b>[[category]]: [[value]]</b>",
+                    fillColorsField: "color",
+                    fillAlphas: 0.9,
+                    lineAlpha: 0.2,
+                    type: "column",
+                    valueField: "consumption"
+                }
+            ],
             chartCursor: {
                 categoryBalloonEnabled: false,
                 cursorAlpha: 0,
@@ -249,27 +252,29 @@ $(function () {
     };
 
     AmCharts.checkEmptyData = function(chart) {
-          if (0 == chart.dataProvider.length) {
-            // set min/max on the value axis
-            chart.valueAxes[0].minimum = 0;
-            chart.valueAxes[0].maximum = 100;
+        if (chart.dataProvider.length !== 0) {
+            return
+        }
 
-            // add dummy data point
-            var dataPoint = {
-              dummyValue: 0
-            };
-            dataPoint[chart.categoryField] = '';
-            chart.dataProvider = [dataPoint];
+        // set min/max on the value axis
+        chart.valueAxes[0].minimum = 0;
+        chart.valueAxes[0].maximum = 100;
 
-            // add label
-            chart.addLabel(0, '50%', window.MESSAGES.components.noData, 'center');
+        // add dummy data point
+        const dataPoint = {
+            dummyValue: 0
+        };
+        dataPoint[chart.categoryField] = '';
+        chart.dataProvider = [dataPoint];
 
-            // set opacity of the chart div
-            chart.chartDiv.style.opacity = 0.5;
+        // add label
+        chart.addLabel(0, '50%', window.MESSAGES.components.noData, 'center');
 
-            // redraw it
-            chart.validateNow();
-          }
+        // set opacity of the chart div
+        chart.chartDiv.style.opacity = 0.5;
+
+        // redraw it
+        chart.validateNow();
     };
 
     const showChart = function(chartId, metric, data) {

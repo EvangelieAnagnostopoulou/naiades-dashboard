@@ -13,7 +13,10 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 import dj_database_url
 
-DEBUG=False
+from datetime import datetime
+
+DEBUG = False
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -170,3 +173,9 @@ OAUTH_SERVER_BASEURL = 'https://test.naiades-project.eu:3443'
 ACCOUNT_LOGOUT_REDIRECT_URL = "/"
 SITE_ID = 1
 ACCOUNT_EMAIL_VERIFICATION = "none"
+
+# Overall change date
+OVERALL_CHANGE_DATE = datetime.strptime(
+    os.getenv('OVERALL_CHANGE_DATE', '1/2/2021'),
+    '%d/%m/%Y'
+).date()

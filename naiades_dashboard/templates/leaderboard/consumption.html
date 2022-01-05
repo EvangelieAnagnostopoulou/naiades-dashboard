@@ -1,0 +1,25 @@
+{% load i18n %}
+
+<div class="tabcontent row" id="consumption">
+    <div class="col col-lg-7 col-xs-12">
+        <div class="leaderboard--container">
+            <div class="section_tittle_style_02">
+                <h2 class="title wow fadeInDown" data-wow-delay=".3s"> <span class="title_overlay_effect">
+                    {% trans "Weekly Water Consumption" %}</span></h2>
+                <p class="description wow fadeInDown" data-wow-delay=".3s">
+                    {% blocktrans %}
+                        In leaderboard, you can see schools ranked
+                        based on their water consumption per student in the last seven days
+                    {% endblocktrans %}
+                </p>
+            </div>
+            <div id="component-weekly_consumption_by_meter" class="data-item data-component"></div>
+        </div>
+    </div>
+    <div class="col col-lg-5 col-xs-12">
+        <div class="comparison--container">
+            <div id="chart-you_vs_others" class="data-item data-chart" style="margin-top: 80px;"></div>
+            <div id="component-message" class="data-item data-component"></div>
+        </div>
+    </div>
+</div>

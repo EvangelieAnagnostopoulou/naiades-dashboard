@@ -1,0 +1,53 @@
+{% extends "dashboard-base.html" %}
+
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+    <!-- team part here -->
+    <section class="team_section ">
+        <div class="container">
+
+            <!-- Tab links -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="tab">
+                        <button class="tablinks cu_btn tab_btn active" data-tab="consumption">
+                            {% trans "Consumption" %}
+                        </button>
+                        <button class="tablinks cu_btn tab_btn" data-tab="consumption-change-weekly">
+                            {% trans "Weekly Consumption change" %}
+                        </button>
+                        <button class="tablinks cu_btn tab_btn" data-tab="consumption-change-overall">
+                            {% trans "Overall Consumption change" %}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {% include 'leaderboard/consumption.html' %}
+            {% include 'leaderboard/weekly-change.html' %}
+            {% include 'leaderboard/overall-change.html' %}
+
+        </div>
+        <div class="team_animation_1">
+            <div data-parallax='{"x": 2, "y": 120, "rotateZ":0}'><img src="{% static '/img/icon/story_animation_1.png' %}" alt="#"></div>
+        </div>
+        <div class="team_animation_2">
+            <div data-parallax='{"x": 10, "y": 100, "rotateZ":0}'><img src="{% static '/img/icon/story_animation_2.png' %}" alt="#">
+            </div>
+        </div>
+        <div class="team_animation_3">
+            <div data-parallax='{"x": 30, "y": 110, "rotateZ":0}'><img src="{% static '/img/icon/story_animation_3.png' %}" alt="#">
+            </div>
+        </div>
+        <div class="team_animation_4">
+            <div data-parallax='{"x": 5, "y": 105, "rotateZ":0}'><img src="{% static '/img/icon/team_animation.png' %}" alt="#"></div>
+        </div>
+        <div class="team_animation_5">
+            <div data-parallax='{"x": 8, "y": 110, "rotateZ":0}'><img src="{% static '/img/icon/story_animation_5.png' %}" alt="#"></div>
+        </div>
+    </section>
+    <!-- team part end -->
+
+{% endblock %}
