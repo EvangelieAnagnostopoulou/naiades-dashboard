@@ -1,0 +1,86 @@
+{% extends "dashboard-base.html" %}
+
+{% load static %}
+{% load i18n %}
+
+{% block css %}
+    <link href="{% static '/css/report.css' %}?v=20200225.1" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+    <!-- blog part -->
+    <section class="blog_page section_padding">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="section_tittle_style_02">
+                        <h2 class="title wow fadeInDown" data-wow-delay=".3s"> <span class="title_overlay_effect">
+                            {% trans "Frequently Asked Questions" %}
+                        </span></h2>
+                    </div>
+
+                    </div>
+
+                </div>
+            <h3>{% trans "What is the NAIADES School Dashboard?"%}</h3>
+            <h6>{% trans "NAIADES School Dashboard is a tool that allows water management companies & public officials to deploy ICT-supported behavioural change support programmes in order to increase student awareness on water consumption of their schools and their engagement in water conservation activities."%}</h6><br>
+            <h3>{% trans "What does the water consumption leaderboard show?"%}</h3>
+            <h6>{% trans "The water consumption leaderboard shows a ranked list of all schools participating in the competition. Schools are ranked based on their water consumption per student over the last seven days in ascending order. The position of the user’s school in the ranked list is highlighted. Note that only working school days are considered in that calculation. In the same page a chart is shown which compares the water consumption of the user’s school to the average water consumption of all schools participating in the competition, as well as to the water consumption of the best 20% of the schools in terms of consumption."%}</h6><br>
+            <h3>{% trans "What does the water consumption change leaderboard show?" %}</h3>
+            <h6>{% trans " The Water consumption change leaderboard shows a ranked list of all schools participating in the competition. Schools are ranked based on their water consumption change per student over the last seven days in ascending order. Again, the position of the user’s school in the ranked list is highlighted, while only working school days are considered. In the same page a chart is shown which compares the percentile water consumption change of the user’s school to the average percentile water consumption change of all schools participating in the competition, as well as to the percentile water consumption change of the best 20% of the schools in terms of percentile consumption change. Different colors are used to reflect a positive and a negative change corresponding to a consumption increase or decrease respectively." %} </h6><br>
+            <h3>{% trans "What are the prizes?" %}</h3>
+            <h6>{% trans "There are two types of rewards that will be given to the best performing schools participating  in the competition. The first type of rewards will be given to the school(s) that achieved the higher percentile consumption change over the duration of the competition. The second type of rewards will be based on the reports/videos that the competing school students will prepare at the end of the competition. Each school should create a video, or write a report, explaining what they did to achieve water consumption reduction, as well as any other ideas for further water consumption reduction in the future. For each school participating in the competition, one or two teams of students will be selected to represent their school. The first type of rewards will be a robotic kit for the best performing primary school(s), and a 3D printer for the best performing secondary schools. The second type of rewards will be given to the team of students that will write the best report or create the best video. This type of rewards would be Amazon or similar vouchers." %} </h6><br>
+            <h3>{% trans "How can I see my school’s water consumption in more detail?" %}</h3>
+            <h6>{% trans "You can see your school’s water consumption in the “Statistics” page. There, you can see additional insights regarding your school’s average consumption by hour and by day of the week. This can be used to identify water consumption patterns, which can be exploited to take more targeted measures." %} </h6><br>
+            <h3>{% trans "How can I motivate other students to reduce our school’s water consumption?" %}</h3>
+            <h6>{% trans "To motivate your classmates to be a part of our effort to reduce water consumption, you can share posts, ideas, and feedback using the community forum – including tips on how to save water!" %}</h6><br>
+
+
+            </div>
+        </div>
+        <div class="blog_animation_1">
+            <div data-parallax='{"x": 2, "y": 120, "rotateZ":0}'><img src="{% static '/img/icon/story_animation_5.png' %}" alt="#">
+            </div>
+        </div>
+        <div class="blog_animation_2">
+            <div data-parallax='{"x": 10, "y": 100, "rotateZ":0}'><img src="{% static '/img/icon/event_6.png' %}" alt="#">
+            </div>
+        </div>
+        <div class="blog_animation_3">
+            <div data-parallax='{"x": 30, "y": 110, "rotateZ":0}'><img src="{% static '/img/icon/icon_8.png' %}" alt="#">
+            </div>
+        </div>
+        <div class="blog_animation_4">
+            <div data-parallax='{"x": 5, "y": 105, "rotateZ":0}'><img src="{% static '/img/icon/contact_icon.png' %}" alt="#"></div>
+        </div>
+
+
+        <div class="blog_animation_6">
+            <div data-parallax='{"x": 8, "y": 110, "rotateZ":0}'><img src="{% static '/img/icon/icon_9.png' %}" alt="#">
+            </div>
+        </div>
+
+        <div class="blog_animation_8">
+            <div data-parallax='{"x": 10, "y": 100, "rotateZ":0}'><img src="{% static '/img/icon/event_6.png' %}" alt="#">
+            </div>
+        </div>
+        <div class="blog_animation_9">
+            <div data-parallax='{"x": 30, "y": 110, "rotateZ":0}'><img src="{% static '/img/icon/icon_8.png' %}" alt="#">
+            </div>
+        </div>
+        <div class="blog_animation_10">
+            <div data-parallax='{"x": 5, "y": 105, "rotateZ":0}'><img src="{% static '/img/icon/contact_icon.png' %}" alt="#"></div>
+        </div>
+    </section>
+    <!-- blog part end -->
+
+
+
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        window.CHART_THEME = "light";
+    </script>
+{% endblock %}

@@ -202,38 +202,49 @@ $(function () {
         },
         weekly_change: weeklyChange,
         you_vs_others_weekly_change: JSON.parse(JSON.stringify(weeklyChange)),
-        monthly_consumption:{
+        monthly_consumption: {
             "type": "serial",
-            "theme": "dark",
             "marginRight": 70,
-            "valueAxes": [{
-            "axisAlpha": 0,
-            "position": "left",
-            "title": window.MESSAGES.components.monthlyConsumption
-          }],
-            "legend": {"enabled": false},
-          "startDuration": 1,
-          "graphs": [{
-            "balloonText": "<b>[[category]]: [[value]]</b>",
-            "fillColorsField": "color",
-            "fillAlphas": 0.9,
-            "lineAlpha": 0.2,
-            "type": "column",
-            "valueField": "consumption"
-          }],
-          "chartCursor": {
-            "categoryBalloonEnabled": false,
-            "cursorAlpha": 0,
-            "zoomable": false
-          },
-          "categoryField": "month",
-          "categoryAxis": {
-            "gridPosition": "start",
-            "labelRotation": 45
-          },
-          "export": {
-            "enabled": true
-          }
+            "valueAxes": [
+                {
+                    "axisAlpha": 0,
+                    "position": "left",
+                    "minimum": 0,
+                    "title": window.MESSAGES.components.monthlyConsumption
+                }
+            ],
+            titles: [
+                {
+                    "id": "Title-1",
+                    "size": 15,
+                    "text": window.MESSAGES.components.monthlyConsumption
+                }
+            ],
+            legend: {
+                enabled: false,
+            },
+            startDuration: 1,
+            graphs: [{
+                balloonText: "<b>[[category]]: [[value]]</b>",
+                fillColorsField: "color",
+                fillAlphas: 0.9,
+                lineAlpha: 0.2,
+                type: "column",
+                valueField: "consumption"
+            }],
+            chartCursor: {
+                categoryBalloonEnabled: false,
+                cursorAlpha: 0,
+                zoomable: false
+            },
+            categoryField: "month",
+            categoryAxis: {
+                gridPosition: "start",
+                labelRotation: 45
+            },
+            export: {
+                enabled: true
+            }
         }
     };
 

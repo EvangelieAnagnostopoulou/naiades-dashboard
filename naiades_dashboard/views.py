@@ -10,6 +10,7 @@ from django.db.models.functions import TruncDate, Cast, ExtractDay
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils.timezone import now
+from django.utils.translation import gettext_lazy as _
 
 from naiades_dashboard.managers.messages import MessageManager
 from naiades_dashboard.models import Consumption, MeterInfoAccess, MeterInfo
@@ -46,6 +47,10 @@ def consumption(request):
 def report(request):
     return render(request, 'report.html')
 
+
+@login_required
+def faq(request):
+    return render(request, 'faq.html')
 
 def get_total_period_consumption_by_activity(qs, period_q):
     qs = qs.\
@@ -269,6 +274,37 @@ def get_you_vs_others_change(data_qs, meter_info):
     }]
 
 
+def get_monthly_consumption(data_qs, meter_info):
+    if not meter_info:
+        return []
+
+    # get previous month
+    year = now().year
+    previous_month = now().month - 1
+    if not previous_month:
+        previous_month = 12
+        year -= 1
+
+    qs = data_qs. \
+        filter(meter_number=meter_info.meter_number). \
+        values('month', 'year'). \
+        filter(month=previous_month, year__in=[year - 1, year]).\
+        order_by('year'). \
+        annotate(total_consumption=Sum('consumption'))
+
+    return [
+        {
+            "month": f"{_(datetime.strptime(str(entry['month']), '%m').strftime('%B'))} {entry['year']}",
+            "consumption": entry["total_consumption"],
+        }
+        for entry in qs
+    ]
+    # return [
+    #     {"month": "March 2018", "consumption": 120, "color": "#04D215"},
+    #     {"month": "March 2019", "consumption": 80, "color": "#F8FF01"}
+    # ]
+
+
 def get_measurement_data(request, metric, extra):
     dest = "naiades_dashboard" \
         if request.user.is_authenticated \
@@ -401,10 +437,7 @@ def get_measurement_data(request, metric, extra):
             qs = []
 
     elif metric == "monthly_consumption":
-        qs = [
-            {"month": "March 2018", "consumption": 120, "color": "#04D215"},
-            {"month": "March 2019", "consumption": 80, "color": "#F8FF01"}
-        ]
+        qs = get_monthly_consumption(data_qs=qs, meter_info=meter_info)
 
     elif metric == "all":
         qs = qs.\
