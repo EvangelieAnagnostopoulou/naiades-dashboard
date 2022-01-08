@@ -8,7 +8,7 @@ function exportReport() {
   console.log(`${window.MESSAGES.report.startingExport}...`);
 
   // Define IDs of the charts we want to include in the report
-  var ids = ["chart-you_vs_others", "chart-total_hourly_consumption", "chart-total_daily_consumption"];
+  var ids = ["chart-you_vs_others", "chart-total_hourly_consumption", "chart-total_daily_consumption", "chart-you_vs_others_weekly_change", "chart-weekly_change"];
   //var ids = ["chartdiv1", "chartdiv2", "chartdiv3", "chartdiv4"];
 
   // Collect actual chart objects out of the AmCharts.charts array
@@ -60,7 +60,8 @@ function exportReport() {
     // Let's add a custom title
     layout.content.push({
       "text": window.MESSAGES.report.weeklyTitle,
-      "fontSize": 15
+      "fontSize": 15,
+      "alignment": "center",
     });
 
     // Now let's grab actual content from our <p> intro tag
@@ -68,24 +69,36 @@ function exportReport() {
       "text": document.getElementById("intro").innerHTML
     });
 
-    // Add bigger chart
-    layout.content.push({
-      "image": charts["chart-you_vs_others"].exportedImage,
-      "fit": [523, 300]
-    });
-
     // Put two next charts side by side in columns
     layout.content.push({
       "columns": [{
         "width": "50%",
-        "image": charts["chart-total_hourly_consumption"].exportedImage,
+        "image": charts["chart-you_vs_others"].exportedImage,
         "fit": [250, 300]
       }, {
         "width": "*",
-        "image": charts["chart-total_daily_consumption"].exportedImage,
+        "image": charts["chart-you_vs_others_weekly_change"].exportedImage,
         "fit": [250, 300]
       }],
       "columnGap": 10
+    });
+
+    // Add bigger chart
+    layout.content.push({
+      "image": charts["chart-total_hourly_consumption"].exportedImage,
+      "fit": [523, 300]
+    });
+
+    // Add bigger chart
+    layout.content.push({
+      "image": charts["chart-total_daily_consumption"].exportedImage,
+      "fit": [523, 300]
+    });
+
+    // Add bigger chart
+    layout.content.push({
+      "image": charts["chart-weekly_change"].exportedImage,
+      "fit": [523, 300]
     });
 
     // Add chart and text next to each other
