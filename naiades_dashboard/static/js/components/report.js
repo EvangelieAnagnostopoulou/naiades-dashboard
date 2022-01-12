@@ -57,6 +57,10 @@ function exportReport() {
       "content": []
     };
 
+    /*layout.content.push({
+      'image': 'img/team/logo.png'
+    }); */
+
     // Let's add a custom title
     layout.content.push({
       "text": window.MESSAGES.report.weeklyTitle,
@@ -74,11 +78,13 @@ function exportReport() {
       "columns": [{
         "width": "50%",
         "image": charts["chart-you_vs_others"].exportedImage,
-        "fit": [250, 300]
+        "fit": [250, 300],
+        "margin": [ 0, 35, 0, 0],
       }, {
         "width": "*",
         "image": charts["chart-you_vs_others_weekly_change"].exportedImage,
-        "fit": [250, 300]
+        "fit": [250, 300],
+        "margin": [ 0, 50, 0, 0],
       }],
       "columnGap": 10
     });
