@@ -104,13 +104,17 @@ function exportReport() {
       "fit": [523, 300]
     });
 
+    // Let's add a custom title
+    layout.content.push({
+      "text": window.MESSAGES.report.weeklyChangeTitle,
+      "alignment": "center",
+      "margin": [ 0, 35, 0, 0],
+    });
+
     // Add bigger chart
     layout.content.push({
       "image": charts["chart-weekly_change"].exportedImage,
       "fit": [523, 500],
-      "text": window.MESSAGES.report.weeklyChangeTitle,
-      "alignment": "center",
-      "margin": [ 0, 35, 0, 0],
 
     });
 
