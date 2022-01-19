@@ -129,11 +129,11 @@ $(function () {
                     "enabled": false
              },
             titles: [
-                {
+                /*{
                     "id": "Title-1",
                     "size": 28,
                     "text": window.MESSAGES.components.mySchoolVsOthers
-                }
+                }*/
             ],
             valueAxes: [
                 {

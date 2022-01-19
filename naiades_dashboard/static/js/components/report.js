@@ -66,8 +66,8 @@ function exportReport() {
 
     // Let's add a custom title
     layout.content.push({
-      "text": window.MESSAGES.report.weeklyTitle,
-      "fontSize": 15,
+      "text": window.MESSAGES.report.weeklyTitle.toUpperCase(),
+      "fontSize": 18,
       "alignment": "center",
     });
 
@@ -76,18 +76,43 @@ function exportReport() {
       "text": document.getElementById("intro").innerHTML
     });
 
+     // Let's add a custom title
+    layout.content.push({
+      "text": window.MESSAGES.report.mySchoolVsOthers,
+      "alignment": "center",
+      "margin": [ 0, 25, 0, 0],
+    });
+
+     // Put two next charts side by side in columns
+    layout.content.push({
+      "columns": [{
+        "width": "50%",
+        "text": window.MESSAGES.report.weeklyConsumption,
+        "alignment": "center",
+        "margin": [ 0, 10, 0, 0],
+        "fontSize": 8,
+      }, {
+        "width": "*",
+        "text": window.MESSAGES.report.weeklyChange,
+        "alignment": "center",
+        "margin": [ 0, 10, 0, 0],
+        "fontSize": 8,
+      }],
+      //"columnGap": 10
+    });
+
     // Put two next charts side by side in columns
     layout.content.push({
       "columns": [{
         "width": "50%",
         "image": charts["chart-you_vs_others"].exportedImage,
-        "fit": [250, 300],
-        "margin": [ 0, 35, 0, 0],
+        "fit": [250, 200],
+        //"margin": [ 0, 35, 0, 0],
       }, {
         "width": "*",
         "image": charts["chart-you_vs_others_weekly_change"].exportedImage,
-        "fit": [250, 300],
-        "margin": [ 0, 50, 0, 0],
+        "fit": [250, 200],
+        "margin": [ 0, 15, 0, 0],
       }],
       "columnGap": 10
     });
@@ -95,13 +120,13 @@ function exportReport() {
     // Add bigger chart
     layout.content.push({
       "image": charts["chart-total_hourly_consumption"].exportedImage,
-      "fit": [523, 300]
+      "fit": [523, 250]
     });
 
     // Add bigger chart
     layout.content.push({
       "image": charts["chart-total_daily_consumption"].exportedImage,
-      "fit": [523, 300]
+      "fit": [523, 250]
     });
 
     // Let's add a custom title

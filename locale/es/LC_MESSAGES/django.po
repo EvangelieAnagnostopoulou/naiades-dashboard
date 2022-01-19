@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-02 17:19+0200\n"
+"POT-Creation-Date: 2022-01-19 11:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,13 +22,17 @@ msgstr ""
 msgid ""
 "This week your consumption is ranked within the top 20%. Keep up the good "
 "work!!"
-msgstr "Esta semana su consumación ha sido classificada en el  mejor 20%. ¡Felicitaciones sige asi!"
+msgstr ""
+"Esta semana su consumación ha sido classificada en el  mejor 20%. "
+"¡Felicitaciones sige asi!"
 
 #: .\naiades_dashboard\managers\messages.py:16
 msgid ""
 "This week your consumption is ranked within the top 20%. Continue saving "
 "water."
-msgstr "Esta semana su consumación ha sido classificada en el mejor 20%. Sige  ahorrando agua."
+msgstr ""
+"Esta semana su consumación ha sido classificada en el mejor 20%. Sige  "
+"ahorrando agua."
 
 #: .\naiades_dashboard\managers\messages.py:19
 #: .\naiades_dashboard\managers\messages.py:35
@@ -56,21 +60,25 @@ msgstr "¡Intenta ahorrar agua! ¡Usa agua con cuidado, cada gota vale!"
 #: .\naiades_dashboard\managers\messages.py:26
 #: .\naiades_dashboard\managers\messages.py:42
 msgid "Try more! By saving water, together we can make a difference."
-msgstr "¡Intenta un poco más! Con ahorrar agua, todos juntos podemos marcar la diferencia."
+msgstr ""
+"¡Intenta un poco más! Con ahorrar agua, todos juntos podemos marcar la "
+"diferencia."
 
 #: .\naiades_dashboard\managers\messages.py:31
 msgid ""
 "This week your consumption reduction is ranked within the top 20%. Keep up "
 "the good work!!"
 msgstr ""
-"Esta semana su reducción de consumación ha sido classificada en el mejor 20%. ¡Felicitaciones sige asi!"
+"Esta semana su reducción de consumación ha sido classificada en el mejor "
+"20%. ¡Felicitaciones sige asi!"
 
 #: .\naiades_dashboard\managers\messages.py:32
 msgid ""
 "This week your consumption reduction is ranked within the top 20%. Continue "
 "saving water."
 msgstr ""
-"Esta semana su reducción de consumación ha sido classificada en el mejor 20%. Sige  ahorrando agua."
+"Esta semana su reducción de consumación ha sido classificada en el mejor "
+"20%. Sige  ahorrando agua."
 
 #: .\naiades_dashboard\managers\messages.py:39
 msgid "Try more to improve your consumption reduction!"
@@ -80,21 +88,116 @@ msgstr "¡Intenta mejorar su consumación de agua!"
 msgid ""
 "Your peers are reducing their consumption more. Use water, don’t waste it."
 msgstr ""
-"Tus compañeros han reducido su consumación más que tu. Usa agua, no lo desgastes."
+"Tus compañeros han reducido su consumación más que tu. Usa agua, no lo "
+"desgastes."
 
-#: .\naiades_dashboard\templates\leaderboard.html:16
-msgid "Consumption"
-msgstr "Consumo"
+#: .\naiades_dashboard\templates\faq.html:19
+msgid "Frequently Asked Questions"
+msgstr ""
 
-#: .\naiades_dashboard\templates\leaderboard.html:19
-msgid "Consumption change"
-msgstr "Cambio de consumo"
+#: .\naiades_dashboard\templates\faq.html:26
+msgid "What is the NAIADES School Dashboard?"
+msgstr ""
 
-#: .\naiades_dashboard\templates\leaderboard.html:29
+#: .\naiades_dashboard\templates\faq.html:27
+msgid ""
+"NAIADES School Dashboard is a tool that allows water management companies & "
+"public officials to deploy ICT-supported behavioural change support "
+"programmes in order to increase student awareness on water consumption of "
+"their schools and their engagement in water conservation activities."
+msgstr ""
+
+#: .\naiades_dashboard\templates\faq.html:28
+msgid "What does the water consumption leaderboard show?"
+msgstr ""
+
+#: .\naiades_dashboard\templates\faq.html:29
+#, python-format
+msgid ""
+"The water consumption leaderboard shows a ranked list of all schools "
+"participating in the competition. Schools are ranked based on their water "
+"consumption per student over the last seven days in ascending order. The "
+"position of the user’s school in the ranked list is highlighted. Note that "
+"only working school days are considered in that calculation. In the same "
+"page a chart is shown which compares the water consumption of the user’s "
+"school to the average water consumption of all schools participating in the "
+"competition, as well as to the water consumption of the best 20%% of the "
+"schools in terms of consumption."
+msgstr ""
+
+#: .\naiades_dashboard\templates\faq.html:30
+msgid "What does the water consumption change leaderboard show?"
+msgstr ""
+
+#: .\naiades_dashboard\templates\faq.html:31
+#, python-format
+msgid ""
+" The Water consumption change leaderboard shows a ranked list of all schools "
+"participating in the competition. Schools are ranked based on their water "
+"consumption change per student over the last seven days in ascending order. "
+"Again, the position of the user’s school in the ranked list is highlighted, "
+"while only working school days are considered. In the same page a chart is "
+"shown which compares the percentile water consumption change of the user’s "
+"school to the average percentile water consumption change of all schools "
+"participating in the competition, as well as to the percentile water "
+"consumption change of the best 20%% of the schools in terms of percentile "
+"consumption change. Different colors are used to reflect a positive and a "
+"negative change corresponding to a consumption increase or decrease "
+"respectively."
+msgstr ""
+
+#: .\naiades_dashboard\templates\faq.html:32
+msgid "What are the prizes?"
+msgstr ""
+
+#: .\naiades_dashboard\templates\faq.html:33
+msgid ""
+"There are two types of rewards that will be given to the best performing "
+"schools participating  in the competition. The first type of rewards will be "
+"given to the school(s) that achieved the higher percentile consumption "
+"change over the duration of the competition. The second type of rewards will "
+"be based on the reports/videos that the competing school students will "
+"prepare at the end of the competition. Each school should create a video, or "
+"write a report, explaining what they did to achieve water consumption "
+"reduction, as well as any other ideas for further water consumption "
+"reduction in the future. For each school participating in the competition, "
+"one or two teams of students will be selected to represent their school. The "
+"first type of rewards will be a robotic kit for the best performing primary "
+"school(s), and a 3D printer for the best performing secondary schools. The "
+"second type of rewards will be given to the team of students that will write "
+"the best report or create the best video. This type of rewards would be "
+"Amazon or similar vouchers."
+msgstr ""
+
+#: .\naiades_dashboard\templates\faq.html:34
+msgid "How can I see my school’s water consumption in more detail?"
+msgstr ""
+
+#: .\naiades_dashboard\templates\faq.html:35
+msgid ""
+"You can see your school’s water consumption in the “Statistics” page. There, "
+"you can see additional insights regarding your school’s average consumption "
+"by hour and by day of the week. This can be used to identify water "
+"consumption patterns, which can be exploited to take more targeted measures."
+msgstr ""
+
+#: .\naiades_dashboard\templates\faq.html:36
+msgid ""
+"How can I motivate other students to reduce our school’s water consumption?"
+msgstr ""
+
+#: .\naiades_dashboard\templates\faq.html:37
+msgid ""
+"To motivate your classmates to be a part of our effort to reduce water "
+"consumption, you can share posts, ideas, and feedback using the community "
+"forum – including tips on how to save water!"
+msgstr ""
+
+#: .\naiades_dashboard\templates\leaderboard\consumption.html:8
 msgid "Weekly Water Consumption"
 msgstr "Consumo Semanal"
 
-#: .\naiades_dashboard\templates\leaderboard.html:31
+#: .\naiades_dashboard\templates\leaderboard\consumption.html:10
 #, fuzzy
 #| msgid ""
 #| "\n"
@@ -105,44 +208,115 @@ msgstr "Consumo Semanal"
 #| "                                "
 msgid ""
 "\n"
-"                                    In leaderboard, you can see schools "
-"ranked\n"
-"                                    based on their water consumption per "
-"student in the last seven days\n"
-"                                "
+"                        In leaderboard, you can see schools ranked\n"
+"                        based on their water consumption per student in the "
+"last seven days\n"
+"                    "
 msgstr ""
 "\n"
 "En la clasificación, pueden ver las escuelas por ragno\n"
 ", basado and su consumo de agua semanal, en los ultimos siete dias"
 
-#: .\naiades_dashboard\templates\leaderboard.html:54
-msgid "Consumption change since last week"
-msgstr "Cambio de consumo en los ultimos siete dias"
+#: .\naiades_dashboard\templates\leaderboard\consumption.html:23
+#: .\naiades_dashboard\templates\leaderboard\weekly-change.html:27
+msgid "My school vs others"
+msgstr "My escuela vs otras"
 
-#: .\naiades_dashboard\templates\leaderboard.html:58
+#: .\naiades_dashboard\templates\leaderboard\consumption.html:27
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "                                    Comparison of my school vs other\n"
+#| "                                    regarding the water consumption "
+#| "change in the last seven days\n"
+#| "                                "
 msgid ""
 "\n"
-"                                    In leaderboard, you can see schools "
-"ranked based\n"
-"                                    on their water consumption change in the "
-"last seven days\n"
-"                                "
+"                        Comparison of my school vs other\n"
+"                        regarding the water consumption in the last seven "
+"days\n"
+"                    "
+msgstr ""
+"\n"
+" Comparacion de mi escuela vs otras\n"
+" con respecto al cambio den consumación de agua en los últimos siete días "
+
+#: .\naiades_dashboard\templates\leaderboard\leaderboard.html:16
+msgid "Consumption"
+msgstr "Consumo"
+
+#: .\naiades_dashboard\templates\leaderboard\leaderboard.html:19
+#, fuzzy
+#| msgid "Consumption change"
+msgid "Weekly Consumption change"
+msgstr "Cambio de consumo"
+
+#: .\naiades_dashboard\templates\leaderboard\leaderboard.html:22
+#: .\naiades_dashboard\templates\leaderboard\overall-change.html:9
+#, fuzzy
+#| msgid "Consumption change"
+msgid "Overall Consumption change"
+msgstr "Cambio de consumo"
+
+#: .\naiades_dashboard\templates\leaderboard\overall-change.html:13
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "                                    In leaderboard, you can see schools "
+#| "ranked based\n"
+#| "                                    on their water consumption change in "
+#| "the last seven days\n"
+#| "                                "
+msgid ""
+"\n"
+"                        In this chart, you can see schools ranked based\n"
+"                        on their water consumption change since "
+"%(OVERALL_CHANGE_DATE)s.\n"
+"                    "
 msgstr ""
 "\n"
 " En la clasificación, pueden ver las escuelas por rango, basado en su "
 "consumo de agua en los últimos siete días "
 
-#: .\naiades_dashboard\templates\leaderboard.html:72
-msgid "My school vs others"
-msgstr "My escuela vs otras"
+#: .\naiades_dashboard\templates\leaderboard\weekly-change.html:9
+#: .\naiades_dashboard\templates\translations.html:19
+msgid "Consumption change since last week"
+msgstr "Cambio de consumo en los ultimos siete dias"
 
-#: .\naiades_dashboard\templates\leaderboard.html:76
+#: .\naiades_dashboard\templates\leaderboard\weekly-change.html:13
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "                                    In leaderboard, you can see schools "
+#| "ranked based\n"
+#| "                                    on their water consumption change in "
+#| "the last seven days\n"
+#| "                                "
 msgid ""
 "\n"
-"                                    Comparison of my school vs other\n"
-"                                    regarding the water consumption change "
-"in the last seven days\n"
-"                                "
+"                        In this chart, you can see schools ranked based\n"
+"                        on their water consumption change in the last seven "
+"days\n"
+"                    "
+msgstr ""
+"\n"
+" En la clasificación, pueden ver las escuelas por rango, basado en su "
+"consumo de agua en los últimos siete días "
+
+#: .\naiades_dashboard\templates\leaderboard\weekly-change.html:31
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "                                    Comparison of my school vs other\n"
+#| "                                    regarding the water consumption "
+#| "change in the last seven days\n"
+#| "                                "
+msgid ""
+"\n"
+"                        Comparison of my school vs other\n"
+"                        regarding the water consumption change in the last "
+"seven days\n"
+"                    "
 msgstr ""
 "\n"
 " Comparacion de mi escuela vs otras\n"
@@ -185,75 +359,103 @@ msgstr "Iniciando exporte"
 msgid "Generating PDF"
 msgstr "Generando PDF"
 
-#: .\naiades_dashboard\templates\translations.html:21
+#: .\naiades_dashboard\templates\translations.html:20
+msgid "My School vs. Others"
+msgstr "Mi escuela vs. otras"
+
+#: .\naiades_dashboard\templates\translations.html:24
 msgid "Decrease"
 msgstr "Menos"
 
-#: .\naiades_dashboard\templates\translations.html:22
+#: .\naiades_dashboard\templates\translations.html:25
 msgid "Increase"
 msgstr "Mas"
 
-#: .\naiades_dashboard\templates\translations.html:23
+#: .\naiades_dashboard\templates\translations.html:26
 msgid "Total consumption per hour"
 msgstr "Consumación total por hora"
 
-#: .\naiades_dashboard\templates\translations.html:24
+#: .\naiades_dashboard\templates\translations.html:27
 msgid "Consumption (lt)"
 msgstr "Consumación (lt)"
 
-#: .\naiades_dashboard\templates\translations.html:25
+#: .\naiades_dashboard\templates\translations.html:28
 #, fuzzy
 #| msgid "Consumption (lt)"
 msgid "Consumption per student (lt)"
 msgstr "Consumación (lt)"
 
-#: .\naiades_dashboard\templates\translations.html:26
+#: .\naiades_dashboard\templates\translations.html:29
 msgid "Total weekly consumption"
 msgstr "Consumación semanal total"
 
-#: .\naiades_dashboard\templates\translations.html:27
-msgid "My School vs. Others"
-msgstr "Mi escuela vs. otras"
-
-#: .\naiades_dashboard\templates\translations.html:28
+#: .\naiades_dashboard\templates\translations.html:30
 msgid "Total consumption per day"
 msgstr "Consumación total por día"
 
-#: .\naiades_dashboard\templates\translations.html:29
+#: .\naiades_dashboard\templates\translations.html:31
 msgid "Monthly Consumption"
 msgstr "Consumación Mensual"
 
-#: .\naiades_dashboard\templates\translations.html:30
+#: .\naiades_dashboard\templates\translations.html:32
 msgid "The chart contains no data"
 msgstr "El gráfico no contiene datos"
 
-#: .\naiades_dashboard\templates\translations.html:31
+#: .\naiades_dashboard\templates\translations.html:33
 msgid "An error occurred when loading data for"
 msgstr "Ha ocurrido un error cargando los datos"
 
-#: .\naiades_dashboard\templates\translations.html:34
+#: .\naiades_dashboard\templates\translations.html:36
+msgid "Monday"
+msgstr ""
+
+#: .\naiades_dashboard\templates\translations.html:37
+msgid "Tuesday"
+msgstr ""
+
+#: .\naiades_dashboard\templates\translations.html:38
+msgid "Wednesday"
+msgstr ""
+
+#: .\naiades_dashboard\templates\translations.html:39
+msgid "Thursday"
+msgstr ""
+
+#: .\naiades_dashboard\templates\translations.html:40
+msgid "Friday"
+msgstr ""
+
+#: .\naiades_dashboard\templates\translations.html:41
+msgid "Saturday"
+msgstr ""
+
+#: .\naiades_dashboard\templates\translations.html:42
+msgid "Sunday"
+msgstr ""
+
+#: .\naiades_dashboard\templates\translations.html:45
 msgid "posted at"
 msgstr "creado el"
 
-#: .\naiades_dashboard\templates\translations.html:35
+#: .\naiades_dashboard\templates\translations.html:46
 msgid "Loading"
 msgstr "Cargando"
 
-#: .\naiades_dashboard\templates\translations.html:36
+#: .\naiades_dashboard\templates\translations.html:47
 msgid "Posting"
 msgstr "Mandando"
 
-#: .\naiades_dashboard\templates\translations.html:37
+#: .\naiades_dashboard\templates\translations.html:48
 msgid ""
 "Thank you for your feedback! Your comment will be reviewed by your school\\"
 msgstr ""
 "¡Gracias por tu mensaje! Tu comentario va a ser revisado por tu escuela"
 
-#: .\naiades_dashboard\templates\translations.html:38
+#: .\naiades_dashboard\templates\translations.html:49
 msgid "Post your thoughts here"
 msgstr "Manda tu mensaje aquí"
 
-#: .\naiades_dashboard\templates\translations.html:39
+#: .\naiades_dashboard\templates\translations.html:50
 msgid "Post"
 msgstr "Mandar"
 
@@ -339,7 +541,11 @@ msgstr "Sobre Nosotros"
 msgid "Get In Touch Wirh Us"
 msgstr "Contáctenos"
 
-#: .\templates\base.html:233
+#: .\templates\base.html:229
+msgid "FAQ"
+msgstr ""
+
+#: .\templates\base.html:236
 msgid "Copyright"
 msgstr "Derechos"
 
