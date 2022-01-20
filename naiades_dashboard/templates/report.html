@@ -22,7 +22,7 @@
                     <div class="text-center">
                         <button type="submit" class="btn pc-button elementor-button button-link cu_btn " onclick="exportReport();">
                             <div class="button-content-wrapper">
-                                <span class="elementor-button-text">Export to PDF</span>
+                                <span class="elementor-button-text">{% trans "Export to PDF" %}</span>
                                 <svg class="pc-dashes inner-dashed-border animated-dashes">
                                     <rect x="5px" y="5px" rx="25px" ry="25px" width="0" height="0"></rect>
                                 </svg>
@@ -32,9 +32,11 @@
                     </div>
                     <p id="intro"></p>
                     <div style="clear: both;">
-                         <h3 style="text-align:center;margin-top: 0.83em;font-weight: bold;" >My School vs Others </h3>
-                         <div id="chart-you_vs_others" class="data-item data-chart" style="float:left;width:50%;height: 500px;margin-top: 35px;"></div>
-                         <div id="chart-you_vs_others_weekly_change" class="data-item data-chart data-component" style="float:left;width:50%;height: 500px;margin-top: 35px;"></div>
+                         <h3 style="text-align:center;margin-top: 0.83em;font-weight: bold;" >{% trans "My School vs Others" %} </h3>
+                         <div style="float:left;width:50%;margin-top: 15px;"><h5 style="text-align:center;margin-top: 0.83em;font-weight: bold;" >{% trans "Weekly Consumption"%} </h5></div>
+                         <div style="float:left;width:50%;margin-top: 15px;"><h5 style="text-align:center;margin-top: 0.83em;font-weight: bold;" >{% trans "Weekly Consumption change"%} </h5></div>
+                         <div id="chart-you_vs_others" class="data-item data-chart" style="float:left;width:50%;height: 500px;margin-top: 10px;"></div>
+                         <div id="chart-you_vs_others_weekly_change" class="data-item data-chart data-component" style="float:left;width:50%;height: 500px;margin-top: 10px;"></div>
                     </div>
                     <!--<div id="component-message" class="data-item data-component"></div> -->
                     <div class="row">
@@ -49,6 +51,7 @@
                         </div>
                     </div>
 
+                    <h5 style="text-align:center;margin-top: 0.83em;font-weight: bold;" >{% trans "Consumption change since last week"%} </h5>
                     <div class="row">
                         <div class="col col-xs-12">
                             <div id="chart-weekly_change" class="data-item data-chart data-component" style="height: 500px;margin-top: 20px;"></div>
