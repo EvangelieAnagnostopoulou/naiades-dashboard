@@ -85,22 +85,22 @@ $(function () {
     };
 
     const CHART_CONFIGS = {
-        total_hourly_consumption: {
+        avg_hourly_consumption: {
             categoryField: "hour",
             graphs: [
                 {
                     "balloonText": "[[title]] of [[category]]: [[value]] lt.",
                     "id": "AmGraph-1",
-                    "title": window.MESSAGES.components.totalConsumptionPerHour,
+                    "title": window.MESSAGES.components.avgConsumptionPerHour,
                     "bullet": "round",
-                    "valueField": "total_consumption"
+                    "valueField": "avg_consumption"
                 }
             ],
             titles: [
                 {
                     "id": "Title-1",
                     "size": 15,
-                    "text": window.MESSAGES.components.totalConsumptionPerHour
+                    "text": window.MESSAGES.components.avgConsumptionPerHour
                 }
             ],
             valueAxes: [
@@ -144,22 +144,22 @@ $(function () {
             ],
             rotate: true,
         },
-        total_daily_consumption: {
+        avg_day_consumption: {
             categoryField: "day",
             graphs: [
                 {
                     "balloonText": "[[title]] of [[category]]: [[value]] lt.",
                     "id": "AmGraph-1",
-                    "title": "Total consumption per day",
+                    "title": window.MESSAGES.components.avgConsumptionPerDay,
                     "bullet": "round",
-                    "valueField": "total_consumption"
+                    "valueField": "avg_consumption"
                 }
             ],
             titles: [
                 {
                     "id": "Title-1",
                     "size": 15,
-                    "text": window.MESSAGES.components.totalConsumptionPerDay
+                    "text": window.MESSAGES.components.avgConsumptionPerDay
                 }
             ],
             valueAxes: [

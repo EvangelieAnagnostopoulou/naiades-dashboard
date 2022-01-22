@@ -8,7 +8,7 @@ function exportReport() {
   console.log(`${window.MESSAGES.report.startingExport}...`);
 
   // Define IDs of the charts we want to include in the report
-  var ids = ["chart-you_vs_others", "chart-total_hourly_consumption", "chart-total_daily_consumption", "chart-you_vs_others_weekly_change", "chart-weekly_change"];
+  var ids = ["chart-you_vs_others", "chart-avg_hourly_consumption", "chart-avg_day_consumption", "chart-you_vs_others_weekly_change", "chart-weekly_change"];
   //var ids = ["chartdiv1", "chartdiv2", "chartdiv3", "chartdiv4"];
 
   // Collect actual chart objects out of the AmCharts.charts array
@@ -119,13 +119,13 @@ function exportReport() {
 
     // Add bigger chart
     layout.content.push({
-      "image": charts["chart-total_hourly_consumption"].exportedImage,
+      "image": charts["chart-avg_hourly_consumption"].exportedImage,
       "fit": [523, 250]
     });
 
     // Add bigger chart
     layout.content.push({
-      "image": charts["chart-total_daily_consumption"].exportedImage,
+      "image": charts["chart-avg_day_consumption"].exportedImage,
       "fit": [523, 250]
     });
 

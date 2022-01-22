@@ -6,8 +6,9 @@
     display: inline-block;
     width: calc(100% - 110px) !important;
     height: 42px !important;
+    overflow: hidden;
     padding: 10px 20px 10px 0;
-    color: white;
+    color: #111;
     background: none;
     outline: none;
     border: none;
@@ -16,8 +17,8 @@
 
 .tweet-feed .form-post .btn {
     vertical-align: top;
-    margin: 10px 0 10px 10px;
-    padding: 5px 0;
+    margin: 0 6px;
+    padding: 8px 0;
     width: 90px;
 }
 

@@ -362,13 +362,13 @@ def get_measurement_data(request, metric, extra):
             order_by().\
             order_by('year', 'month', 'mday', 'hour')
 
-    elif metric == "total_hourly_consumption":
+    elif metric == "avg_hourly_consumption":
         if meter_info:
             qs = qs.\
                 filter(meter_number=meter_info.meter_number).\
                 values('hour').\
                 order_by('hour').\
-                annotate(total_consumption=Sum('consumption'))
+                annotate(avg_consumption=Avg('consumption'))
         else:
             qs = []
 
@@ -393,13 +393,13 @@ def get_measurement_data(request, metric, extra):
             annotate(avg_daily_consumption=F('total_daily_consumption') / F('n_meters')).\
             order_by('date_grouped')
 
-    elif metric == "total_daily_consumption":
+    elif metric == "avg_day_consumption":
         if meter_info:
             qs = qs. \
                 filter(meter_number=meter_info.meter_number). \
                 values('day').\
                 order_by('day').\
-                annotate(total_consumption=Sum('consumption'))
+                annotate(avg_consumption=Avg('consumption'))
         else:
             qs = []
 

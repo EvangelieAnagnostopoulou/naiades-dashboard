@@ -11,6 +11,11 @@ class MessageManager:
 
     MESSAGES = {
         MESSAGE_TYPE_CONSUMPTION: {
+            "empty": [
+                _("Use water wisely, every drop counts!"),
+                _("By saving water, together we can make a difference."),
+                _("Use water, don't waste it."),
+            ],
             "best20_": [
                 _("This week your consumption is ranked within the top 20%. Keep up the good work!!"),
                 _("This week your consumption is ranked within the top 20%. Continue saving water."),
@@ -27,6 +32,11 @@ class MessageManager:
             ],
         },
         MESSAGE_TYPE_CONSUMPTION_CHANGE: {
+            "empty": [
+                _("Use water wisely, every drop counts!"),
+                _("By saving water, together we can make a difference."),
+                _("Use water, don't waste it."),
+            ],
             "best20_": [
                 _("This week your consumption reduction is ranked within the top 20%. Keep up the good work!!"),
                 _("This week your consumption reduction is ranked within the top 20%. Continue saving water."),
@@ -53,10 +63,13 @@ class MessageManager:
         self.me = self._get_you_vs_others_prop(prop="me")
 
         # classify
-        self.classification = "best20_" if self.me <= self.best20 else (
-            "_avg" if self.me > self.avg else
-            "avg_best20"
-        )
+        if self.best20:
+            self.classification = "best20_" if self.me <= self.best20 else (
+                "_avg" if self.me > self.avg else
+                "avg_best20"
+            )
+        else:
+            self.classification = "empty"
 
     def _get_you_vs_others_prop(self, prop):
         try:
