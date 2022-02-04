@@ -23,34 +23,34 @@ msgid ""
 "This week your consumption is ranked within the top 20%. Keep up the good "
 "work!!"
 msgstr ""
-"Esta semana su consumación ha sido classificada en el  mejor 20%. "
-"¡Felicitaciones sige asi!"
+"Esta semana vuestro consumo ha sido clasificado en el  mejor 20%. "
+"¡Felicitaciones seguir asi!"
 
 #: .\naiades_dashboard\managers\messages.py:16
 msgid ""
 "This week your consumption is ranked within the top 20%. Continue saving "
 "water."
 msgstr ""
-"Esta semana su consumación ha sido classificada en el mejor 20%. Sige  "
+"Esta semana vuestro consumo ha sido clasificado en el  mejor 20%. Seguir  "
 "ahorrando agua."
 
 #: .\naiades_dashboard\managers\messages.py:19
 #: .\naiades_dashboard\managers\messages.py:35
 msgid "Keep up the good work!"
-msgstr "¡Felicitaciones sige asi!"
+msgstr "¡Felicidades seguir asi!"
 
 #: .\naiades_dashboard\managers\messages.py:20
 #: .\naiades_dashboard\managers\messages.py:36
 msgid "Well done! Continue saving water."
-msgstr "¡Muy bien! Sige ahorrando agua."
+msgstr "¡Muy bien! Seguir ahorrando agua."
 
 #: .\naiades_dashboard\managers\messages.py:23
 msgid "Try more to reduce your consumption!"
-msgstr "Intenta reducir su consumación de agua."
+msgstr "Intentar reducir vuestro consumo de agua."
 
 #: .\naiades_dashboard\managers\messages.py:24
 msgid "Your peers are saving more. Use water, don’t waste it."
-msgstr "Tus compañeros han ahorrado más que tu. Usa agua, no lo desgastes."
+msgstr "Otros centros han reducido su consumo más que el vuestro. Usar agua, no lo derroches."
 
 #: .\naiades_dashboard\managers\messages.py:25
 #: .\naiades_dashboard\managers\messages.py:41
@@ -61,43 +61,39 @@ msgstr "¡Intenta ahorrar agua! ¡Usa agua con cuidado, cada gota vale!"
 #: .\naiades_dashboard\managers\messages.py:42
 msgid "Try more! By saving water, together we can make a difference."
 msgstr ""
-"¡Intenta un poco más! Con ahorrar agua, todos juntos podemos marcar la "
-"diferencia."
+"¡Intentar un poco más! Ahorrando agua, podéis marcar la diferencia."
 
 #: .\naiades_dashboard\managers\messages.py:31
 msgid ""
 "This week your consumption reduction is ranked within the top 20%. Keep up "
 "the good work!!"
 msgstr ""
-"Esta semana su reducción de consumación ha sido classificada en el mejor "
-"20%. ¡Felicitaciones sige asi!"
+"Esta semana vuestra reducción de consumo ha sido clasificada en el mejor 20%. ¡Seguir trabajando así!"
 
 #: .\naiades_dashboard\managers\messages.py:32
 msgid ""
 "This week your consumption reduction is ranked within the top 20%. Continue "
 "saving water."
 msgstr ""
-"Esta semana su reducción de consumación ha sido classificada en el mejor "
-"20%. Sige  ahorrando agua."
+"Esta semana vuestra reducción de consumo ha sido clasificada en el mejor 20%, seguir  ahorrando agua. "
 
 #: .\naiades_dashboard\managers\messages.py:39
 msgid "Try more to improve your consumption reduction!"
-msgstr "¡Intenta mejorar su consumación de agua!"
+msgstr "¡Intentar mejorar vuestro consumo de agua!"
 
 #: .\naiades_dashboard\managers\messages.py:40
 msgid ""
 "Your peers are reducing their consumption more. Use water, don’t waste it."
 msgstr ""
-"Tus compañeros han reducido su consumación más que tu. Usa agua, no lo "
-"desgastes."
+"Otros centros han reducido su consumo más que el vuestro. Usar agua, no lo derroches."
 
 #: .\naiades_dashboard\templates\faq.html:19
 msgid "Frequently Asked Questions"
-msgstr ""
+msgstr "Preguntas frecuentes"
 
 #: .\naiades_dashboard\templates\faq.html:26
 msgid "What is the NAIADES School Dashboard?"
-msgstr ""
+msgstr "¿Qué es el Panel Escolar NAIADES?"
 
 #: .\naiades_dashboard\templates\faq.html:27
 msgid ""
@@ -105,11 +101,11 @@ msgid ""
 "public officials to deploy ICT-supported behavioural change support "
 "programmes in order to increase student awareness on water consumption of "
 "their schools and their engagement in water conservation activities."
-msgstr ""
+msgstr "El Panel Escolar de NAIADES es una herramienta que permite a los gestores del agua proponer programas de apoyo al cambio de comportamiento con el apoyo de las TIC para aumentar la concienciación de los estudiantes sobre el consumo de agua de sus escuelas y su compromiso con las actividades de conservación del agua."
 
 #: .\naiades_dashboard\templates\faq.html:28
 msgid "What does the water consumption leaderboard show?"
-msgstr ""
+msgstr "¿Qué muestra la tabla de clasificación del consumo de agua?"
 
 #: .\naiades_dashboard\templates\faq.html:29
 #, python-format
@@ -123,11 +119,11 @@ msgid ""
 "school to the average water consumption of all schools participating in the "
 "competition, as well as to the water consumption of the best 20%% of the "
 "schools in terms of consumption."
-msgstr ""
+msgstr "La tabla de clasificación del consumo de agua muestra una lista clasificada de todos los centros escolares que participan en el concurso. Los centros educativos se clasifican en función de su consumo de agua por alumno durante los últimos siete días en orden ascendente. La posición del centro escolar del usuario en la lista de clasificación aparece resaltada. Hay que tener en cuenta que en ese cálculo sólo se tienen en cuenta los días lectivos. En la misma página se muestra un gráfico que compara el consumo de agua del colegio del usuario con la media de consumo de agua de todos los colegios que participan en el concurso, así como con el consumo de agua del 20% de los mejores colegios en términos de consumo. Los nombres de los centros son anonimizados; cada centro sólo conoce la asignación de su propio consumo."
 
 #: .\naiades_dashboard\templates\faq.html:30
 msgid "What does the water consumption change leaderboard show?"
-msgstr ""
+msgstr "¿Qué muestra la tabla de clasificación del cambio en el consumo de agua?"
 
 #: .\naiades_dashboard\templates\faq.html:31
 #, python-format
@@ -171,7 +167,7 @@ msgstr ""
 
 #: .\naiades_dashboard\templates\faq.html:34
 msgid "How can I see my school’s water consumption in more detail?"
-msgstr ""
+msgstr "¿Cómo puedo ver con más detalle el consumo de agua de mi centro escolar?"
 
 #: .\naiades_dashboard\templates\faq.html:35
 msgid ""
@@ -179,19 +175,19 @@ msgid ""
 "you can see additional insights regarding your school’s average consumption "
 "by hour and by day of the week. This can be used to identify water "
 "consumption patterns, which can be exploited to take more targeted measures."
-msgstr ""
+msgstr "Puedes ver el consumo de agua de tu centro educativo en la página “Estadísticas”. Allí puede ver información adicional sobre el consumo medio de su centro por hora y por día de la semana. Esto puede utilizarse para identificar patrones de consumo de agua, que pueden aprovecharse para tomar medidas más específicas."
 
 #: .\naiades_dashboard\templates\faq.html:36
 msgid ""
 "How can I motivate other students to reduce our school’s water consumption?"
-msgstr ""
+msgstr "¿Cómo puedo motivar a otros alumnos para que reduzcan el consumo de agua de nuestro centro?"
 
 #: .\naiades_dashboard\templates\faq.html:37
 msgid ""
 "To motivate your classmates to be a part of our effort to reduce water "
 "consumption, you can share posts, ideas, and feedback using the community "
 "forum – including tips on how to save water!"
-msgstr ""
+msgstr "Para motivar a tus compañeros de clase a formar parte de nuestro esfuerzo por reducir el consumo de agua, puedes compartir publicaciones, ideas y comentarios utilizando el foro de la comunidad, ¡incluyendo consejos sobre cómo ahorrar agua!"
 
 #: .\naiades_dashboard\templates\leaderboard\consumption.html:8
 msgid "Weekly Water Consumption"

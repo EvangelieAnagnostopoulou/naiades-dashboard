@@ -371,5 +371,15 @@ $(function () {
                     .text(`${window.MESSAGES.components.error} ${metric}`)
             }
         });
+        /*const $cont = $(container);
+        const chartIdent = $cont.attr('id');
+        if (chartIdent === "chart-overall_change"){
+            for (var i = 0; i< chart.dataProvider.length; ++i) {
+                if (chart.dataProvider[i].school === "school198") {
+                    item.dataContext.selected = "#8198b4"
+                }
+
+            }
+        }*/
     });
 });
