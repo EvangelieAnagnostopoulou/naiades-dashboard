@@ -371,6 +371,21 @@ $(function () {
                     .text(`${window.MESSAGES.components.error} ${metric}`)
             }
         });
+
+        // highlight my school
+        AmCharts.addInitHandler(function(chart) {
+          let maxDP;
+          for(var i = 0; i < chart.dataProvider.length; i++) {
+            const dp = chart.dataProvider[i];
+            if (dp.school === window.USER.name.replace(' Admin', '')){
+                maxDP = dp;
+            }
+          }
+
+          if (maxDP) {
+            maxDP.color = "#FF8C00";
+          }
+        }, );
         /*const $cont = $(container);
         const chartIdent = $cont.attr('id');
         if (chartIdent === "chart-overall_change"){
