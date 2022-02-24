@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-15 17:29+0200\n"
+"POT-Creation-Date: 2022-02-23 00:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -258,13 +258,13 @@ msgid ""
 "                    "
 msgstr ""
 "\n"
-"En la clasificación, pueden ver las escuelas por ragno\n"
-", basado and su consumo de agua semanal, en los ultimos siete dias"
+"En la clasificación, puedes ver los centros educativos de acuerdo\n"
+"con su consumo de agua semanal, en los ultimos siete dias"
 
 #: .\naiades_dashboard\templates\leaderboard\consumption.html:23
 #: .\naiades_dashboard\templates\leaderboard\weekly-change.html:27
 msgid "My school vs others"
-msgstr "My escuela vs otras"
+msgstr "Mi escuela comparada con otras escuelas"
 
 #: .\naiades_dashboard\templates\leaderboard\consumption.html:27
 msgid ""
@@ -275,8 +275,9 @@ msgid ""
 "                    "
 msgstr ""
 "\n"
-" Comparacion de mi escuela vs otras\n"
-" con respecto al cambio den consumación de agua en los últimos siete días "
+" Comparación de mi escuela con otras,\n"
+" de acuerdo con el aumento o disminución de consumo en los últimos siete "
+"días "
 
 #: .\naiades_dashboard\templates\leaderboard\leaderboard.html:16
 msgid "Consumption"
@@ -285,17 +286,13 @@ msgstr "Consumo"
 #: .\naiades_dashboard\templates\leaderboard\leaderboard.html:19
 #: .\naiades_dashboard\templates\report.html:37
 #: .\naiades_dashboard\templates\translations.html:22
-#, fuzzy
-#| msgid "Consumption change"
 msgid "Weekly Consumption change"
-msgstr "Cambio de consumo"
+msgstr "Variación semanal de consumo"
 
 #: .\naiades_dashboard\templates\leaderboard\leaderboard.html:22
 #: .\naiades_dashboard\templates\leaderboard\overall-change.html:9
-#, fuzzy
-#| msgid "Consumption change"
 msgid "Overall Consumption change"
-msgstr "Cambio de consumo"
+msgstr "Variación total de consumo"
 
 #: .\naiades_dashboard\templates\leaderboard\overall-change.html:13
 msgid ""
@@ -306,14 +303,14 @@ msgid ""
 "                    "
 msgstr ""
 "\n"
-" En la clasificación, pueden ver las escuelas por rango, basado en su "
-"consumo de agua en los últimos siete días "
+" En la gráfica, puedes ver las escuelas ordenadas de acuerdo ccon su aumento "
+"o disminución de consumo, desde el inicio del concurso"
 
 #: .\naiades_dashboard\templates\leaderboard\weekly-change.html:9
 #: .\naiades_dashboard\templates\report.html:54
 #: .\naiades_dashboard\templates\translations.html:19
 msgid "Consumption change since last week"
-msgstr "Cambio de consumo en los ultimos siete dias"
+msgstr "Aumento o disminución de consumo en los ultimos siete dias"
 
 #: .\naiades_dashboard\templates\leaderboard\weekly-change.html:13
 msgid ""
@@ -324,8 +321,8 @@ msgid ""
 "                    "
 msgstr ""
 "\n"
-" En la clasificación, pueden ver las escuelas por rango, basado en su "
-"consumo de agua en los últimos siete días "
+" En esta gráfica, puedes ver los centros educativos ordenados de acuerdo con "
+"su aumento o disminución de consumo en los últimos siete días "
 
 #: .\naiades_dashboard\templates\leaderboard\weekly-change.html:31
 msgid ""
@@ -336,21 +333,21 @@ msgid ""
 "                    "
 msgstr ""
 "\n"
-" Comparacion de mi escuela vs otras\n"
-" con respecto al cambio den consumación de agua en los últimos siete días "
+" Comparación de mi centro con otros de acuerdo\n"
+" con el aumento o disminución de consumo en los últimos siete días "
 
 #: .\naiades_dashboard\templates\report.html:19
 #: .\naiades_dashboard\templates\translations.html:18
 msgid "Water Consumption weekly report"
-msgstr "Reporte semanal de consumación de agua"
+msgstr "Informe semanal del consumo de agua"
 
 #: .\naiades_dashboard\templates\report.html:25
 msgid "Export to PDF"
-msgstr ""
+msgstr "Exportar a pdf"
 
 #: .\naiades_dashboard\templates\report.html:35
 msgid "My School vs Others"
-msgstr "Mi escuela vs. otras"
+msgstr "Mi centro comparado con otros"
 
 #: .\naiades_dashboard\templates\report.html:36
 #: .\naiades_dashboard\templates\translations.html:21
@@ -363,7 +360,7 @@ msgstr "Esta Semana"
 
 #: .\naiades_dashboard\templates\translations.html:7
 msgid "This week consumption at"
-msgstr "Consumación semanal en"
+msgstr "Consumo semanal en"
 
 #: .\naiades_dashboard\templates\translations.html:8
 msgid "Last week"
@@ -371,19 +368,19 @@ msgstr "Semana pasada"
 
 #: .\naiades_dashboard\templates\translations.html:9
 msgid "Last week consumption at"
-msgstr "Consumación"
+msgstr "Consumo"
 
 #: .\naiades_dashboard\templates\translations.html:10
 msgid "This week vs last week consumption"
-msgstr "Consumación de esta semana vs semana pasada"
+msgstr "Consumo de esta semana comparado con la última semana"
 
 #: .\naiades_dashboard\templates\translations.html:13
 msgid "My School"
-msgstr "Mi escuela"
+msgstr "Mi centro educativo"
 
 #: .\naiades_dashboard\templates\translations.html:16
 msgid "Starting export"
-msgstr "Iniciando exporte"
+msgstr "Iniciando exportación"
 
 #: .\naiades_dashboard\templates\translations.html:17
 msgid "Generating PDF"
@@ -391,45 +388,39 @@ msgstr "Generando PDF"
 
 #: .\naiades_dashboard\templates\translations.html:20
 msgid "My School vs. Others"
-msgstr "Mi escuela vs. otras"
+msgstr "Mi centro educativo comparado con otros"
 
 #: .\naiades_dashboard\templates\translations.html:26
 msgid "Decrease"
-msgstr "Menos"
+msgstr "Disminución"
 
 #: .\naiades_dashboard\templates\translations.html:27
 msgid "Increase"
-msgstr "Mas"
+msgstr "Incremento"
 
 #: .\naiades_dashboard\templates\translations.html:28
-#, fuzzy
-#| msgid "Total consumption per hour"
 msgid "Average consumption per hour"
-msgstr "Consumación total por hora"
+msgstr "Consumo medio por hora"
 
 #: .\naiades_dashboard\templates\translations.html:29
 msgid "Consumption (lt)"
-msgstr "Consumación (lt)"
+msgstr "Consumo (litros)"
 
 #: .\naiades_dashboard\templates\translations.html:30
-#, fuzzy
-#| msgid "Consumption (lt)"
 msgid "Consumption per student (lt)"
-msgstr "Consumación (lt)"
+msgstr "Consumo por estudiante (litros)"
 
 #: .\naiades_dashboard\templates\translations.html:31
 msgid "Total weekly consumption"
-msgstr "Consumación semanal total"
+msgstr "Consumo semanal total"
 
 #: .\naiades_dashboard\templates\translations.html:32
-#, fuzzy
-#| msgid "Total consumption per day"
 msgid "Average consumption per day"
-msgstr "Consumación total por día"
+msgstr "Consumo medio diario"
 
 #: .\naiades_dashboard\templates\translations.html:33
 msgid "Monthly Consumption"
-msgstr "Consumación Mensual"
+msgstr "Consumo mensual"
 
 #: .\naiades_dashboard\templates\translations.html:34
 msgid "The chart contains no data"
@@ -437,39 +428,39 @@ msgstr "El gráfico no contiene datos"
 
 #: .\naiades_dashboard\templates\translations.html:35
 msgid "An error occurred when loading data for"
-msgstr "Ha ocurrido un error cargando los datos"
+msgstr "Error al cargar los datos para"
 
 #: .\naiades_dashboard\templates\translations.html:38
 msgid "Monday"
-msgstr ""
+msgstr "Lunes"
 
 #: .\naiades_dashboard\templates\translations.html:39
 msgid "Tuesday"
-msgstr ""
+msgstr "Martes"
 
 #: .\naiades_dashboard\templates\translations.html:40
 msgid "Wednesday"
-msgstr ""
+msgstr "Miércoles"
 
 #: .\naiades_dashboard\templates\translations.html:41
 msgid "Thursday"
-msgstr ""
+msgstr "Jueves"
 
 #: .\naiades_dashboard\templates\translations.html:42
 msgid "Friday"
-msgstr ""
+msgstr "Viernes"
 
 #: .\naiades_dashboard\templates\translations.html:43
 msgid "Saturday"
-msgstr ""
+msgstr "Sábado"
 
 #: .\naiades_dashboard\templates\translations.html:44
 msgid "Sunday"
-msgstr ""
+msgstr "Domingo"
 
 #: .\naiades_dashboard\templates\translations.html:47
 msgid "posted at"
-msgstr "creado el"
+msgstr "Creado el"
 
 #: .\naiades_dashboard\templates\translations.html:48
 msgid "Loading"
@@ -477,21 +468,22 @@ msgstr "Cargando"
 
 #: .\naiades_dashboard\templates\translations.html:49
 msgid "Posting"
-msgstr "Mandando"
+msgstr "Enviando"
 
 #: .\naiades_dashboard\templates\translations.html:50
 msgid ""
 "Thank you for your feedback! Your comment will be reviewed by your school\\"
 msgstr ""
-"¡Gracias por tu mensaje! Tu comentario va a ser revisado por tu escuela"
+"¡¡Gracias por tu mensaje! Tu comentario va a ser revisado por el coordinador "
+"del centro"
 
 #: .\naiades_dashboard\templates\translations.html:51
 msgid "Post your thoughts here"
-msgstr "Manda tu mensaje aquí"
+msgstr "Envía tus comentarios aquí"
 
 #: .\naiades_dashboard\templates\translations.html:52
 msgid "Post"
-msgstr "Mandar"
+msgstr "Enviar"
 
 #: .\social\templates\social\feed.html:20 .\templates\base.html:135
 msgid "Community"
@@ -499,7 +491,7 @@ msgstr "Comunidad"
 
 #: .\social\templates\social\feed.html:23
 msgid "School"
-msgstr "Escuela"
+msgstr "Centro escolar"
 
 #: .\social\templates\social\feed.html:33
 msgid "Community Posts"
@@ -507,11 +499,11 @@ msgstr "Mensajes de la comunidad"
 
 #: .\social\templates\social\feed.html:44
 msgid "School Posts"
-msgstr "Mensajes de la escuela"
+msgstr "Mensajes del Centro"
 
 #: .\templates\base.html:11
 msgid "Naiades Dashboard"
-msgstr "Tablero de Naiades"
+msgstr "Panel Naiades"
 
 #: .\templates\base.html:66
 msgid "Contact Us"
@@ -519,7 +511,7 @@ msgstr "Contactar"
 
 #: .\templates\base.html:100
 msgid "Leaderboard"
-msgstr "Tabla de clasificación"
+msgstr "Clasificación"
 
 #: .\templates\base.html:107
 msgid "Statistics"
@@ -527,15 +519,15 @@ msgstr "Estadísticas"
 
 #: .\templates\base.html:128
 msgid "Report"
-msgstr "Reporte"
+msgstr "Informe"
 
 #: .\templates\base.html:149
 msgid "Guest"
-msgstr "Huésped"
+msgstr "Invitado"
 
 #: .\templates\base.html:158
 msgid "Moderate messages"
-msgstr "Mensajes moderados"
+msgstr "Moderar mensajes"
 
 #: .\templates\base.html:179
 msgid "Admin interface"
@@ -556,12 +548,11 @@ msgid ""
 "                            "
 msgstr ""
 "\n"
-"Esta herramienta ha sido creada en el contexto del proyecto NAIADES\n"
-"  con el objetivo de aumentar el conocimiento sobre el gasto de agua en su "
-"escuela.\n"
-" NAIADES ha recibido fondos de la Unión Europa. \n"
-" Horizon 2020 research and innovation program under grant agreement No. "
-"820985"
+"Esta herramienta ha sido creada en el contexto del proyecto H2020 NAIADES\n"
+"  con el objetivo de aumentar la concienciación sobre el consumo de agua en "
+"los centros escolares.\n"
+" NAIADES ha recibido fondos del programa Horizonte 2020 de la Unión \n"
+" Europea bajo el acuerdo de financiación núm. 820985"
 
 #: .\templates\base.html:221
 msgid "Project Information"
@@ -577,11 +568,11 @@ msgstr "Contáctenos"
 
 #: .\templates\base.html:229
 msgid "FAQ"
-msgstr ""
+msgstr "Preguntas frecuentes"
 
 #: .\templates\base.html:236
 msgid "Copyright"
-msgstr "Derechos"
+msgstr "Copyright"
 
 #: .\templates\registration\login.html:18
 msgid "Please login to continue"
