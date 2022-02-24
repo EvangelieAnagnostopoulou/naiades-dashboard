@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-23 00:40+0200\n"
+"POT-Creation-Date: 2022-02-24 23:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -509,6 +509,10 @@ msgstr "Panel Naiades"
 msgid "Contact Us"
 msgstr "Contactar"
 
+#: .\templates\base.html:71
+msgid "Follow Us:"
+msgstr "Síguenos:"
+
 #: .\templates\base.html:100
 msgid "Leaderboard"
 msgstr "Clasificación"
@@ -533,6 +537,10 @@ msgstr "Moderar mensajes"
 msgid "Admin interface"
 msgstr "Administración"
 
+#: .\templates\base.html:199
+msgid "About"
+msgstr "Sobre"
+
 #: .\templates\base.html:202
 msgid ""
 "\n"
@@ -553,6 +561,10 @@ msgstr ""
 "los centros escolares.\n"
 " NAIADES ha recibido fondos del programa Horizonte 2020 de la Unión \n"
 " Europea bajo el acuerdo de financiación núm. 820985"
+
+#: .\templates\base.html:218
+msgid "Useful Links"
+msgstr "Enlaces útiles"
 
 #: .\templates\base.html:221
 msgid "Project Information"
