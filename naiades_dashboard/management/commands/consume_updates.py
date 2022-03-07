@@ -9,7 +9,7 @@ from django.core.management.base import BaseCommand
 from context_manager_api import ContextManagerAPIClient
 from context_manager_api.orion import OrionError
 from naiades_dashboard.managers.users import MeterUserManager
-from naiades_dashboard.models import MeterInfo, Consumption
+from naiades_dashboard.models import MeterInfo, Consumption, ACTIVITY_SCHOOL
 
 
 class Command(BaseCommand):
@@ -101,6 +101,23 @@ class Command(BaseCommand):
             if device.get("id") and device.get("serialNumber") and (not device["serialNumber"].endswith("-Accum"))
         ]
 
+    @staticmethod
+    def get_activity_type(description):
+        if "school" in (description or "").lower():
+            return ACTIVITY_SCHOOL
+
+        return description
+
+    @staticmethod
+    def _perform_in_dashboard_change(meter_info):
+        # update `Consumption` entries
+        Consumption.objects.\
+            filter(meter_info_id=meter_info.meter_number).\
+            update(in_dashboard=meter_info.in_dashboard)
+
+        # changes reflected to `Consumption` model
+        meter_info.in_dashboard_changed = False
+
     def load_updated_devices(self):
         """
         :return: Creates missing MeterInfo objects and returns list of all devices.
@@ -126,10 +143,13 @@ class Command(BaseCommand):
             # get details
             details = self.client.get(resource=f'entities/{device["id"]}')
 
+            # get activity type
+            activity = self.get_activity_type(description=details["description"])
+
             # create meter info
             info = MeterInfo(
                 meter_number=device["serialNumber"],
-                activity=details["description"],
+                activity=activity,
                 latitude=details["location"]["coordinates"][0],
                 longitude=details["location"]["coordinates"][1],
                 name=(details.get("name") or "")[:128],
@@ -146,18 +166,19 @@ class Command(BaseCommand):
                 })
 
                 # create users
-                if info.activity == "School":
+                if info.activity == ACTIVITY_SCHOOL:
                     user_manager.create_users(meter_info=info)
+
+            # change data based on in_dashboard prop
+            if info.in_dashboard_changed:
+                self._perform_in_dashboard_change(meter_info=info)
 
         # return index with all meter infos
         return devices
 
     def process_data(self, data, device, latest_consumption=None):
-        # get device params for consumption records
-        params = {
-            'meter_number_id': device["serialNumber"],
-            'activity': self.meter_infos_idx[device["serialNumber"]].activity,
-        }
+        # get meter info
+        meter_info = self.meter_infos_idx[device["serialNumber"]]
 
         # parse data
         consumptions = []
@@ -174,9 +195,9 @@ class Command(BaseCommand):
 
             # add consumption record
             consumptions.append(Consumption.parse_and_create(
+                meter_info=meter_info,
                 consumption=consumption,
                 timestamp=timestamp,
-                **params
             ))
 
         # bulk create

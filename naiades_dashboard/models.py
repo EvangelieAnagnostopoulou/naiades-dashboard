@@ -1,8 +1,5 @@
 import random
-from datetime import datetime, timedelta
 
-import tqdm
-from dateutil import tz
 from django.contrib.auth.models import User
 
 from django.db.models import *
@@ -13,9 +10,13 @@ def rand_range(range):
     return range[0] + random.random() * range[1]
 
 
+ACTIVITY_SCHOOL = "School"
+
+
 class MeterInfo(Model):
     meter_number = CharField(max_length=32, primary_key=True)
     activity = CharField(max_length=128)
+    description = TextField(blank=True)
 
     # location
     latitude = DecimalField(max_digits=16, decimal_places=8, db_column="Lat")
@@ -31,6 +32,10 @@ class MeterInfo(Model):
 
     # size (e.g. number of users for schools)
     size = IntegerField(blank=True, null=True, default=None)
+
+    # show in dashboard?
+    in_dashboard = BooleanField(default=False)
+    in_dashboard_changed = BooleanField(default=False)
 
     def to_dict(self):
         return {
@@ -61,16 +66,16 @@ class Consumption(Model):
     day = SmallIntegerField()
     hour = SmallIntegerField()
 
-    # denormalized info about origin to speed up dashboard
-    is_school = BooleanField(default=False)
+    # check if shown in dashboard
+    in_dashboard = BooleanField(default=False)
 
     # is consumption estimated?
     estimated = BooleanField(default=False)
 
     @staticmethod
-    def parse_and_create(meter_number_id, activity, consumption, timestamp, estimated=False):
+    def parse_and_create(meter_info, consumption, timestamp, estimated=False):
         return Consumption(
-            meter_number_id=meter_number_id,
+            meter_number_id=meter_info.meter_number,
             consumption=consumption,
             date=timestamp,
             year=timestamp.year,
@@ -78,7 +83,7 @@ class Consumption(Model):
             month=timestamp.month,
             day=timestamp.weekday(),
             hour=timestamp.hour,
-            is_school=activity == 'School',
+            in_dashboard=meter_info.meter_info,
             estimated=estimated
         )
 

@@ -325,7 +325,7 @@ def get_measurement_data(request, metric, extra):
     # only include schools, exclude weekend consumptions
     if dest == "naiades_dashboard":
         qs = qs.\
-            filter(is_school=True). \
+            filter(in_dashboard=True). \
             filter(day__lte=4)
 
     week_q = Q(date__gt=date - timedelta(days=7)) & \
