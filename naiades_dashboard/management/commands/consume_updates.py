@@ -103,7 +103,10 @@ class Command(BaseCommand):
 
     @staticmethod
     def get_activity_type(description):
-        if "school" in (description or "").lower():
+        desc_lower = (description or "").lower()
+
+        # primary school, high school, reformatory institution are all types of school
+        if "school" in desc_lower or "reformatory" in desc_lower:
             return ACTIVITY_SCHOOL
 
         return description
