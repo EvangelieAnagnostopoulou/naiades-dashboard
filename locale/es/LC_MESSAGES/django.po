@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-24 23:58+0200\n"
+"POT-Creation-Date: 2022-03-07 16:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -484,6 +484,18 @@ msgstr "Envía tus comentarios aquí"
 #: .\naiades_dashboard\templates\translations.html:52
 msgid "Post"
 msgstr "Enviar"
+
+#: .\naiades_dashboard\views.py:233
+msgid "Best 20%"
+msgstr "El mejor 20%"
+
+#: .\naiades_dashboard\views.py:234
+msgid "Average"
+msgstr "Promedio"
+
+#: .\naiades_dashboard\views.py:235
+msgid "My school"
+msgstr "Mi escuela"
 
 #: .\social\templates\social\feed.html:20 .\templates\base.html:135
 msgid "Community"

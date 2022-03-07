@@ -230,9 +230,9 @@ def get_you_vs_others(data_qs, meter_info):
         my_school = 0
 
     return [
-        {"entity": "Best 20%", "weekly_total": top_20, "color": "#04D215", "id": "best20"},
-        {"entity": "Average", "weekly_total": avg, "color": "#F8FF01", "id": "avg"},
-        {"entity": "My school", "weekly_total": my_school, "color": "#FF9E01", "id": "me"},
+        {"entity": _("Best 20%"), "weekly_total": top_20, "color": "#04D215", "id": "best20"},
+        {"entity": _("Average"), "weekly_total": avg, "color": "#F8FF01", "id": "avg"},
+        {"entity": _("My school"), "weekly_total": my_school, "color": "#FF9E01", "id": "me"},
     ]
 
 
