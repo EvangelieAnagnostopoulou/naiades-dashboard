@@ -11,8 +11,11 @@ from naiades_dashboard.models import (
 @admin.register(MeterInfo)
 class MeterInfoAdmin(admin.ModelAdmin):
     search_fields = ("meter_number", )
-    list_display = ("meter_number", "activity", "address", "size", "service_point_id", "service_connection_id", )
-    list_filter = ("activity", )
+    list_display = (
+        "meter_number", "activity", "in_dashboard",
+        "address", "size", "service_point_id", "service_connection_id",
+    )
+    list_filter = ("activity", "in_dashboard", )
 
 
 @admin.register(MeterInfoAccess)
