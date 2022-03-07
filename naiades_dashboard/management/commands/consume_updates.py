@@ -150,6 +150,7 @@ class Command(BaseCommand):
             info = MeterInfo(
                 meter_number=device["serialNumber"],
                 activity=activity,
+                description=details["description"],
                 latitude=details["location"]["coordinates"][0],
                 longitude=details["location"]["coordinates"][1],
                 name=(details.get("name") or "")[:128],
@@ -158,7 +159,7 @@ class Command(BaseCommand):
 
             # create or updated
             if exists:
-                info.save(update_fields=["latitude", "longitude", "size"])
+                info.save(update_fields=["latitude", "longitude", "size", "activity", "description"])
             else:
                 info.save()
                 self.meter_infos_idx.update({
