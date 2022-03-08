@@ -115,7 +115,7 @@ class Command(BaseCommand):
     def _perform_in_dashboard_change(meter_info):
         # update `Consumption` entries
         Consumption.objects.\
-            filter(meter_info_id=meter_info.meter_number).\
+            filter(meter_number_id=meter_info.meter_number).\
             update(in_dashboard=meter_info.in_dashboard)
 
         # changes reflected to `Consumption` model
@@ -164,6 +164,7 @@ class Command(BaseCommand):
             # create or updated
             if exists:
                 info.save(update_fields=["latitude", "longitude", "size", "activity", "description"])
+                info.refresh_from_db()
             else:
                 info.save()
                 self.meter_infos_idx.update({
