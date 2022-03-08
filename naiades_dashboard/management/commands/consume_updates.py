@@ -120,6 +120,7 @@ class Command(BaseCommand):
 
         # changes reflected to `Consumption` model
         meter_info.in_dashboard_changed = False
+        meter_info.save()
 
     def load_updated_devices(self):
         """
