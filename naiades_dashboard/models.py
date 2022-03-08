@@ -83,7 +83,7 @@ class Consumption(Model):
             month=timestamp.month,
             day=timestamp.weekday(),
             hour=timestamp.hour,
-            in_dashboard=meter_info.meter_info,
+            in_dashboard=meter_info.in_dashboard,
             estimated=estimated
         )
 
