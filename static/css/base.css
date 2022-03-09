@@ -57,3 +57,12 @@ a[href="http://www.amcharts.com/javascript-charts/"] {
     color: #ff7700;
     font-weight: 700;
 }
+
+#user-dropdown-main {
+    padding: 10px 0 0 0;
+}
+
+#user-dropdown-main > li {
+    padding: 5px 6px;
+    font-size: 13px;
+}
