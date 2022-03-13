@@ -17,15 +17,15 @@ class MessageManager:
                 _("Use water, don't waste it."),
             ],
             "best20_": [
-                _("This week your consumption is ranked within the top 20%. Keep up the good work!!"),
-                _("This week your consumption is ranked within the top 20%. Continue saving water."),
+                _("This week your consumption is ranked within the top 20%. Keep up the good work to preserve water resources!"),
+                _("This week your consumption is ranked within the top 20%. Continue saving water to help the environment."),
             ],
             "avg_best20": [
-                _("Keep up the good work!"),
-                _("Well done! Continue saving water."),
+                _("Keep up the good work and continue to preserving water resources!"),
+                _("Well done! Continue saving water to help the environment."),
             ],
             "_avg": [
-                _("Try more to reduce your consumption!"),
+                _("Try more to reduce your consumption and help addressing climate change!"),
                 _("Your peers are saving more. Use water, don’t waste it."),
                 _("Try more to save water! Use water wisely, every drop counts!"),
                 _("Try more! By saving water, together we can make a difference."),
@@ -38,18 +38,18 @@ class MessageManager:
                 _("Use water, don't waste it."),
             ],
             "best20_": [
-                _("This week your consumption reduction is ranked within the top 20%. Keep up the good work!!"),
-                _("This week your consumption reduction is ranked within the top 20%. Continue saving water."),
+                _("This week your consumption reduction is ranked within the top 20%. Keep up the good work to preserve water resources!"),
+                _("This week your consumption reduction is ranked within the top 20%. Continue saving water to help the environment."),
             ],
             "avg_best20": [
-                _("Keep up the good work!"),
-                _("Well done! Continue saving water."),
+                _("Keep up the good work and continue to preserving water resources!"),
+                _("Well done! Continue saving water to help the environment."),
             ],
             "_avg": [
-                _("Try more to improve your consumption reduction!"),
+                _("Try more to improve your consumption reduction and help addressing climate change!!"),
                 _("Your peers are reducing their consumption more. Use water, don’t waste it."),
                 _("Try more to save water! Use water wisely, every drop counts!"),
-                _("Try more! By saving water, together we can make a difference."),
+                _("Try more! By saving water, together we can make a difference and help the environment."),
             ],
         }
     }

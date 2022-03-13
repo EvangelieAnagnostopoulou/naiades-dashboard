@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-07 16:54+0200\n"
+"POT-Creation-Date: 2022-03-13 23:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,33 +42,45 @@ msgstr ""
 "derroches."
 
 #: .\naiades_dashboard\managers\messages.py:20
+#, fuzzy
+#| msgid ""
+#| "This week your consumption is ranked within the top 20%. Keep up the good "
+#| "work!!"
 msgid ""
 "This week your consumption is ranked within the top 20%. Keep up the good "
-"work!!"
+"work to preserve water resources!"
 msgstr ""
 "Esta semana vuestro consumo ha sido clasificado en el  mejor 20%. "
 "¡Felicitaciones seguir asi!"
 
 #: .\naiades_dashboard\managers\messages.py:21
+#, fuzzy
+#| msgid ""
+#| "This week your consumption is ranked within the top 20%. Continue saving "
+#| "water."
 msgid ""
 "This week your consumption is ranked within the top 20%. Continue saving "
-"water."
+"water to help the environment."
 msgstr ""
 "Esta semana vuestro consumo ha sido clasificado en el  mejor 20%. Seguir  "
 "ahorrando agua."
 
 #: .\naiades_dashboard\managers\messages.py:24
 #: .\naiades_dashboard\managers\messages.py:45
-msgid "Keep up the good work!"
-msgstr "¡Felicidades seguir asi!"
+msgid "Keep up the good work and continue to preserving water resources!"
+msgstr ""
 
 #: .\naiades_dashboard\managers\messages.py:25
 #: .\naiades_dashboard\managers\messages.py:46
-msgid "Well done! Continue saving water."
+#, fuzzy
+#| msgid "Well done! Continue saving water."
+msgid "Well done! Continue saving water to help the environment."
 msgstr "¡Muy bien! Seguir ahorrando agua."
 
 #: .\naiades_dashboard\managers\messages.py:28
-msgid "Try more to reduce your consumption!"
+#, fuzzy
+#| msgid "Try more to reduce your consumption!"
+msgid "Try more to reduce your consumption and help addressing climate change!"
 msgstr "Intentar reducir vuestro consumo de agua."
 
 #: .\naiades_dashboard\managers\messages.py:29
@@ -83,28 +95,39 @@ msgid "Try more to save water! Use water wisely, every drop counts!"
 msgstr "¡Intenta ahorrar agua! ¡Usa agua con cuidado, cada gota vale!"
 
 #: .\naiades_dashboard\managers\messages.py:31
-#: .\naiades_dashboard\managers\messages.py:52
 msgid "Try more! By saving water, together we can make a difference."
 msgstr "¡Intentar un poco más! Ahorrando agua, podéis marcar la diferencia."
 
 #: .\naiades_dashboard\managers\messages.py:41
+#, fuzzy
+#| msgid ""
+#| "This week your consumption reduction is ranked within the top 20%. Keep "
+#| "up the good work!!"
 msgid ""
 "This week your consumption reduction is ranked within the top 20%. Keep up "
-"the good work!!"
+"the good work to preserve water resources!"
 msgstr ""
 "Esta semana vuestra reducción de consumo ha sido clasificada en el mejor "
 "20%. ¡Seguir trabajando así!"
 
 #: .\naiades_dashboard\managers\messages.py:42
+#, fuzzy
+#| msgid ""
+#| "This week your consumption reduction is ranked within the top 20%. "
+#| "Continue saving water."
 msgid ""
 "This week your consumption reduction is ranked within the top 20%. Continue "
-"saving water."
+"saving water to help the environment."
 msgstr ""
 "Esta semana vuestra reducción de consumo ha sido clasificada en el mejor "
 "20%, seguir  ahorrando agua. "
 
 #: .\naiades_dashboard\managers\messages.py:49
-msgid "Try more to improve your consumption reduction!"
+#, fuzzy
+#| msgid "Try more to improve your consumption reduction!"
+msgid ""
+"Try more to improve your consumption reduction and help addressing climate "
+"change!!"
 msgstr "¡Intentar mejorar vuestro consumo de agua!"
 
 #: .\naiades_dashboard\managers\messages.py:50
@@ -113,6 +136,14 @@ msgid ""
 msgstr ""
 "Otros centros han reducido su consumo más que el vuestro. Usar agua, no lo "
 "derroches."
+
+#: .\naiades_dashboard\managers\messages.py:52
+#, fuzzy
+#| msgid "Try more! By saving water, together we can make a difference."
+msgid ""
+"Try more! By saving water, together we can make a difference and help the "
+"environment."
+msgstr "¡Intentar un poco más! Ahorrando agua, podéis marcar la diferencia."
 
 #: .\naiades_dashboard\templates\faq.html:19
 msgid "Frequently Asked Questions"
@@ -537,23 +568,23 @@ msgstr "Estadísticas"
 msgid "Report"
 msgstr "Informe"
 
-#: .\templates\base.html:149
+#: .\templates\base.html:151
 msgid "Guest"
 msgstr "Invitado"
 
-#: .\templates\base.html:158
+#: .\templates\base.html:161
 msgid "Moderate messages"
 msgstr "Moderar mensajes"
 
-#: .\templates\base.html:179
+#: .\templates\base.html:170
 msgid "Admin interface"
 msgstr "Administración"
 
-#: .\templates\base.html:199
+#: .\templates\base.html:203
 msgid "About"
 msgstr "Sobre"
 
-#: .\templates\base.html:202
+#: .\templates\base.html:206
 msgid ""
 "\n"
 "                                This dashboard has been developed in the "
@@ -574,27 +605,27 @@ msgstr ""
 " NAIADES ha recibido fondos del programa Horizonte 2020 de la Unión \n"
 " Europea bajo el acuerdo de financiación núm. 820985"
 
-#: .\templates\base.html:218
+#: .\templates\base.html:222
 msgid "Useful Links"
 msgstr "Enlaces útiles"
 
-#: .\templates\base.html:221
+#: .\templates\base.html:225
 msgid "Project Information"
 msgstr "Información del Proyecto"
 
-#: .\templates\base.html:224
+#: .\templates\base.html:228
 msgid "About Us"
 msgstr "Sobre Nosotros"
 
-#: .\templates\base.html:226
+#: .\templates\base.html:230
 msgid "Get In Touch Wirh Us"
 msgstr "Contáctenos"
 
-#: .\templates\base.html:229
+#: .\templates\base.html:233
 msgid "FAQ"
 msgstr "Preguntas frecuentes"
 
-#: .\templates\base.html:236
+#: .\templates\base.html:240
 msgid "Copyright"
 msgstr "Copyright"
 
@@ -605,6 +636,9 @@ msgstr "Por favor inicie sesión para continuar"
 #: .\templates\registration\login.html:25
 msgid "KeyRock Login"
 msgstr "Inicio de sesión de KeyRock"
+
+#~ msgid "Keep up the good work!"
+#~ msgstr "¡Felicidades seguir asi!"
 
 #, fuzzy, python-format
 #~| msgid ""
