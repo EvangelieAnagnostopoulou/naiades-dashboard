@@ -1,4 +1,9 @@
+import pytz
+
 from django.db.models import *
+
+
+cet_timezone = pytz.timezone("Europe/Madrid")
 
 
 class Tweet(Model):
@@ -10,6 +15,8 @@ class Tweet(Model):
     message = TextField()
 
     def to_dict(self):
+        # convert timestamps to CET since this is our primary audience
+        # TODO allow users to select preferred timezone
         return {
             'id': self.id,
             'user': {
@@ -17,8 +24,8 @@ class Tweet(Model):
                 'meter_number': self.user.username,
                 'name': self.user.first_name,
             },
-            'created': self.created.strftime('%d/%m/%Y %H:%I'),
-            'updated': self.updated.strftime('%d/%m/%Y %H:%I'),
+            'created': self.created.astimezone(cet_timezone).strftime('%d/%m/%Y %H:%M'),
+            'updated': self.updated.astimezone(cet_timezone).strftime('%d/%m/%Y %H:%M'),
             'message': self.message,
             'is_deleted': self.is_deleted,
             'is_accepted': self.is_accepted,

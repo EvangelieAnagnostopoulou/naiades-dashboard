@@ -1,4 +1,5 @@
 from django.contrib import admin, messages
+from django.utils.translation import gettext_lazy as _
 
 from naiades_dashboard.models import MeterInfo
 from social.models import *
@@ -10,7 +11,7 @@ def accept_tweets(modeladmin, request, queryset):
     messages.add_message(request, messages.SUCCESS, f'{cnt} tweet(s) marked as accepted.')
 
 
-accept_tweets.short_description = "Accept all selected tweets"
+accept_tweets.short_description = _("Accept all selected tweets")
 
 
 def reject_tweets(modeladmin, request, queryset):
@@ -19,7 +20,7 @@ def reject_tweets(modeladmin, request, queryset):
     messages.add_message(request, messages.ERROR, f'{cnt} tweet(s) marked as rejected.')
 
 
-reject_tweets.short_description = "Reject all selected tweets"
+reject_tweets.short_description = _("Reject all selected tweets")
 
 
 @admin.register(Tweet)

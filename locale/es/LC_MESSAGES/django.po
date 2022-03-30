@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-13 23:35+0200\n"
+"POT-Creation-Date: 2022-03-30 22:47+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -503,10 +503,11 @@ msgstr "Enviando"
 
 #: .\naiades_dashboard\templates\translations.html:50
 msgid ""
-"Thank you for your feedback! Your comment will be reviewed by your school\\"
+"Thank you for your feedback! Your comment will be reviewed by your school's "
+"moderator."
 msgstr ""
 "¡¡Gracias por tu mensaje! Tu comentario va a ser revisado por el coordinador "
-"del centro"
+"del centro."
 
 #: .\naiades_dashboard\templates\translations.html:51
 msgid "Post your thoughts here"
@@ -527,6 +528,14 @@ msgstr "Promedio"
 #: .\naiades_dashboard\views.py:235
 msgid "My school"
 msgstr "Mi escuela"
+
+#: .\social\admin.py:14
+msgid "Accept all selected tweets"
+msgstr "Aceptar todos los tweets seleccionados"
+
+#: .\social\admin.py:23
+msgid "Reject all selected tweets"
+msgstr "Rechazar todos los tweets seleccionados"
 
 #: .\social\templates\social\feed.html:20 .\templates\base.html:135
 msgid "Community"
