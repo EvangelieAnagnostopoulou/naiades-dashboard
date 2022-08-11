@@ -58,7 +58,7 @@ class BaseConsumption(Model):
     consumption = DecimalField(max_digits=32, decimal_places=16)
 
     # timestamp breakdown
-    date = DateTimeField()
+    date = DateTimeField(db_index=True)
     year = SmallIntegerField()
     month = SmallIntegerField()
     week = SmallIntegerField()
@@ -173,7 +173,7 @@ class ConsumptionByActivity(BaseConsumption):
 
     @staticmethod
     def update_for_period(start, end, verbose=False):
-        activities = list(MeterInfo.objects.values_list('activity', flat=True))
+        activities = list(set(MeterInfo.objects.values_list('activity', flat=True)))
 
         timestamp = start
         with tqdm.tqdm(total=(end - start).total_seconds() // 3600, disable=not verbose) as bar:
