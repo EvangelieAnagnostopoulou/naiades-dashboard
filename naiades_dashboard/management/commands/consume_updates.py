@@ -9,7 +9,7 @@ from django.core.management.base import BaseCommand
 from context_manager_api import ContextManagerAPIClient
 from context_manager_api.orion import OrionError
 from naiades_dashboard.managers.users import MeterUserManager
-from naiades_dashboard.models import MeterInfo, Consumption, ACTIVITY_SCHOOL
+from naiades_dashboard.models import MeterInfo, Consumption, ConsumptionByActivity, ACTIVITY_SCHOOL
 
 
 class Command(BaseCommand):
@@ -208,6 +208,9 @@ class Command(BaseCommand):
 
         # bulk create
         Consumption.objects.bulk_create(consumptions)
+
+        # update hourly consumptions by activity
+        ConsumptionByActivity.update_from_consumptions(consumptions=consumptions)
 
     def pull_latest_data(self, device):
         # get latest consumption for this device

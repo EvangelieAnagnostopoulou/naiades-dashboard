@@ -1,5 +1,7 @@
 import random
+from datetime import timedelta
 
+import tqdm
 from django.contrib.auth.models import User
 
 from django.db.models import *
@@ -51,10 +53,7 @@ class MeterInfo(Model):
         }
 
 
-class Consumption(Model):
-    # related meter number
-    meter_number = ForeignKey('naiades_dashboard.MeterInfo', on_delete=CASCADE, related_name='consumptions')
-
+class BaseConsumption(Model):
     # value
     consumption = DecimalField(max_digits=32, decimal_places=16)
 
@@ -66,26 +65,136 @@ class Consumption(Model):
     day = SmallIntegerField()
     hour = SmallIntegerField()
 
+    # is consumption estimated?
+    estimated = BooleanField(default=False)
+
+    class Meta:
+        abstract = True
+
+
+class Consumption(BaseConsumption):
+    # related meter number
+    meter_number = ForeignKey('naiades_dashboard.MeterInfo', on_delete=CASCADE, related_name='consumptions')
+
     # check if shown in dashboard
     in_dashboard = BooleanField(default=False)
 
-    # is consumption estimated?
-    estimated = BooleanField(default=False)
+    @staticmethod
+    def get_params_from_timestamp(timestamp):
+        return {
+            "date": timestamp,
+            "year": timestamp.year,
+            "week": timestamp.isocalendar()[1],
+            "month": timestamp.month,
+            "day": timestamp.weekday(),
+            "hour": timestamp.hour,
+        }
 
     @staticmethod
     def parse_and_create(meter_info, consumption, timestamp, estimated=False):
         return Consumption(
             meter_number_id=meter_info.meter_number,
             consumption=consumption,
-            date=timestamp,
-            year=timestamp.year,
-            week=timestamp.isocalendar()[1],
-            month=timestamp.month,
-            day=timestamp.weekday(),
-            hour=timestamp.hour,
             in_dashboard=meter_info.in_dashboard,
-            estimated=estimated
+            estimated=estimated,
+            **Consumption.get_params_from_timestamp(timestamp=timestamp)
         )
+
+
+class ConsumptionByActivity(BaseConsumption):
+    # hourly consumption for specific activity
+    activity = CharField(max_length=128)
+
+    class Meta:
+        verbose_name = "Consumption by Activity"
+        verbose_name_plural = "Consumptions by Activity"
+        unique_together = ("date", "hour", "activity", "estimated", )
+
+    @staticmethod
+    def update_from_consumptions(consumptions):
+        diffs = {}
+        for consumption in consumptions:
+            key = (
+                consumption.activity,
+                consumption.date,
+                consumption.estimated,
+            )
+
+            if key not in diffs:
+                diffs[key] = 0
+
+            diffs[key] += consumption.value
+
+        for key, consumption_diff in diffs.items():
+            activity, timestamp, estimated = key
+            obj = ConsumptionByActivity.objects.get_or_create(
+                activity=activity,
+                estimated=estimated,
+                **Consumption.get_params_from_timestamp(timestamp=timestamp),
+                defaults={
+                    "consumption": 0,
+                }
+            )
+            obj.consumption += consumption_diff
+            obj.save()
+
+    @staticmethod
+    def update(activity, timestamp, estimated):
+        # calculate total
+        total = Consumption.objects.filter(
+            meter_number__activity=activity,
+            date=timestamp,
+            estimated=estimated
+        ).aggregate(total_consumption=Sum("consumption"))['total_consumption'] or 0
+
+        obj = ConsumptionByActivity.objects.filter(
+            activity=activity,
+            date=timestamp,
+            estimated=estimated,
+        ).first()
+
+        if not obj:
+
+            # no object found, null/zero sum
+            # no need to create extra record
+            if not total:
+                return
+
+            # otherwise, create in memory
+            obj = ConsumptionByActivity(
+                activity=activity,
+                estimated=estimated,
+                **Consumption.get_params_from_timestamp(timestamp=timestamp),
+            )
+
+        # set consumption and update or create
+        obj.consumption = total
+        obj.save()
+
+    @staticmethod
+    def update_for_period(start, end, verbose=False):
+        activities = list(MeterInfo.objects.values_list('activity', flat=True))
+
+        timestamp = start
+        with tqdm.tqdm(total=(end - start).total_seconds() // 3600, disable=not verbose) as bar:
+            while timestamp <= end:
+                # show timestamp
+                bar.set_description(str(timestamp))
+
+                # generate for all combinations
+                for activity in activities:
+                    for estimated in [True, False]:
+                        ConsumptionByActivity.update(
+                            activity=activity,
+                            timestamp=timestamp,
+                            estimated=estimated,
+                        )
+
+                # move to next hour
+                timestamp += timedelta(hours=1)
+
+                # update progress
+                bar.update(1)
 
 
 class MeterInfoAccess(Model):

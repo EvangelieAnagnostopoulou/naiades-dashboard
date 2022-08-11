@@ -13,7 +13,7 @@ from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
 
 from naiades_dashboard.managers.messages import MessageManager
-from naiades_dashboard.models import Consumption, MeterInfoAccess, MeterInfo
+from naiades_dashboard.models import Consumption, ConsumptionByActivity, MeterInfoAccess, MeterInfo
 from project.settings import OVERALL_CHANGE_DATE
 
 
@@ -54,6 +54,7 @@ def report(request):
 @login_required
 def faq(request):
     return render(request, 'faq.html')
+
 
 def get_total_period_consumption_by_activity(qs, period_q):
     qs = qs.\
@@ -319,28 +320,22 @@ def get_measurement_data(request, metric, extra):
 
     date = get_date()
 
-    qs = Consumption.objects.all().\
-        filter(day__lte=4)
+    # start from either raw or aggregate consumptions
+    base_model = ConsumptionByActivity if request.GET.get("activity") else Consumption
+
+    # by default focus on weekdays
+    qs = base_model.objects.filter(day__lte=4)
 
     # only include schools, exclude weekend consumptions
     if dest == "naiades_dashboard":
-        qs = qs.\
-            filter(in_dashboard=True). \
-            filter(day__lte=4)
+        qs = qs.filter(in_dashboard=True)
 
     week_q = Q(date__gt=date - timedelta(days=7)) & \
         Q(date__lte=date)
 
     # filter by activity
     if request.GET.get("activity"):
-        qs = qs.filter(meter_number__activity=request.GET["activity"])
-
-        # filter out consumptions points that do not have data for Feb 2019 from monthly/yearly charts
-        # TODO remove after review meeting
-        if "days" in request.GET and int(request.GET.get("days")) > 30:
-            qs = qs.filter(
-                meter_number__in=Consumption.objects.filter(year=now().year - 2, month=2).values_list("meter_number")
-            )
+        qs = qs.filter(activity=request.GET["activity"])
 
     # filter by meter id
     if request.GET.get("id"):
