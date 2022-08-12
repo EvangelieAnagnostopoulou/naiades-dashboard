@@ -93,7 +93,7 @@ class Consumption(BaseConsumption):
     @staticmethod
     def parse_and_create(meter_info, consumption, timestamp, estimated=False):
         return Consumption(
-            meter_number_id=meter_info.meter_number,
+            meter_number=meter_info,
             consumption=consumption,
             in_dashboard=meter_info.in_dashboard,
             estimated=estimated,
@@ -115,7 +115,7 @@ class ConsumptionByActivity(BaseConsumption):
         diffs = {}
         for consumption in consumptions:
             key = (
-                consumption.activity,
+                consumption.meter_number.activity,
                 consumption.date,
                 consumption.estimated,
             )
