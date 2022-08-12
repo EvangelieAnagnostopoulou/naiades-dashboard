@@ -322,7 +322,11 @@ def _get_base_model(request, metric, meter_info):
     specific_meter = (
         request.user.is_authenticated or
         request.GET.get("id") or
-        (metric == "meter_daily_consumption") or
+        (metric in [
+            "meter_daily_consumption",
+            "avg_daily_consumption",
+            "weekly_consumption_by_meter",
+        ]) or
         (metric == "avg_hourly_consumption" and meter_info)
     )
 
