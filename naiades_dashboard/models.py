@@ -135,7 +135,7 @@ class ConsumptionByActivity(BaseConsumption):
         # apply to db
         for key, consumption_diff in diffs.items():
             activity, timestamp, estimated = key
-            obj = ConsumptionByActivity.objects.get_or_create(
+            obj, _ = ConsumptionByActivity.objects.get_or_create(
                 activity=activity,
                 estimated=estimated,
                 **Consumption.get_params_from_timestamp(timestamp=timestamp),

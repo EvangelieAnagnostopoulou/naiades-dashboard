@@ -56,16 +56,24 @@ def faq(request):
     return render(request, 'faq.html')
 
 
-def get_total_period_consumption_by_activity(qs, period_q):
+def _base_get_total_period_consumption_by_activity(base_model, qs, period_q):
     qs = qs.\
         filter(period_q).\
-        annotate(name=F('meter_number__activity')).\
+        annotate(name=F('meter_number__activity' if base_model == Consumption else 'activity')).\
         values('name').\
         annotate(total_consumption=Sum('consumption'))
 
     qs = list(qs)
 
     return qs
+
+
+def get_total_period_consumption_by_activity_from_raw(qs, period_q):
+    return _base_get_total_period_consumption_by_activity(base_model=Consumption, qs=qs, period_q=period_q)
+
+
+def get_total_period_consumption_by_activity_from_aggregated(qs, period_q):
+    return _base_get_total_period_consumption_by_activity(base_model=ConsumptionByActivity, qs=qs, period_q=period_q)
 
 
 def get_period_consumption_by_meter(qs, period_q, absolute=False):
@@ -309,6 +317,21 @@ def get_monthly_consumption(data_qs, meter_info):
     # ]
 
 
+def _get_base_model(request, metric, meter_info):
+    # TODO also enable using ConsumptionByActivity for authenticated requests
+    specific_meter = (
+        request.user.is_authenticated or
+        request.GET.get("id") or
+        (metric == "meter_daily_consumption") or
+        (metric == "avg_hourly_consumption" and meter_info)
+    )
+
+    if specific_meter:
+        return Consumption
+
+    return ConsumptionByActivity
+
+
 def get_measurement_data(request, metric, extra):
     dest = "naiades_dashboard" \
         if request.user.is_authenticated \
@@ -321,7 +344,12 @@ def get_measurement_data(request, metric, extra):
     date = get_date()
 
     # start from either raw or aggregate consumptions
-    base_model = ConsumptionByActivity if request.GET.get("activity") else Consumption
+    # based on the type of request
+    base_model = _get_base_model(
+        request=request,
+        metric=metric,
+        meter_info=meter_info,
+    )
 
     # by default focus on weekdays
     qs = base_model.objects.filter(day__lte=4)
@@ -334,8 +362,14 @@ def get_measurement_data(request, metric, extra):
         Q(date__lte=date)
 
     # filter by activity
+    # using the correct property based on the model we're accessing
     if request.GET.get("activity"):
-        qs = qs.filter(activity=request.GET["activity"])
+        qs = qs.filter(**{
+            (
+                "activity" if base_model == ConsumptionByActivity
+                else "meter_number__activity"
+            ): request.GET["activity"]
+        })
 
     # filter by meter id
     if request.GET.get("id"):
@@ -421,13 +455,21 @@ def get_measurement_data(request, metric, extra):
         qs = get_period_change(qs, days=(now().date() - OVERALL_CHANGE_DATE).days)
 
     elif metric == "weekly_change_by_activity":
-        qs = get_period_change(qs, days=7, fn=get_total_period_consumption_by_activity)
+        qs = get_period_change(qs, days=7, fn=(
+            get_total_period_consumption_by_activity_from_aggregated
+            if base_model == ConsumptionByActivity
+            else get_total_period_consumption_by_activity_from_raw
+        ))
 
     elif metric == "yearly_change":
         qs = get_period_change(qs, days=365)
 
     elif metric == "yearly_change_by_activity":
-        qs = get_period_change(qs, days=365, fn=get_total_period_consumption_by_activity)
+        qs = get_period_change(qs, days=365, fn=(
+            get_total_period_consumption_by_activity_from_aggregated
+            if base_model == ConsumptionByActivity
+            else get_total_period_consumption_by_activity_from_raw
+        ))
 
     elif metric == "you_vs_others_weekly_change":
         qs = get_you_vs_others_change(data_qs=qs, meter_info=meter_info)
