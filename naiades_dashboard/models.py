@@ -111,7 +111,7 @@ class ConsumptionByActivity(BaseConsumption):
         unique_together = ("date", "hour", "activity", "estimated", )
 
     @staticmethod
-    def update_from_consumptions(consumptions):
+    def _get_diffs(consumptions):
         diffs = {}
         for consumption in consumptions:
             key = (
@@ -123,8 +123,16 @@ class ConsumptionByActivity(BaseConsumption):
             if key not in diffs:
                 diffs[key] = 0
 
-            diffs[key] += consumption.value
+            diffs[key] += consumption.consumption
 
+        return diffs
+
+    @staticmethod
+    def update_from_consumptions(consumptions):
+        # get diffs for each activity/date/hour
+        diffs = ConsumptionByActivity._get_diffs(consumptions=consumptions)
+
+        # apply to db
         for key, consumption_diff in diffs.items():
             activity, timestamp, estimated = key
             obj = ConsumptionByActivity.objects.get_or_create(
