@@ -42,7 +42,7 @@ class MeterInfo(Model):
     def to_dict(self):
         return {
             "meter_number": self.meter_number,
-            "name": f'Meter {self.meter_number}',
+            "name": self.name or f'Meter {self.meter_number}',
             "activity": self.activity,
             "latitude": "%.8f" % self.latitude,
             "longitude": "%.8f" % self.longitude,
