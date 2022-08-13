@@ -498,7 +498,7 @@ def get_measurement_data(request, metric, extra):
     elif metric == "meter_info":
         return list(
             MeterInfo.objects.values(
-                "meter_number", "activity",
+                "meter_number", "name", "activity",
                 "latitude", "longitude", "address",
                 "service_point_id", "service_connection_id"
             )
