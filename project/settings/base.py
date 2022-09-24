@@ -169,7 +169,7 @@ SOCIALACCOUNT_ADAPTER = 'keyrock.adapter.KeyRockAdapter'
 DATABASES = {'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))}
 
 # KeyRock Authentication
-OAUTH_SERVER_BASEURL = 'https://test.naiades-project.eu:3443'
+OAUTH_SERVER_BASEURL = 'https://naiades.simavi.ro:3443'
 ACCOUNT_LOGOUT_REDIRECT_URL = "/"
 SITE_ID = 1
 ACCOUNT_EMAIL_VERIFICATION = "none"

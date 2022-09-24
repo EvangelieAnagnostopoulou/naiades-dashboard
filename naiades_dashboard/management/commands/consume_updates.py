@@ -54,31 +54,35 @@ class Command(BaseCommand):
 
         offset = 0
         limit = page_size
-        while True:
-            # prepare request params
-            page_params = copy.deepcopy(params)
-            page_params.update({
-                "offset": offset,
-                "limit": limit,
-            })
+        with tqdm.tqdm(desc="Loading devices...") as bar:
+            while True:
+                # prepare request params
+                page_params = copy.deepcopy(params)
+                page_params.update({
+                    "offset": offset,
+                    "limit": limit,
+                })
 
-            # get from API
-            new_results = self.client.get(
-                resource=resource,
-                source=source,
-                params=page_params
-            )
+                # get from API
+                new_results = self.client.get(
+                    resource=resource,
+                    source=source,
+                    params=page_params
+                )
 
-            # add to response
-            size = self._add_results(response=response, new_results=new_results)
+                # add to response
+                size = self._add_results(response=response, new_results=new_results)
 
-            # break condition
-            if size < page_size:
-                break
+                # update progress
+                bar.update(size)
 
-            # move to next page
-            offset += page_size
-            limit += page_size
+                # break condition
+                if size < page_size:
+                    break
+
+                # move to next page
+                offset += page_size
+                limit += page_size
 
         return response["results"]
 
