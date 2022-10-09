@@ -1,5 +1,6 @@
 import random
 from datetime import timedelta
+from decimal import Decimal
 
 import tqdm
 from django.contrib.auth.models import User
@@ -143,7 +144,7 @@ class ConsumptionByActivity(BaseConsumption):
                     "consumption": 0,
                 }
             )
-            obj.consumption += consumption_diff
+            obj.consumption += Decimal(consumption_diff)
             obj.save()
 
     @staticmethod

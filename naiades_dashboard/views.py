@@ -1,17 +1,16 @@
 import os
-import random
 
 from datetime import timedelta, datetime
 
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from django.db.models import Avg, Min, Sum, Q, F, Count, DecimalField, ExpressionWrapper
-from django.db.models.functions import TruncDate, Cast, ExtractDay
+from django.db.models import Avg, Sum, Q, F, Count, DecimalField, ExpressionWrapper
+from django.db.models.functions import TruncDate, ExtractDay
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
 
+from context_manager_api import ContextManagerAPIClient
 from naiades_dashboard.managers.messages import MessageManager
 from naiades_dashboard.models import Consumption, ConsumptionByActivity, MeterInfoAccess, MeterInfo
 from project.settings import OVERALL_CHANGE_DATE
@@ -513,4 +512,10 @@ def get_measurement_data(request, metric, extra):
 def measurement_data(request):
     return JsonResponse({
         "data": get_measurement_data(request=request, metric=request.GET.get('metric'), extra=request.GET)
+    })
+
+
+def get_device_alerts(request):
+    return JsonResponse({
+        "alerts": ContextManagerAPIClient().get_device_alerts(),
     })

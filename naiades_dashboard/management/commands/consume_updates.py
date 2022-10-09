@@ -86,6 +86,15 @@ class Command(BaseCommand):
 
         return response["results"]
 
+    @staticmethod
+    def _add_missing_device_serial_numbers(devices):
+        for device in devices:
+            if device.get("id") and not device.get("serialNumber"):
+                try:
+                    device["serialNumber"] = str(int(device["id"].split("urn:ngsi-ld:Device:")[1]))
+                except (ValueError, IndexError):
+                    pass
+
     def _load_devices(self):
         # request all from api
         devices = self._load_all(
@@ -96,6 +105,10 @@ class Command(BaseCommand):
             },
             page_size=1000
         )
+
+        # the update API does not implicitly return serial numbers
+        # we need to extract them from the ID
+        self._add_missing_device_serial_numbers(devices=devices)
 
         # filter out devices with missing id
         # as well as accumulative measurements
@@ -126,7 +139,7 @@ class Command(BaseCommand):
         meter_info.in_dashboard_changed = False
         meter_info.save()
 
-    def load_updated_devices(self):
+    def load_devices(self, full_update=True):
         """
         :return: Creates missing MeterInfo objects and returns list of all devices.
         """
@@ -138,6 +151,9 @@ class Command(BaseCommand):
 
         # load all devices from API
         devices = self._load_devices()
+
+        if not full_update:
+            return devices
 
         # start user manager
         user_manager = MeterUserManager()
@@ -258,7 +274,7 @@ class Command(BaseCommand):
         self.client = ContextManagerAPIClient()
 
         # load devices
-        devices = self.load_updated_devices()
+        devices = self.load_devices(full_update=True)
 
         # pull new deliveries
         for device in tqdm.tqdm(devices, desc="Retrieving consumptions...", unit=" devices"):
