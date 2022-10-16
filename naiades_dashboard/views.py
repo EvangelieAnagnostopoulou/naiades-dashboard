@@ -517,5 +517,9 @@ def measurement_data(request):
 
 def get_device_alerts(request):
     return JsonResponse({
-        "alerts": ContextManagerAPIClient().get_device_alerts(),
+        "alerts": ContextManagerAPIClient(
+            endpoint='naiades.simavi.ro:1026',
+            history_endpoint='naiades.simavi.ro/time-series-api',
+            service='alicante',
+        ).get_device_alerts(),
     })

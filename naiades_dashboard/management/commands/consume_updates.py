@@ -271,7 +271,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         # initialize client
-        self.client = ContextManagerAPIClient()
+        self.client = ContextManagerAPIClient(service='alicante')
 
         # load devices
         devices = self.load_devices(full_update=True)

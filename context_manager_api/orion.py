@@ -11,15 +11,15 @@ class OrionError(ValueError):
         super(*args, **kwargs).__init__()
 
     def __str__(self):
-        return self.error
+        return str(self.error)
 
 
 class OrionClient(object):
-    endpoint = '5.53.108.182:1026'
-    history_endpoint = '5.53.108.182/time-series-api'
-    # endpoint = 'naiades.simavi.ro:1026'
-    # history_endpoint = 'naiades.simavi.ro/time-series-api'
-    service = None
+
+    def __init__(self, *args, **kwargs):
+        self.endpoint = kwargs.get("endpoint") or '5.53.108.182:1026'
+        self.history_endpoint = kwargs.get("history_endpoint") or '5.53.108.182/time-series-api'
+        self.service = kwargs.get("service")
 
     def get_headers(self, source):
         headers = {}
@@ -41,7 +41,9 @@ class OrionClient(object):
         # raise generic exception
         raise OrionError(response.json())
 
-    def get(self, resource, params=None, source=endpoint, force_no_options=False):
+    def get(self, resource, params=None, source=None, force_no_options=False):
+        source = source or self.endpoint
+
         # get everything as key/value pair by default
         if not params:
             params = {}
@@ -69,7 +71,6 @@ class OrionClient(object):
 
 
 class ContextManagerAPIClient(OrionClient):
-    service = 'alicante'
 
     @staticmethod
     def _add_formatted_alerts(input_alert, item):
@@ -82,16 +83,16 @@ class ContextManagerAPIClient(OrionClient):
 
                 # create alert item
                 alert_item = {
-                    "alert": input_alert["alert"],
+                    "alert": input_alert_item["alert"],
                     "actions": [],
                 }
 
                 # collect possible actions in single field
                 for action_prop in ["action", "action1", "action2", "action3"]:
-                    if not input_alert.get(action_prop):
+                    if not input_alert_item.get(action_prop):
                         continue
 
-                    alert_item["actions"].append(input_alert[action_prop])
+                    alert_item["actions"].append(input_alert_item[action_prop])
 
                 # add alert item to list
                 item["alerts"].append(alert_item)
@@ -144,7 +145,7 @@ class ContextManagerAPIClient(OrionClient):
                 lambda output_device_alert: output_device_alert,
                 map(
                     lambda input_alert: self._formatted_device_alert(input_alert),
-                    input_alerts,
+                    input_alerts or [],
                 )
             )
         )
