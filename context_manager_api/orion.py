@@ -15,8 +15,10 @@ class OrionError(ValueError):
 
 
 class OrionClient(object):
-    endpoint = 'naiades.simavi.ro:1026'
-    history_endpoint = 'naiades.simavi.ro/time-series-api'
+    endpoint = '5.53.108.182:1026'
+    history_endpoint = '5.53.108.182/time-series-api'
+    # endpoint = 'naiades.simavi.ro:1026'
+    # history_endpoint = 'naiades.simavi.ro/time-series-api'
     service = None
 
     def get_headers(self, source):
