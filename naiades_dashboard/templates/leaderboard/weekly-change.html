@@ -1,7 +1,7 @@
 {% load i18n %}
 
-<div class="tabcontent row d-none" id="consumption-change-weekly">
-    <div class="col col-lg-7 col-xs-12">
+<div class="tabcontent row" id="consumption-change-weekly">
+    <div class="col col-xs-12">
         <div class="leaderboard--container">
 
             <div class="section_tittle_style_02">
@@ -18,9 +18,10 @@
             </div>
 
             <div id="chart-weekly_change" class="data-item data-chart data-component" style="height: 800px;margin-top: 20px;"></div>
+            <div id="component-message_change" class="data-item data-component"></div>
         </div>
     </div>
-    <div class="col col-lg-5 col-xs-12">
+    <div class="col col-lg-5 col-xs-12" style="display: none">
         <div class="comparison--container">
             <div class="section_tittle_style_02">
                 <h2 class="title wow fadeInDown" data-wow-delay=".3s"> <span class="title_overlay_effect">
@@ -35,7 +36,6 @@
                 </p>
             </div>
             <div id="chart-you_vs_others_weekly_change" class="data-item data-chart data-component" style="height: 500px;margin-top: 20px;"></div>
-             <div id="component-message_change" class="data-item data-component"></div>
         </div>
     </div>
     <!--<div class="col col-xs-12">
