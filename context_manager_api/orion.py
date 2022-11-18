@@ -17,8 +17,8 @@ class OrionError(ValueError):
 class OrionClient(object):
 
     def __init__(self, *args, **kwargs):
-        self.endpoint = kwargs.get("endpoint") or '5.53.108.182:1026'
-        self.history_endpoint = kwargs.get("history_endpoint") or '5.53.108.182/time-series-api'
+        self.endpoint = kwargs.get("endpoint") or 'naiades.simavi.ro:8668'
+        self.history_endpoint = kwargs.get("history_endpoint") or 'naiades.simavi.ro/time-series-api'
         self.service = kwargs.get("service")
 
     def get_headers(self, source):
