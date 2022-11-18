@@ -19,6 +19,15 @@ class Command(BaseCommand):
     user_manager = None
     date_format = '%Y-%m-%dT%H:%M:%S.%f'
 
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--update-devices',
+            action='store_true',
+            dest='update_devices',
+            default=False,
+            help='Update device metadata',
+        )
+
     def _parse_timestamp_str(self, timestamp_str):
         return datetime.\
             strptime(timestamp_str, self.date_format).\
@@ -60,7 +69,7 @@ class Command(BaseCommand):
                 page_params = copy.deepcopy(params)
                 page_params.update({
                     "offset": offset,
-                    "limit": limit,
+                    "limit": page_size,
                 })
 
                 # get from API
@@ -165,7 +174,7 @@ class Command(BaseCommand):
             exists = device["serialNumber"] in self.meter_infos_idx
 
             # get details
-            details = self.client.get(resource=f'entities/{device["id"]}')
+            details = self.client.get(resource=f'entities/{device["id"]}', force_no_options=True)
 
             # get activity type
             activity = self.get_activity_type(description=details["description"])
@@ -274,7 +283,7 @@ class Command(BaseCommand):
         self.client = ContextManagerAPIClient(service='alicante')
 
         # load devices
-        devices = self.load_devices(full_update=True)
+        devices = self.load_devices(full_update=kwargs.get("update_devices"))
 
         # pull new deliveries
         for device in tqdm.tqdm(devices, desc="Retrieving consumptions...", unit=" devices"):
