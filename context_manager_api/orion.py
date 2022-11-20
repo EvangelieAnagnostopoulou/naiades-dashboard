@@ -1,3 +1,4 @@
+import json
 import requests
 
 from furl import furl
@@ -5,7 +6,8 @@ from furl import furl
 
 class OrionError(ValueError):
 
-    def __init__(self, error, *args, **kwargs):
+    def __init__(self, response, error, *args, **kwargs):
+        self.response = response
         self.error = error
 
         super(*args, **kwargs).__init__()
@@ -30,7 +32,7 @@ class OrionClient(object):
 
         if source == self.history_endpoint:
             headers.update({
-                'Fiware-ServicePath': '/',
+                # 'Fiware-ServicePath': '/',
                 'Accept-Encoding': 'gzip, deflate',
             })
 
@@ -39,19 +41,22 @@ class OrionClient(object):
     @staticmethod
     def handle_error(response):
         # raise generic exception
-        raise OrionError(response.json())
+        try:
+            raise OrionError(response=response, error=response.json())
+        except json.decoder.JSONDecodeError:
+            raise OrionError(response=response, error=response.content)
 
-    def get(self, resource, params=None, source=None, force_no_options=False):
+    def get(self, resource, params=None, source=None, force_no_options=False, headers=None, timeout=None):
         source = source or self.endpoint
 
         # get everything as key/value pair by default
         if not params:
             params = {}
 
-        if source == self.endpoint and not force_no_options:
-            params.update({
-                "options": "keyValues",
-            })
+        # if source == self.endpoint and not force_no_options:
+        #     params.update({
+        #         "options": "keyValues",
+        #     })
 
         # list entities
         response = requests.get(
@@ -59,7 +64,8 @@ class OrionClient(object):
                 url=f'http://{source}/v2/{resource}',
                 args=params
             ).url,
-            headers=self.get_headers(source=source)
+            headers=headers if headers is not None else self.get_headers(source=source),
+            timeout=timeout,
         )
 
         # raise exception if response code is in 4xx, 5xx

@@ -5,6 +5,7 @@ import tqdm
 from datetime import datetime
 
 from django.core.management.base import BaseCommand
+from retrying import retry
 
 from context_manager_api import ContextManagerAPIClient
 from context_manager_api.orion import OrionError
@@ -30,7 +31,7 @@ class Command(BaseCommand):
 
     def _parse_timestamp_str(self, timestamp_str):
         return datetime.\
-            strptime(timestamp_str, self.date_format).\
+            strptime(timestamp_str.replace("+00:00", ""), self.date_format).\
             replace(tzinfo=pytz.utc)
 
     @staticmethod
@@ -58,40 +59,24 @@ class Command(BaseCommand):
 
         return len(new_results[props[0]])
 
-    def _load_all(self, resource, source, params, page_size):
+    @retry(stop_max_attempt_number=5, wait_fixed=1000)
+    def _load_all(self, resource, source, params, headers=None):
         response = {}
 
-        offset = 0
-        limit = page_size
-        with tqdm.tqdm(desc="Loading devices...") as bar:
-            while True:
-                # prepare request params
-                page_params = copy.deepcopy(params)
-                page_params.update({
-                    "offset": offset,
-                    "limit": page_size,
-                })
+        # prepare request params
+        page_params = copy.deepcopy(params)
 
-                # get from API
-                new_results = self.client.get(
-                    resource=resource,
-                    source=source,
-                    params=page_params
-                )
+        # get from API
+        new_results = self.client.get(
+            resource=resource,
+            source=source,
+            params=page_params,
+            headers=headers,
+            timeout=5,
+        )
 
-                # add to response
-                size = self._add_results(response=response, new_results=new_results)
-
-                # update progress
-                bar.update(size)
-
-                # break condition
-                if size < page_size:
-                    break
-
-                # move to next page
-                offset += page_size
-                limit += page_size
+        # add to response
+        self._add_results(response=response, new_results=new_results)
 
         return response["results"]
 
@@ -106,14 +91,18 @@ class Command(BaseCommand):
 
     def _load_devices(self):
         # request all from api
-        devices = self._load_all(
-            resource="entities",
-            source=self.client.endpoint,
-            params={
-                "type": "Device"
-            },
-            page_size=1000
-        )
+        with tqdm.tqdm(desc="Loading devices...") as bar:
+            devices = self._load_all(
+                resource="entities",
+                source=self.client.endpoint,
+                headers={},
+                params={
+                    "type": "Device"
+                },
+            )
+
+            # update progress
+            bar.update(len(devices))
 
         # the update API does not implicitly return serial numbers
         # we need to extract them from the ID
@@ -174,7 +163,7 @@ class Command(BaseCommand):
             exists = device["serialNumber"] in self.meter_infos_idx
 
             # get details
-            details = self.client.get(resource=f'entities/{device["id"]}', force_no_options=True)
+            details = self.client.get(resource=f'entities/{device["id"]}')  # , force_no_options=True
 
             # get activity type
             activity = self.get_activity_type(description=details["description"])
@@ -253,10 +242,11 @@ class Command(BaseCommand):
             params = {
                 "aggrMethod": "sum",
                 "aggrPeriod": "hour",
+                "lastN": 1000,
             }
 
             # only retrieve after latest
-            if latest_consumption:
+            if latest_consumption and False:
                 params.update({
                     "fromDate": latest_consumption.date.strftime(self.date_format)
                 })
@@ -264,9 +254,8 @@ class Command(BaseCommand):
             # get all consumptions
             data = self._load_all(
                 resource=f'entities/{device["id"]}/attrs/value',
-                source=self.client.history_endpoint,
+                source=self.client.endpoint,  # self.client.history_endpoint
                 params=params,
-                page_size=10000,
             )
         except OrionError as e:
             # ignore not found errors for now

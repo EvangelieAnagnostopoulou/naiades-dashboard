@@ -22,6 +22,7 @@ tqdm
 python-dateutil
 pysftp
 furl
+retrying==1.3.3
 
 # settings
 python-dotenv
