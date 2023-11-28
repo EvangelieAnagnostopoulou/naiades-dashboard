@@ -1,5 +1,3 @@
-django-debug-toolbar
-
 # shp file conversion
 pyshp==2.1.2
 pyproj==2.4.0
